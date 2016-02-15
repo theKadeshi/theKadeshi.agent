@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<engine>
+    <name>WordPress</name>
+    <rules>
+        <rule id="1">
+            <step>1</step>
+            <path>/</path>
+            <method>content</method>
+            <regexp><![CDATA[#.*\/(wp-content|wp-admin|wp-include)\/.*#iusU]]></regexp>
+            <weight>0.5</weight>
+        </rule>
+        <rule id="2">
+            <step>1</step>
+            <path>/</path>
+            <method>content</method>
+            <regexp><![CDATA[#<meta name=\"generator\" content=\".*(WordPress).*\".*\/>#iuU]]></regexp>
+            <weight>0.5</weight>
+        </rule>
+        <rule id="3">
+            <step>1</step>
+            <path>/</path>
+            <method>content</method>
+            <regexp><![CDATA[#<a href="(http|https):\/\/.*(wordpress\.org)\/".*>(WordPress\.org)<\/a>#iusU]]></regexp>
+            <weight>0.5</weight>
+        </rule>
+    </rules>
+</engine>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<engine>
+    <name>Joomla</name>
+    <rules>
+        <rule id="1">
+            <step>1</step>
+            <path>/</path>
+            <method>content</method>
+            <regexp><![CDATA[#<meta name=\"generator\" content=\".*(Joomla).*\".*\/>#iuU]]></regexp>
+            <weight>0.5</weight>
+        </rule>
+        <rule id="2">
+            <step>2</step>
+            <path>/administrator/</path>
+            <method>content</method>
+            <regexp><![CDATA[#<a href=\"http:\/\/www.joomla.org\".*>(Joomla\!)<\/a>#iuU]]></regexp>
+            <weight>1</weight>
+        </rule>
+    </rules>
+</engine>
