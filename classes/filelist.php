@@ -31,7 +31,5 @@ class FileList {
 				}
 			}
 		}
-		//print_r(self::$fileList);
-		//print_r($dirContent);
 	}
 }

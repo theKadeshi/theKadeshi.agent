@@ -1,5 +1,7 @@
 <?php
 #Error handling, general checks and global variables
+echo ("hello!");
+die();
 require_once('classes/Initialization.inc.php');
 
 $controllerName = empty($_REQUEST['controller']) ? 'scanner' : $_REQUEST['controller'];

@@ -8,3 +8,7 @@
  */
 echo "Prepend";
 print_r($_SERVER);
+if(isset($_SERVER['SCRIPT_FILENAME'])) {
+	require_once('classes/ScannerController.inc.php');
+    $controller = new ScannerController();
+}

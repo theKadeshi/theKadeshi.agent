@@ -58,13 +58,9 @@ class Scanner {
 
 		foreach ($this->SignaturesFileList as $ruleFile) {
 			$fileName = $this->SignaturesDir . '/' . $ruleFile;
-			//$xmlContent = file_get_contents($fileName);
+
 			$xml = simplexml_load_file($fileName, 'SimpleXMLElement', LIBXML_NOCDATA);
 
-			//$cmsName = trim($xml->name[0]);
-			//$cmsRules = $xml->signatures[0];
-			//print_r($cmsRules);
-			//die();
 			foreach ($xml[0] as $item){
 				$name = trim($item->name[0]);
 				$signature = trim($item->signature[0]);
@@ -99,8 +95,7 @@ class Scanner {
 	private function ScanContent($content) {
 
 		foreach($this->Signatures as $virusSignature) {
-			//print_r($virusSignature);
-			//if($virusSignature['action'] == 'cure') {
+
 			preg_match($virusSignature['signature'], $content, $results);
 			if(!empty($results)) {
 				$files[] = array('file'=>'', 'action'=>$virusSignature['action']);
@@ -112,8 +107,7 @@ class Scanner {
 				);
 			}
 			$content = preg_replace($virusSignature['signature'], '', $content);
-			//print_r($results);
-			//}
+
 		}
 	}
-}
+} // ClassEnd
