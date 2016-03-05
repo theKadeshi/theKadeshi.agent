@@ -155,6 +155,7 @@ class Healer {
 				}
 				break;
 			case 'cure':
+				// @todo Описать этот момент тестами
 				$fileContent = file_get_contents($filePath);
 				$fileParts[0] = mb_substr($fileContent, 0, $infectedElement['positions']['start']);
 				$fileParts[1] = mb_substr($fileContent, $infectedElement['positions']['start'] + $infectedElement['positions']['length']);
