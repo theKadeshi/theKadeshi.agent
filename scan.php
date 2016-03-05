@@ -230,9 +230,11 @@ class Console {
 		$this->IsVerbose = $Verbose;
 
 		$this->Color = array(
-			'green' => chr(27) . "[30;32m",
-			'red' => chr(27) . "[30;31m",
-			'normal' => chr(27) . "[0m",
+			'grey'      =>  chr(27) . "[31;30",
+			'blue'      =>  chr(27) . "[30;34",
+			'green'     =>  chr(27) . "[30;32m",
+			'red'       =>  chr(27) . "[30;31m",
+			'normal'    =>  chr(27) . "[0m",
 		);
 	}
 
