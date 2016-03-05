@@ -82,7 +82,10 @@ class Scanner {
 	public function Scan($fileName) {
 		$this->scanResults = array();
 		$content = $this->GetFileContent($fileName);
-		$this->ScanContent($content);
+
+		if($content !== false && strlen($content) > 0) {
+			$this->ScanContent($content);
+		}
 
 		return (!empty($this->scanResults))?$this->scanResults:null;
 	}
@@ -93,8 +96,12 @@ class Scanner {
 	 * @return string
 	 */
 	private function GetFileContent($fileName) {
-		$content = file_get_contents($fileName);
 		$this->realFileName = pathinfo($fileName);
+		$content = false;
+
+		if(isset($this->realFileName['extension']) && $this->realFileName['extension'] != 'xml') {
+			$content = file_get_contents($fileName);
+		}
 		return $content;
 	}
 
@@ -124,8 +131,15 @@ class Scanner {
 	}
 }
 
+/**
+ * Класс лекарь
+ */
 class Healer {
 
+	/**
+	 * Анамнез
+	 * @var array
+	 */
 	public $Anamnesis;
 
 	function __construct()
