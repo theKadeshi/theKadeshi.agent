@@ -148,7 +148,7 @@ class Healer {
 		switch(mb_strtolower($cureAction)){
 			case 'delete':
 				$unlinkResult = unlink($filePath);
-				// @todo Поставить полноценную проверку на удаление
+				// @todo Поставить полноценную проверку на удаление. Иначе хана :)
 				if($unlinkResult === false) {
 					chmod($filePath, 0600);
 					unlink($filePath);
