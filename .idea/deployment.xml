@@ -2,27 +2,6 @@
 <project version="4">
   <component name="PublishConfigData" serverName="TheKadeshi">
     <serverData>
-      <paths name="GreenStudio">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="Sanit.by">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="Tara.rf">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
       <paths name="TheKadeshi">
         <serverdata>
           <mappings>
@@ -30,21 +9,7 @@
           </mappings>
         </serverdata>
       </paths>
-      <paths name="brosk.ru">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="dev.Sanit.by">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="okna812">
+      <paths name="ftp.svedloff.nichost.ru">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />
