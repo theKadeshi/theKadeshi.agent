@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/.idea/
+/.idea
 results.json
 kadeshi.anamnesis.json
-=======
-kadeshi.anamnesis.json
-.idea/
->>>>>>> 7147609a7634d2c43cbec7f3a3992e52941cde83
+Thumbs.db
