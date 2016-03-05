@@ -261,8 +261,6 @@ if($currentAction == 'scan' || $currentAction == null) {
 
 	$filelist->GetFileList(__DIR__);
 
-//print_r($filelist->fileList);
-
 	foreach ($filelist->fileList as $file) {
 
 		$fileScanResults = $scanner->Scan($file);
