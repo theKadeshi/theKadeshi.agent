@@ -54,4 +54,13 @@
         </signature>
         <action>delete</action>
     </item>
+    <item>
+        <name date="06.03.2016">PHP.Trojan.Trash.05</name>
+        <signature>
+            <![CDATA[
+            |\$.{10,12} = ".*";.*\.".{100,}"\.\$.{10,12};.*,"(\d{3,5})"\);|iusU
+            ]]>
+        </signature>
+        <action>delete</action>
+    </item>
 </signatures>
