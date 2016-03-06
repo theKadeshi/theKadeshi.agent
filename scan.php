@@ -294,6 +294,12 @@ if($argc > 1) {
 			}
 		}
 	}
+
+	$probablySingleFile = $argv[$argc-1];
+	if(is_file($probablySingleFile)) {
+		$fileToScan = $probablySingleFile;
+	}
+
 } else {
 	$currentAction = 'scan';
 }
@@ -313,9 +319,14 @@ if($currentAction == 'scan' || $currentAction == null) {
 	$scanner = new Scanner();
 	$scanner->SignatureFile = SIGNATURE_BASE;
 	$scanner->Init();
+
 	$filelist = new FileList();
 
-	$filelist->GetFileList(__DIR__);
+	if(!isset($fileToScan)) {
+		$filelist->GetFileList(__DIR__);
+	} else {
+		$filelist->fileList[] = $fileToScan;
+	}
 
 	foreach ($filelist->fileList as $file) {
 
