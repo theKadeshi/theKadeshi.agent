@@ -19,9 +19,11 @@ class Scanner {
 
 	private $scanResults = array();
 
-	function __construct() {
+	function __construct($signaturesUpdate = true) {
 		$this->scanResults = array();
-		$this->SignaturesDir = 'http://thekadeshi.bagdad.tmweb.ru/signatures';
+		if($signaturesUpdate) {
+			$this->SignaturesDir = 'http://thekadeshi.bagdad.tmweb.ru/signatures';
+		}
 		//$this->GetSignaturesFiles();
 		$this->LoadRules();
 	}
@@ -230,8 +232,8 @@ class Console {
 		$this->IsVerbose = $Verbose;
 
 		$this->Color = array(
-			'grey'      =>  chr(27) . "[31;30",
-			'blue'      =>  chr(27) . "[30;34",
+			'grey'      =>  chr(27) . "[31;30m",
+			'blue'      =>  chr(27) . "[30;34m",
 			'green'     =>  chr(27) . "[30;32m",
 			'red'       =>  chr(27) . "[30;31m",
 			'normal'    =>  chr(27) . "[0m",
@@ -253,6 +255,11 @@ class Console {
 
 if($argc > 1) {
 	foreach ($argv as $argument) {
+		if (strtolower($argument) == '--local') {
+			if(!defined('SIGNATURES_UPDATE')) {
+				define('SIGNATURES_UPDATE', true);
+			}
+		}
 		if (strtolower($argument) == '--scan') {
 			$currentAction = 'scan';
 		}
@@ -271,9 +278,14 @@ $Console = new Console(defined('VERBOSE')?VERBOSE:false);
 if($currentAction == 'scan' || $currentAction == null) {
 
 	$Console->Log("Current action: " . $Console->Color['green'] . "Scanning" . $Console->Color['normal'] );
+	if(SIGNATURES_UPDATE) {
+		$Console->Log("Signature file: " . $Console->Color['blue'] . "local" . $Console->Color['normal'] );
+	} else {
+		$Console->Log("Signature file: " . $Console->Color['blue'] . "remote" . $Console->Color['normal'] );
+	}
 
 	$scanResults = array();
-	$scanner = new Scanner();
+	$scanner = new Scanner(defined('SIGNATURES_UPDATE') ? SIGNATURES_UPDATE : false);
 	$filelist = new FileList();
 
 	$filelist->GetFileList(__DIR__);
