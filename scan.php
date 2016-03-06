@@ -9,7 +9,16 @@
 
 class Scanner {
 
-	private $SignaturesDir = '/signatures';
+	/**
+	 * Где брать файл сигнатур
+	 * @var string
+	 */
+	public $SignatureFile = 'remote';
+
+	/**
+	 * @var string Каталог сигнатур
+	 */
+	private $SignaturesDir;
 
 	private $SignaturesFileList = array();
 
@@ -21,10 +30,26 @@ class Scanner {
 
 	function __construct($signaturesUpdate = true) {
 		$this->scanResults = array();
-		if($signaturesUpdate) {
-			$this->SignaturesDir = 'http://thekadeshi.bagdad.tmweb.ru/signatures';
-		}
+		//if($signaturesUpdate) {
+		//	$this->SignaturesDir = 'http://thekadeshi.bagdad.tmweb.ru/signatures';
+		//}
+		//print_r($this->SignaturesDir);
 		//$this->GetSignaturesFiles();
+
+	}
+
+	/**
+	 * Инициализация
+	 */
+	public function Init() {
+		switch($this->SignatureFile) {
+			case 'local':
+				$this->SignaturesDir = 'signatures';
+				break;
+			default:
+				$this->SignaturesDir = 'http://thekadeshi.bagdad.tmweb.ru/signatures';
+				break;
+		}
 		$this->LoadRules();
 	}
 
@@ -256,8 +281,8 @@ class Console {
 if($argc > 1) {
 	foreach ($argv as $argument) {
 		if (strtolower($argument) == '--local') {
-			if(!defined('SIGNATURES_UPDATE')) {
-				define('SIGNATURES_UPDATE', true);
+			if(!defined('SIGNATURE_BASE')) {
+				define('SIGNATURE_BASE', 'local');
 			}
 		}
 		if (strtolower($argument) == '--scan') {
@@ -278,14 +303,16 @@ $Console = new Console(defined('VERBOSE')?VERBOSE:false);
 if($currentAction == 'scan' || $currentAction == null) {
 
 	$Console->Log("Current action: " . $Console->Color['green'] . "Scanning" . $Console->Color['normal'] );
-	if(SIGNATURES_UPDATE) {
+	if(SIGNATURE_BASE == 'local') {
 		$Console->Log("Signature file: " . $Console->Color['blue'] . "local" . $Console->Color['normal'] );
 	} else {
 		$Console->Log("Signature file: " . $Console->Color['blue'] . "remote" . $Console->Color['normal'] );
 	}
 
 	$scanResults = array();
-	$scanner = new Scanner(defined('SIGNATURES_UPDATE') ? SIGNATURES_UPDATE : false);
+	$scanner = new Scanner();
+	$scanner->SignatureFile = SIGNATURE_BASE;
+	$scanner->Init();
 	$filelist = new FileList();
 
 	$filelist->GetFileList(__DIR__);
@@ -296,7 +323,7 @@ if($currentAction == 'scan' || $currentAction == null) {
 		if ($fileScanResults != null) {
 			$scanResults[] = $fileScanResults;
 
-			$Console->Log($fileScanResults['file']['dirname'] . '/' . $fileScanResults['file']['basename'] . ' infection: ' . $Console->Color['red'] . $fileScanResults['name'] . $Console->Color['normal'] );
+			$Console->Log($fileScanResults['file']['dirname'] . '/' . $fileScanResults['file']['basename'] . ' infection: ' . $Console->Color['red'] . $fileScanResults['name'] . $Console->Color['normal'] . " action: " . $Console->Color['blue'] . $fileScanResults['action'] . $Console->Color['normal'] );
 		}
 	}
 	if(!empty($scanResults)) {
