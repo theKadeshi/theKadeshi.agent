@@ -82,6 +82,15 @@
         <action>cure</action>
     </item>
     <item>
+        <name date="07.03.2016">PHP.Trojan.Uploader.17</name>
+        <signature>
+            <![CDATA[
+            |<\?php.*\$.{4,8} = \'[a-zA-Z0-9]+\';.*\$_POST\[base64_decode\(.*\).*\$_GET\[base64_decode\(.*\).*file_get_contents\(base64_decode\(\$.{4,8}\).*\$_SERVER\['REMOTE_ADDR'\]\)\)\)\); \?>|iusU
+            ]]>
+        </signature>
+        <action>delete</action>
+    </item>
+    <item>
         <name date="07.03.2016">PHP.Virus.Eval.24</name>
         <signature>
             <![CDATA[
