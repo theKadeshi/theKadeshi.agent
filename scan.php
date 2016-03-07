@@ -129,11 +129,13 @@ class Scanner {
 		if(isset($this->realFileName['extension']) && $this->realFileName['extension'] != 'xml') {
 			$content = file_get_contents($fileName);
 		}
+		//print_r($content);
 		return $content;
 	}
 
 	private function ScanContent($content) {
 
+		$content = mb_convert_encoding($content, "utf-8");
 		foreach($this->Signatures as $virusSignature) {
 
 			preg_match($virusSignature['signature'], $content, $results);
@@ -276,14 +278,12 @@ class Console {
 	}
 }
 
-
-
+//@todo надо отрефакторить эту фигню
+$signaturesBase = 'remote';
 if($argc > 1) {
 	foreach ($argv as $argument) {
 		if (strtolower($argument) == '--local') {
-			if(!defined('SIGNATURE_BASE')) {
-				define('SIGNATURE_BASE', 'local');
-			}
+			$signaturesBase = 'local';
 		}
 		if (strtolower($argument) == '--scan') {
 			$currentAction = 'scan';
@@ -309,7 +309,7 @@ $Console = new Console(defined('VERBOSE')?VERBOSE:false);
 if($currentAction == 'scan' || $currentAction == null) {
 
 	$Console->Log("Current action: " . $Console->Color['green'] . "Scanning" . $Console->Color['normal'] );
-	if(SIGNATURE_BASE == 'local') {
+	if($signaturesBase == 'local') {
 		$Console->Log("Signature file: " . $Console->Color['blue'] . "local" . $Console->Color['normal'] );
 	} else {
 		$Console->Log("Signature file: " . $Console->Color['blue'] . "remote" . $Console->Color['normal'] );
@@ -317,7 +317,7 @@ if($currentAction == 'scan' || $currentAction == null) {
 
 	$scanResults = array();
 	$scanner = new Scanner();
-	$scanner->SignatureFile = SIGNATURE_BASE;
+	$scanner->SignatureFile = $signaturesBase;
 	$scanner->Init();
 
 	$filelist = new FileList();

@@ -40,7 +40,7 @@
         <name date="11.02.2016">PHP.Trojan.Uploader.06</name>
         <signature>
             <![CDATA[
-            |\$_GET\['test'\].*\$_GET\['info'\].*\$_GET\['eval'\].*eval.*\$_GET\['go'\].*file_put_contents.*rename\(\$PHP_SELF.*multipart\/form-data|iusU
+            ~<\?php.*\$_GET\[\'test\'\].*\$_GET\[\'info\'\].*\$_GET\[\'eval\'\].*eval\(.*\);.*\$_GET\[\'go\'\].*file_put_contents.*rename\(\$PHP_SELF.*form.*multipart\/form\-data.*\?>~iusU
             ]]>
         </signature>
         <action>delete</action>
