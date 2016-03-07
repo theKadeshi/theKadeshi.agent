@@ -81,4 +81,13 @@
         </signature>
         <action>cure</action>
     </item>
+    <item>
+        <name date="07.03.2016">PHP.Virus.Eval.24</name>
+        <signature>
+            <![CDATA[
+            |<\?php.*\$.{4,8}=urldecode\(\".*\"\);\$.{4,8}=\$.{4,8}\{\d{1,3}\}\.\$.{4,8}\{\d{1,3}\}.*;eval\(\$.{4,8}\(\".*\"\)\);.{1,5}\?>|iusU
+            ]]>
+        </signature>
+        <action>delete</action>
+    </item>
 </signatures>
