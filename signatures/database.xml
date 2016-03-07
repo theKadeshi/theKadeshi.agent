@@ -82,6 +82,15 @@
         <action>cure</action>
     </item>
     <item>
+        <name date="07.03.2016">PHP.Trojan.Mailer.16</name>
+        <signature>
+            <![CDATA[
+            |<\?php.*if\(isset\(\$_POST\[".{4,12}"\]\)\).*base64_decode\(\$_POST\[".{4,12}"\]\);.*if\(isset\(\$_POST\[".{4,12}"\]\)\).*base64_decode\(\$_POST\[".{4,12}"\]\);.*if\(isset\(\$_POST\[".{4,12}"\]\)\).*base64_decode\(\$_POST\[".{4,12}"\]\);.*if\(isset\(\$_POST\[".{4,12}"\]\)\).*base64_decode\(\$_POST\[".{4,12}"\]\);.*if\(mail\(\$.{4,16},\$.{4,16}\$.{4,16}\$.{4,16}\)\).*else.*\?>|iusU
+            ]]>
+        </signature>
+        <action>delete</action>
+    </item>
+    <item>
         <name date="07.03.2016">PHP.Trojan.Uploader.17</name>
         <signature>
             <![CDATA[
