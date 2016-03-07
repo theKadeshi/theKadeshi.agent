@@ -100,6 +100,15 @@
         <action>delete</action>
     </item>
     <item>
+        <name date="07.03.2016">PHP.Virus.Eval.21</name>
+        <signature>
+            <![CDATA[
+            |<\?php.*\$[a-z0-9]{5,8}.*;\$[a-z0-9]{5,8}.*strtoupper\(.*\);.*eval.?\(.?\$\{.?\$[a-z0-9]{3,8}.?\}.?\[.?'[a-z0-9]{5,8}'.?\].?\);.?\}.?\?>|iusU
+            ]]>
+        </signature>
+        <action>delete</action>
+    </item>
+    <item>
         <name date="07.03.2016">PHP.Virus.Eval.24</name>
         <signature>
             <![CDATA[
