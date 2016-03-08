@@ -28,6 +28,18 @@ class Scanner {
 
 	private $scanResults = array();
 
+	/**
+	 * Гласные буквы
+	 * @var array
+	 */
+	private $vowelsLetters = array('a', 'e', 'i', 'o', 'u', 'y');
+
+	/**
+	 * Согласные буквы
+	 * @var array
+	 */
+	private $consonantsLetters = array('q', 'w', 'r', 't', 'p', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z', 'x', 'c', 'v', 'b', 'n', 'm');
+
 	function __construct($signaturesUpdate = true) {
 		$this->scanResults = array();
 		//if($signaturesUpdate) {
@@ -157,6 +169,39 @@ class Scanner {
 			$content = preg_replace($virusSignature['signature'], '', $content);
 
 		}
+	}
+
+	/**
+	 * Эвристический алгоритм сканирования
+	 *
+	 * @param $fileName string
+	 */
+	public function Heuristic($fileName) {
+		$suspicion = 0.0;
+
+		$fileData = pathinfo($fileName);
+
+		$filenamePatterns = array(
+			"/^[" . implode($this->consonantsLetters) . strtoupper(implode($this->consonantsLetters)) . "]{5}/i",
+			"/^[a-zA-Z]{4,8}\d{1,3}/i",
+			"/^\d{1,}[a-zA-Z]{1,3}\d{1,}/i",
+			"/^[a-zA-Z]\d{4,}/i",
+			"/^\d[a-zA-Z0-9]{1.}/i",
+			"/^[a-zA-Z]\d{3,}[a-zA-Z]$/i"
+		);
+
+		//  Проверка имени файла, не выглядит ли оно стремным
+		foreach ($filenamePatterns as $filenamePattern) {
+			$checkResult = preg_match($filenamePattern, $fileData['basename']);
+			if ($checkResult == 1) {
+				$suspicion = $suspicion + 0.5;
+				//echo $fileData['basename'] . " - " . $filenamePattern . "\r\n";
+			}
+		}
+
+		//print_r($suspicion);
+
+		return $suspicion;
 	}
 }
 
