@@ -19,7 +19,7 @@ class ScannerTest extends PHPUnit_Framework_TestCase {
 
 		$filename = 'xcvbpojlkj.php';
 
-		$result = $scanner->Heuristic($filename);
+		$result = $scanner->HeuristicFileName($filename);
 
 		$this->assertEquals(0.5, $result);
 	}
@@ -32,7 +32,7 @@ class ScannerTest extends PHPUnit_Framework_TestCase {
 
 		$filename = 'fuckoff05.php';
 
-		$result = $scanner->Heuristic($filename);
+		$result = $scanner->HeuristicFileName($filename);
 
 		$this->assertEquals(0.5, $result);
 	}
@@ -45,7 +45,7 @@ class ScannerTest extends PHPUnit_Framework_TestCase {
 
 		$filename = '1234fck4321.php';
 
-		$result = $scanner->Heuristic($filename);
+		$result = $scanner->HeuristicFileName($filename);
 
 		$this->assertEquals(0.5, $result,"Результат: " . $result . "\r\n");
 	}
@@ -58,7 +58,7 @@ class ScannerTest extends PHPUnit_Framework_TestCase {
 
 		$filename = 'f32154.php';
 
-		$result = $scanner->Heuristic($filename);
+		$result = $scanner->HeuristicFileName($filename);
 
 		$this->assertEquals(0.5, $result);
 	}
@@ -71,7 +71,7 @@ class ScannerTest extends PHPUnit_Framework_TestCase {
 
 		$filename = '1f32154.php';
 
-		$result = $scanner->Heuristic($filename);
+		$result = $scanner->HeuristicFileName($filename);
 
 		$this->assertEquals(0.5, $result);
 	}
@@ -84,7 +84,15 @@ class ScannerTest extends PHPUnit_Framework_TestCase {
 
 		$filename = 'f32145g.php';
 
-		$result = $scanner->Heuristic($filename);
+		$result = $scanner->HeuristicFileName($filename);
+
+		$this->assertEquals(0.5, $result);
+	}
+
+	public function testHeuristicContent_Word_Length() {
+		$scanner = new Scanner();
+		$fileName = "../manul/classes/DownloadController.inc.php";
+		$result = $scanner->HeuristicFileContent($fileName);
 
 		$this->assertEquals(0.5, $result);
 	}

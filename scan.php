@@ -16,7 +16,8 @@ class Scanner {
 	public $SignatureFile = 'remote';
 
 	/**
-	 * @var string Каталог сигнатур
+	 * Каталог сигнатур
+	 * @var string
 	 */
 	private $SignaturesDir;
 
@@ -27,6 +28,8 @@ class Scanner {
 	private $realFileName = null;
 
 	private $scanResults = array();
+
+	private $namePatterns = array();
 
 	/**
 	 * Гласные буквы
@@ -40,8 +43,18 @@ class Scanner {
 	 */
 	private $consonantsLetters = array('q', 'w', 'r', 't', 'p', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z', 'x', 'c', 'v', 'b', 'n', 'm');
 
+
 	function __construct($signaturesUpdate = true) {
 		$this->scanResults = array();
+
+		$this->namePatterns = array(
+			"/^[" . implode($this->consonantsLetters) . strtoupper(implode($this->consonantsLetters)) . "]{5}/i",
+			"/^[a-zA-Z]{3,8}\d{1,8}/i",
+			"/^\d{1,}[a-zA-Z]{1,3}\d{1,}/i",
+			"/^[a-zA-Z]\d{4,}/i",
+			"/^\d[a-zA-Z0-9]{1.}/i",
+			"/^[a-zA-Z]\d{3,}[a-zA-Z]$/i"
+		);
 		//if($signaturesUpdate) {
 		//	$this->SignaturesDir = 'http://thekadeshi.bagdad.tmweb.ru/signatures';
 		//}
@@ -120,10 +133,14 @@ class Scanner {
 
 	public function Scan($fileName) {
 		$this->scanResults = array();
-		$content = $this->GetFileContent($fileName);
+		$heuristicScanResult = $this->Heuristic($fileName);
+		if($heuristicScanResult > 1) {
+			echo($fileName . " infected with " . $heuristicScanResult . "\r\n");
+			$content = $this->GetFileContent($fileName);
 
-		if($content !== false && strlen($content) > 0) {
-			$this->ScanContent($content);
+			if ($content !== false && strlen($content) > 0) {
+				$this->ScanContent($content);
+			}
 		}
 
 		return (!empty($this->scanResults))?$this->scanResults:null;
@@ -171,27 +188,116 @@ class Scanner {
 		}
 	}
 
+	public function ContentParser($content) {
+		//$contentWords = explode($this->devideSymbols, $content);
+
+		$contentWords = preg_match_all('/\$?\w+/i', $content, $matches);
+
+		print_r($matches);
+
+		return 1;
+	}
+
 	/**
-	 * Эвристический алгоритм сканирования
+	 * Функция эвристического анализа содержимого файла
+	 * @param $fileName string Имя файла для анализа
+	 * @return float Результат сканирования. Чем больше значение, тем более стремным выглядит файл
+	 */
+	public function HeuristicFileContent($fileName) {
+		$suspicion = 0.0;
+
+		$fileContent = mb_convert_encoding(file_get_contents($fileName), "utf-8");
+
+		//Проверка на длинные слова
+		$pregResult = preg_match_all('/\$?\w+/i', $fileContent, $wordMatches);
+		if($pregResult !== false) {
+			//print_r(array_unique($wordMatches[0]));
+			foreach(array_unique($wordMatches[0]) as $someWord) {
+				if (strlen($someWord) >= 25) {
+					if(mb_substr($someWord, 0, 1) != '$') {
+						//  Чем длиннее слово, тем больше подозрение
+						if($someWord != strtoupper($someWord)) {
+							$suspicion = $suspicion + 0.001 * strlen($someWord);
+							//echo($someWord . " " . $suspicion . "\r\n");
+						}
+					}
+				}
+
+				//  Если слово - переменная
+				if(mb_substr($someWord, 0, 1) == '$') {
+					//print_r($someWord);
+					//  Проверка переменных на стремные именования
+					foreach ($this->namePatterns as $namePattern) {
+						$checkResult = preg_match($namePattern, mb_substr($someWord, 1));
+						if ($checkResult == 1) {
+							$suspicion = $suspicion + 0.01;
+							//echo $someWord . " - " . $namePattern . "\r\n";
+						}
+					}
+
+					//  Проверка переменных на частые использования в виде массивов
+					$arrayPattern = '/\\' . $someWord . '\[[\'"]?\d+[\'"]?\]/i';
+					//echo($arrayPattern . "\r\n");
+					$arrayCheckResult = preg_match_all($arrayPattern, $fileContent, $arrayPatternMatches);
+					if($arrayCheckResult !== false) {
+
+						$variableUsages = count(array_unique($arrayPatternMatches[0]));
+						if($variableUsages > 3) {
+							$suspicion = $suspicion + (0.2 + $variableUsages);
+						}
+						//print_r($arrayPatternMatches);
+					}
+
+				}
+			}
+		}
+
+		//  eval в коде выглядит очень подозрительно
+		if(mb_strpos($fileContent, "eval")) {
+			$evlFileterPattern = '/eval.+?\(/i';
+			$evlCheckResult = preg_match_all($evlFileterPattern, $fileContent, $evlMatches);
+			if($evlCheckResult !== false) {
+				$suspicion = $suspicion + 1 * count($evlMatches[0]);
+			}
+			unset($evlMatches);
+		}
+
+		//  base64 тоже вызывает некоторые подозрения
+		if(mb_strpos($fileContent, "base64_decode")) {
+			$baseFilterPattern = '/base64_decode.+?\(/i';
+			$baseCheckResult = preg_match_all($baseFilterPattern, $fileContent, $baseMatches);
+			if($baseCheckResult !== false) {
+				$suspicion = $suspicion + 0.4 * count($baseMatches[0]);
+			}
+			unset($baseMatches);
+		}
+
+		//  str_rot13 может использоваться для маскировки
+		if(mb_strpos($fileContent, "str_rot13")) {
+			$rotFilterPattern = '/str_rot13.+?\(/i';
+			$rotCheckResult = preg_match_all($rotFilterPattern, $fileContent, $rotMatches);
+			if($rotCheckResult !== false) {
+				$suspicion = $suspicion + 0.3 + count($rotMatches[0]);
+			}
+			unset($rotMatches);
+		}
+
+
+		return $suspicion;
+	}
+
+	/**
+	 * Эвристический алгоритм проверки файла
 	 *
 	 * @param $fileName string
 	 */
-	public function Heuristic($fileName) {
+	public function HeuristicFileName($fileName) {
 		$suspicion = 0.0;
 
 		$fileData = pathinfo($fileName);
 
-		$filenamePatterns = array(
-			"/^[" . implode($this->consonantsLetters) . strtoupper(implode($this->consonantsLetters)) . "]{5}/i",
-			"/^[a-zA-Z]{4,8}\d{1,3}/i",
-			"/^\d{1,}[a-zA-Z]{1,3}\d{1,}/i",
-			"/^[a-zA-Z]\d{4,}/i",
-			"/^\d[a-zA-Z0-9]{1.}/i",
-			"/^[a-zA-Z]\d{3,}[a-zA-Z]$/i"
-		);
-
 		//  Проверка имени файла, не выглядит ли оно стремным
-		foreach ($filenamePatterns as $filenamePattern) {
+		foreach ($this->namePatterns as $filenamePattern) {
 			$checkResult = preg_match($filenamePattern, $fileData['basename']);
 			if ($checkResult == 1) {
 				$suspicion = $suspicion + 0.5;
@@ -202,6 +308,17 @@ class Scanner {
 		//print_r($suspicion);
 
 		return $suspicion;
+	}
+
+	public function Heuristic($filename) {
+		$totalSuspicion = 0;
+
+		$fileNameSuspicion = $this->HeuristicFileName($filename);
+		$fileContentSuspicion = $this->HeuristicFileContent($filename);
+
+		$totalSuspicion = $fileNameSuspicion + $fileContentSuspicion;
+
+		return $totalSuspicion;
 	}
 }
 
