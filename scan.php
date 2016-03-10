@@ -53,7 +53,8 @@ class Scanner {
 			"/^\d{1,}[a-zA-Z]{1,3}\d{1,}/i",
 			"/^[a-zA-Z]\d{4,}/i",
 			"/^\d[a-zA-Z0-9]{1.}/i",
-			"/^[a-zA-Z]\d{3,}[a-zA-Z]$/i"
+			"/^[a-zA-Z]\d{3,}[a-zA-Z]$/i",
+			"/^\S+\d+\S+\d+\S+?/i"
 		);
 		//if($signaturesUpdate) {
 		//	$this->SignaturesDir = 'http://thekadeshi.bagdad.tmweb.ru/signatures';
@@ -236,7 +237,8 @@ class Scanner {
 					}
 
 					//  Проверка переменных на частые использования в виде массивов
-					$arrayPattern = '/\\' . $someWord . '\[[\'"]?\d+[\'"]?\]/i';
+					//$arrayPattern = '/\\' . $someWord . '\[[\'"]?\d+[\'"]?\]/i';
+					$arrayPattern = '/\\' . $someWord . '\[[\'"]?[\d\S]+[\'"]?\](\[\d+\])?/i';
 					//echo($arrayPattern . "\r\n");
 					$arrayCheckResult = preg_match_all($arrayPattern, $fileContent, $arrayPatternMatches);
 					if($arrayCheckResult !== false) {
@@ -440,6 +442,8 @@ class Console {
 	}
 }
 
+/*
+
 //@todo надо отрефакторить эту фигню
 $signaturesBase = 'remote';
 if($argc > 1) {
@@ -505,3 +509,4 @@ if($currentAction == 'scan' || $currentAction == null) {
 		$resultsFile = file_put_contents("kadeshi.anamnesis.json", $encodedResults);
 	}
 }
+*/

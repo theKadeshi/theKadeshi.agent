@@ -91,7 +91,7 @@ class ScannerTest extends PHPUnit_Framework_TestCase {
 
 	public function testHeuristicContent_Word_Length() {
 		$scanner = new Scanner();
-		$fileName = "../manul/classes/DownloadController.inc.php";
+		$fileName = "../infected/virus026.php";
 		$result = $scanner->HeuristicFileContent($fileName);
 
 		$this->assertEquals(0.5, $result);
