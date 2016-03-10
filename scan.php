@@ -56,11 +56,6 @@ class Scanner {
 			"/^[a-zA-Z]\d{3,}[a-zA-Z]$/i",
 			"/^\S+\d+\S+\d+\S+?/i"
 		);
-		//if($signaturesUpdate) {
-		//	$this->SignaturesDir = 'http://thekadeshi.bagdad.tmweb.ru/signatures';
-		//}
-		//print_r($this->SignaturesDir);
-		//$this->GetSignaturesFiles();
 
 	}
 
@@ -109,7 +104,6 @@ class Scanner {
 	private function LoadRules() {
 		$rules = array();
 
-		//foreach ($this->SignaturesFileList as $ruleFile) {
 		$fileName = $this->SignaturesDir . '/' . 'database.xml';
 
 		$xml = simplexml_load_file($fileName, 'SimpleXMLElement', LIBXML_NOCDATA);
@@ -125,7 +119,6 @@ class Scanner {
 				'action' => $action
 			);
 		}
-		//}
 
 		$this->RulesList = $rules;
 
@@ -156,8 +149,10 @@ class Scanner {
 		$this->realFileName = pathinfo($fileName);
 		$content = false;
 
-		if(isset($this->realFileName['extension']) && $this->realFileName['extension'] != 'xml') {
-			$content = file_get_contents($fileName);
+		if(strtolower($_SERVER['PHP_SELF']) != strtolower($fileName)) {
+			if (isset($this->realFileName['extension']) && $this->realFileName['extension'] != 'xml') {
+				$content = file_get_contents($fileName);
+			}
 		}
 		//print_r($content);
 		return $content;
@@ -187,16 +182,6 @@ class Scanner {
 			$content = preg_replace($virusSignature['signature'], '', $content);
 
 		}
-	}
-
-	public function ContentParser($content) {
-		//$contentWords = explode($this->devideSymbols, $content);
-
-		$contentWords = preg_match_all('/\$?\w+/i', $content, $matches);
-
-		print_r($matches);
-
-		return 1;
 	}
 
 	/**
@@ -244,7 +229,7 @@ class Scanner {
 					if($arrayCheckResult !== false) {
 
 						$variableUsages = count(array_unique($arrayPatternMatches[0]));
-						if($variableUsages > 3) {
+						if($variableUsages > 6) {
 							$suspicion = $suspicion + (0.2 + $variableUsages);
 						}
 						//print_r($arrayPatternMatches);
@@ -442,8 +427,6 @@ class Console {
 	}
 }
 
-/*
-
 //@todo надо отрефакторить эту фигню
 $signaturesBase = 'remote';
 if($argc > 1) {
@@ -509,4 +492,3 @@ if($currentAction == 'scan' || $currentAction == null) {
 		$resultsFile = file_put_contents("kadeshi.anamnesis.json", $encodedResults);
 	}
 }
-*/
