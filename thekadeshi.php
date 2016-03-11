@@ -324,9 +324,11 @@ class Healer {
 	function __construct()
 	{
 		$this->Anamnesis = array();
-		$this->GetAnamnesis();
-		if(!empty($this->Anamnesis)) {
-			//cure
+		if(is_file(kadeshi.anamnesis.json)) {
+			$this->GetAnamnesis();
+			if (!empty($this->Anamnesis)) {
+				//cure
+			}
 		}
 	}
 
@@ -513,6 +515,8 @@ if($currentAction == 'prepend') {
 	$fileScanResults = $scanner->Scan($fileToCheck);
 	if(is_array($fileScanResults)) {
 		if($fileScanResults['action'] == 'cure') {
+			$Healer = new Healer();
+			$Healer->Cure($fileScanResults);
 			// @todo KDSH-4
 		}
 		if($fileScanResults['action'] == 'delete') {
