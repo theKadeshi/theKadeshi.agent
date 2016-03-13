@@ -16,6 +16,18 @@ class Scanner {
 	public $SignatureFile = 'remote';
 
 	/**
+	 * Каталог кеша
+	 * @var string
+	 */
+	private $TheKadeshiDir = '';
+
+	/**
+	 * Каталог для контрольных сумм
+	 * @var string
+	 */
+	private $ChekSumDir = "";
+
+	/**
 	 * Каталог сигнатур
 	 * @var string
 	 */
@@ -63,13 +75,23 @@ class Scanner {
 	 * Инициализация
 	 */
 	public function Init() {
+		$this->TheKadeshiDir = __DIR__ . "/.thekadeshi";
+
 		switch($this->SignatureFile) {
 			case 'local':
-				$this->SignaturesDir = 'signatures';
+				$this->SignaturesDir = $this->TheKadeshiDir . '/signatures';
 				break;
 			default:
 				$this->SignaturesDir = 'http://thekadeshi.bagdad.tmweb.ru/signatures';
 				break;
+		}
+
+		$this->ChekSumDir = $this->TheKadeshiDir . "/checksum";
+		if(!is_dir($this->TheKadeshiDir)) {
+			mkdir($this->TheKadeshiDir);
+		}
+		if(!is_dir($this->ChekSumDir)) {
+			mkdir($this->ChekSumDir);
 		}
 		$this->LoadRules();
 	}
@@ -106,35 +128,48 @@ class Scanner {
 
 		$fileName = $this->SignaturesDir . '/' . 'database.xml';
 
-		$xml = simplexml_load_file($fileName, 'SimpleXMLElement', LIBXML_NOCDATA);
+		if(file_exists($fileName)) {
 
-		foreach ($xml[0] as $item){
-			$name = trim($item->name[0]);
-			$signature = trim($item->signature[0]);
-			$action = trim($item->action[0]);
+			$xml = simplexml_load_file($fileName, 'SimpleXMLElement', LIBXML_NOCDATA);
 
-			$this->Signatures[] = array(
-				'name' => $name,
-				'signature' => $signature,
-				'action' => $action
-			);
+			foreach ($xml[0] as $item) {
+				$name = trim($item->name[0]);
+				$signature = trim($item->signature[0]);
+				$action = trim($item->action[0]);
+
+				$this->Signatures[] = array(
+					'name' => $name, 'signature' => $signature, 'action' => $action
+				);
+			}
+
+			$this->RulesList = $rules;
 		}
-
-		$this->RulesList = $rules;
 
 		return $rules;
 	}
 
 	public function Scan($fileName) {
-		$this->scanResults = array();
-		$heuristicScanResult = $this->Heuristic($fileName);
-		//echo($heuristicScanResult);
-		if($heuristicScanResult > 1) {
-			//echo($fileName . " infected with " . $heuristicScanResult . "\r\n");
-			$content = $this->GetFileContent($fileName);
 
-			if ($content !== false && strlen($content) > 0) {
-				$this->ScanContent($content);
+		$this->scanResults = array();
+		$heuristicScanResult = 0;
+
+		$fileCheckSum = $this->CompareFileCheckSum($fileName);
+
+		if($fileCheckSum !== true) {
+
+			$this->SetFileCheckSum($fileName);
+
+			$heuristicScanResult = $this->Heuristic($fileName);
+			//echo($heuristicScanResult);
+			if ($heuristicScanResult > 0) {
+				echo($fileName . " infected with " . $heuristicScanResult . "\r\n");
+				//$content = $this->GetFileContent($fileName);
+
+				//if ($content !== false && strlen($content) > 0) {
+					$this->scanResults = $this->ScanContent($fileName);
+				//}
+			} else {
+				// @todo вставить проверку контрольной суммы
 			}
 		}
 
@@ -142,12 +177,92 @@ class Scanner {
 	}
 
 	/**
+	 * Функция создания контрольной суммы файла
+	 * @param $fileName
+	 * @return int
+	 */
+	public function SetFileCheckSum($fileName) {
+		$currentFileCheckSum = md5_file($fileName);
+		$currentCheckSumPath = $this->ChekSumDir;
+		$realFileName = pathinfo($fileName);
+		$subdirSplitPath = mb_split("/", str_replace("\\", "/", $realFileName['dirname']));
+		foreach($subdirSplitPath as $pathElement) {
+			$catalogCode = mb_substr(strtolower(trim($pathElement, ":;.\\/|'\"?<>,")), 0, 2);
+			$currentCheckSumPath .= "/" . $catalogCode;
+			if(!is_dir($currentCheckSumPath)) {
+				mkdir($currentCheckSumPath);
+			}
+		}
+		$checkSumContent = array(
+			'folder'=>$realFileName['dirname'],
+			'filename'=>$realFileName['basename'],
+			'date' => filemtime($fileName),
+		    'size' => filesize($fileName),
+			'checksum' => $currentFileCheckSum
+
+		);
+		$checkSumFileName = $currentCheckSumPath . "/" . $realFileName['basename'] . ".json";
+		if(file_exists($checkSumFileName)) {
+			unlink($checkSumFileName);
+		}
+		$creationResult = file_put_contents($checkSumFileName, json_encode($checkSumContent));
+		return $creationResult;
+	}
+
+	public function GetFileCheckSum($fileName) {
+		$checkSumContent = false;
+		$currentCheckSumPath = $this->ChekSumDir;
+		$realFileName = pathinfo($fileName);
+		$subdirSplitPath = mb_split("/", str_replace("\\", "/", $realFileName['dirname']));
+		foreach($subdirSplitPath as $pathElement) {
+			$catalogCode = mb_substr(strtolower(trim($pathElement, ":;.\\/|'\"?<>,")), 0, 2);
+			$currentCheckSumPath .= "/" . $catalogCode;
+		}
+
+		$checkSumFileName = $currentCheckSumPath . "/" . $realFileName['basename'] . ".json";
+		if(file_exists($checkSumFileName)) {
+			$checkSumContent  = json_decode(file_get_contents($checkSumFileName), true);
+		}
+
+		return $checkSumContent;
+	}
+
+	/**
+	 * Функция сравнения контрольных сумм
+	 * @param $fileName
+	 * @return bool
+	 */
+	public function CompareFileCheckSum($fileName) {
+		$savedCheckSum = $this->GetFileCheckSum($fileName);
+		if($savedCheckSum === false) {
+			return false;
+		}
+		//print_r($savedCheckSum);
+		$realFileName = pathinfo($fileName);
+		$currentFileCheckSum = md5_file($fileName);
+		$checkSumContent = array(
+			'folder'=>$realFileName['dirname'],
+			'filename'=>$realFileName['basename'],
+			'date' => filemtime($fileName),
+		    'size' => filesize($fileName),
+			'checksum' => $currentFileCheckSum
+		);
+		$checkDiff = array_diff($savedCheckSum, $checkSumContent);
+
+		if(!empty($checkDiff)) {
+			return true;
+		}
+		return false;
+	}
+
+
+	/**
 	 * Функция получения содержимого файла
 	 * @param $fileName
 	 * @return string
 	 */
 	private function GetFileContent($fileName) {
-		$this->realFileName = pathinfo($fileName);
+
 		$content = false;
 
 		if(strtolower($_SERVER['PHP_SELF']) != strtolower($fileName)) {
@@ -159,30 +274,32 @@ class Scanner {
 		return $content;
 	}
 
-	private function ScanContent($content) {
+	private function ScanContent($fileName) {
+		$scanResults = null;
+		$content = $this->GetFileContent($fileName);
 
-		$content = mb_convert_encoding($content, "utf-8");
-		foreach($this->Signatures as $virusSignature) {
+		if ($content !== false && strlen($content) > 0) {
 
-			preg_match($virusSignature['signature'], $content, $results);
+			$content = mb_convert_encoding($content, "utf-8");
+			foreach ($this->Signatures as $virusSignature) {
 
-			if(isset($results) && !empty($results)) {
-				//print_r($results);
-				$files[] = array('file'=>'', 'action'=>$virusSignature['action']);
-				$this->scanResults = array(
-					'file' => $this->realFileName,
-					'name' => $virusSignature['name'],
-					'positions' => array(
-						'start' => mb_strpos($content, $results[0]),
-						'length' => mb_strlen($results[0])
-					),
-					//'content' => $results[0],
-					'action' => $virusSignature['action']
-				);
+				preg_match($virusSignature['signature'], $content, $results);
+
+				if (isset($results) && !empty($results)) {
+					//print_r($results);
+					$files[] = array('file' => '', 'action' => $virusSignature['action']);
+					$scanResults = array(
+						'file' => $this->realFileName, 'name' => $virusSignature['name'], 'positions' => array(
+							'start' => mb_strpos($content, $results[0]), 'length' => mb_strlen($results[0])
+						), //'content' => $results[0],
+						'action' => $virusSignature['action']
+					);
+				}
+				$content = preg_replace($virusSignature['signature'], '', $content);
+
 			}
-			$content = preg_replace($virusSignature['signature'], '', $content);
-
 		}
+		return $scanResults;
 	}
 
 	/**
@@ -374,11 +491,17 @@ class FileList {
 		$dirContent = scandir($dir);
 		foreach($dirContent as $directoryElement) {
 			if($directoryElement != '..' && $directoryElement != '.') {
-				if (is_file($dir . '/' . $directoryElement)) {
-					$this->fileList[] = $dir . '/' . $directoryElement;
+				$someFile = $dir . '/' . $directoryElement;
+				if (is_file($someFile)) {
+					$fileData = pathinfo($someFile);
+					if(isset($fileData['extension'])) {
+						if ($fileData['extension'] == 'php') {
+							$this->fileList[] = $someFile;
+						}
+					}
 				}
-				if (is_dir($dir . '/' . $directoryElement)) {
-					$this->GetFileList($dir . '/' . $directoryElement);
+				if (is_dir($someFile)) {
+					$this->GetFileList($someFile);
 				}
 			}
 		}
@@ -432,6 +555,8 @@ class Console {
 
 //@todo надо отрефакторить эту фигню
 $signaturesBase = 'remote';
+define('THEKADESHI_DIR', __DIR__ . "/.thekadeshi");
+
 if($argc > 1) {
 	foreach ($argv as $argument) {
 		if (strtolower($argument) == '--local') {
@@ -501,7 +626,7 @@ if($currentAction == 'scan' || $currentAction == null) {
 	if(!empty($scanResults)) {
 		//for
 		$encodedResults = json_encode($scanResults);
-		$resultsFile = file_put_contents("kadeshi.anamnesis.json", $encodedResults);
+		$resultsFile = file_put_contents(THEKADESHI_DIR . "/kadeshi.anamnesis.json", $encodedResults);
 	}
 }
 

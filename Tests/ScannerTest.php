@@ -7,7 +7,7 @@
  * Time: 16:26
  * Created by PhpStorm.
  */
-require_once '../scan.php';
+require_once '../thekadeshi.php';
 
 class ScannerTest extends PHPUnit_Framework_TestCase {
 
@@ -95,5 +95,13 @@ class ScannerTest extends PHPUnit_Framework_TestCase {
 		$result = $scanner->HeuristicFileContent($fileName);
 
 		$this->assertEquals(0.5, $result);
+	}
+
+	public function testSetFileCheckSum() {
+		$scanner = new Scanner();
+		$fileName = "../site_info.php";
+
+		$result = $scanner->SetFileCheckSum($fileName);
+		$this->assertEquals(1, $result);
 	}
 }
