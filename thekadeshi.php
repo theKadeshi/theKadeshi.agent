@@ -446,8 +446,21 @@ class Status {
 		$this->kadeshiDir = $folder;
 	}
 
+	public function FirewallEvent() {
+		$firewallLogsFile = $this->kadeshiDir . "/" . ".firewall";
+		$firewall_logs = array();
+		if(is_file($this->kadeshiDir . "/" . ".firewall")) {
+			$firewall_logs = json_decode(file_get_contents($firewallLogsFile), true);
+		}
+		$firewall_logs[] = date("Y-m-d H:i:s.u");
+		file_put_contents($firewallLogsFile, json_encode($firewall_logs));
+	}
+	
 	public function ReportDate() {
-		$report = array();
+		$report = array(
+			'firewall' => array(),
+			'quarantine' => array(),
+		);
 	}
 
 	public function Ping() {
@@ -662,13 +675,18 @@ if(isset($_SERVER['SERVER_NAME'])) {
 				)
 			);
 
+			if(!is_dir(THEKADESHI_DIR)) {
+				mkdir(THEKADESHI_DIR);
+			}
+
 			if(!file_exists(THEKADESHI_DIR . "/.options")) {
 				file_put_contents(THEKADESHI_DIR . "/.options", json_encode($key));
 			}
 	
-			//die();
-			header("location: /");
-			exit();
+			if(!isset($_REQUEST['ping'])) {
+				header("location: /");
+				exit();
+			}
 		}
 	}
 }
@@ -679,12 +697,11 @@ $scanner->Init();
 
 $healer = new Healer();
 
+// Статистика
 $Status = new Status(THEKADESHI_DIR);
 $Status->Ping();
 $Status->writeStatus();
 
-//print_r($_REQUEST);
-//die();
 if(!empty($_REQUEST)) {
 	if(isset($_REQUEST['ping'])) {
 		$Status->Output();
@@ -736,18 +753,12 @@ switch ($currentAction) {
 				$fileScanResults = $scanner->Scan($fileToScan['tmp_name'], false);
 				if(!empty($fileScanResults)) {
 					$healer->Quarantine($fileToScan['tmp_name'], $fileToScan['name']);
+					$Status->FirewallEvent();
 				}
-				//print_r($fileScanResults);
+				
 			}
 		}
-/*
-		echo("<br />GET: \r\n");
-		print_r($_GET);
-		echo("<br />POST: \r\n");
-		print_r($_POST);
-		echo("<br />REQUEST: \r\n");
-		print_r($_REQUEST);
-*/
+
 		$fileToCheck = $_SERVER['SCRIPT_FILENAME'];
 		$fileScanResults = $scanner->Scan($fileToCheck);
 		if(is_array($fileScanResults)) {
