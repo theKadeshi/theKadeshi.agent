@@ -2,11 +2,12 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="037391e8-ce91-4fea-b633-1a51970969fd" name="TheKadeshi" url="http://thekadeshi.bagdad.tmweb.ru">
+      <webServer id="037391e8-ce91-4fea-b633-1a51970969fd" name="TheKadeshi [TimeWeb]" url="http://thekadeshi.bagdad.tmweb.ru">
         <fileTransfer host="janet.timeweb.ru" port="21" password="dfe5dfffdfcbdffbdfc3dfecdffddff3" username="bagdad_kadeshi">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" passiveMode="true" />
           </advancedOptions>
+          <option name="port" value="21" />
         </fileTransfer>
       </webServer>
     </option>

@@ -1,3 +1,4 @@
 php_value allow_url_include Off
 php_value display_errors 1
+
 php_value auto_prepend_file "/home/b/bagdad/thekadeshi/public_html/thekadeshi.php"

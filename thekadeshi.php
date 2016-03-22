@@ -148,21 +148,28 @@ class Scanner {
 		return $rules;
 	}
 
-	public function Scan($fileName) {
+	public function Scan($fileName, $needChecksum = false) {
+
+		//echo($fileName . "<br />\r\n");
 
 		$this->scanResults = array();
 		$heuristicScanResult = 0;
+		$fileCheckSum = false;
 
-		$fileCheckSum = $this->CompareFileCheckSum($fileName);
+		if($needChecksum) {
+			$fileCheckSum = $this->CompareFileCheckSum($fileName);
+		}
 
 		if($fileCheckSum !== true) {
 
-			$this->SetFileCheckSum($fileName);
+			if($needChecksum) {
+				$this->SetFileCheckSum($fileName);
+			}
 
 			$heuristicScanResult = $this->Heuristic($fileName);
 			//echo($heuristicScanResult);
-			if ($heuristicScanResult > 0) {
-				echo($fileName . " infected with " . $heuristicScanResult . "\r\n");
+			if ($heuristicScanResult > 1) {
+				//echo($fileName . " infected with " . $heuristicScanResult . "\r\n");
 				//$content = $this->GetFileContent($fileName);
 
 				//if ($content !== false && strlen($content) > 0) {
@@ -310,6 +317,8 @@ class Scanner {
 	public function HeuristicFileContent($fileName) {
 		$suspicion = 0.0;
 
+		//echo($fileName . "<br>\r\n");
+
 		$fileContent = mb_convert_encoding(file_get_contents($fileName), "utf-8");
 
 		//Проверка на длинные слова
@@ -427,6 +436,41 @@ class Scanner {
 	}
 }
 
+class Status {
+
+	private $kadeshiDir;
+
+	private $selfStatus;
+
+	function __construct($folder) {
+		$this->kadeshiDir = $folder;
+	}
+
+	public function ReportDate() {
+		$report = array();
+	}
+
+	public function Ping() {
+		$pingStatus = array(
+			'date' => date("Y-m-d H:i:s"),
+			'status' => 'online'
+		);
+		$this->selfStatus['ping'] = $pingStatus;
+	}
+
+	public function writeStatus() {
+		file_put_contents($this->kadeshiDir . "/" . ".status", json_encode($this->selfStatus));
+	}
+
+	public function Output() {
+		if(is_file($this->kadeshiDir . "/" . ".status")) {
+			echo(file_get_contents($this->kadeshiDir . "/" . ".status"));
+		} else {
+			$this->writeStatus();
+		}
+	}
+}
+
 /**
  * Класс лекарь
  */
@@ -438,8 +482,20 @@ class Healer {
 	 */
 	public $Anamnesis;
 
+	/**
+	 * Каталог кеша
+	 * @var string
+	 */
+	private $TheKadeshiDir = '';
+	
+	private $QuarantineDir = "";
+
 	function __construct()
 	{
+		$this->TheKadeshiDir = __DIR__ . "/.thekadeshi";
+		
+		$this->QuarantineDir = $this->TheKadeshiDir . "/quarantine";
+
 		$this->Anamnesis = array();
 		if(is_file(kadeshi.anamnesis.json)) {
 			$this->GetAnamnesis();
@@ -474,6 +530,41 @@ class Healer {
 				file_put_contents($filePath, $fileParts[0] . $fileParts[1]);
 				break;
 		}
+	}
+
+	public function Quarantine($sourceFile, $originalFileName = null) {
+		if(!is_dir($this->QuarantineDir)) {
+			mkdir($this->QuarantineDir);
+		}
+		if(!is_null($originalFileName)) {
+			$fileName = $originalFileName;
+		} else {
+			$fileInfo = pathinfo($sourceFile);
+			$fileName = $fileInfo['basename'];
+		}
+		$quarantineFileName = date("Y-m-d-H-i-s-u") . ".json";
+		//echo($quarantineFileName . "<br/>\r\n");
+		$quarantineFile = array(
+			'content' => base64_encode(file_get_contents($sourceFile)),
+			'original' => $fileName,
+			'handler' => $_SERVER['SCRIPT_FILENAME'],
+			'date' => date("Y-m-d H:i:s"),
+			'request' => array (
+				'get' => $_GET,
+				'post' => $_POST,
+				'files' => $_FILES,
+			    'request' => $_REQUEST,
+				'cookies' => $_COOKIE,
+				'session' => $_SESSION
+			)
+		);
+		$quarantineResult = file_put_contents($this->QuarantineDir . "/" . $quarantineFileName, json_encode($quarantineFile));
+		
+
+		if($quarantineResult) {
+			unlink($sourceFile);
+		}
+
 	}
 }
 
@@ -557,6 +648,50 @@ class Console {
 $signaturesBase = 'remote';
 define('THEKADESHI_DIR', __DIR__ . "/.thekadeshi");
 
+// Первоначальная установка
+if(isset($_SERVER['SERVER_NAME'])) {
+	if(isset($_SERVER['REQUEST_URI'])) {
+		if(strpos($_SERVER['REQUEST_URI'], 'thekadeshi.php')) {
+			//print_r($_SERVER);
+			$key = array(
+				'url' => $_SERVER['SERVER_NAME'],
+			    'installed' => date("Y-m-d H:i:s"),
+				'reports' => array(
+					'send' => true,
+					'timeout' => 60
+				)
+			);
+
+			if(!file_exists(THEKADESHI_DIR . "/.options")) {
+				file_put_contents(THEKADESHI_DIR . "/.options", json_encode($key));
+			}
+	
+			//die();
+			header("location: /");
+			exit();
+		}
+	}
+}
+
+$scanner = new Scanner();
+$scanner->SignatureFile = $signaturesBase;
+$scanner->Init();
+
+$healer = new Healer();
+
+$Status = new Status(THEKADESHI_DIR);
+$Status->Ping();
+$Status->writeStatus();
+
+//print_r($_REQUEST);
+//die();
+if(!empty($_REQUEST)) {
+	if(isset($_REQUEST['ping'])) {
+		$Status->Output();
+		exit();
+	}
+}
+
 if($argc > 1) {
 	foreach ($argv as $argument) {
 		if (strtolower($argument) == '--local') {
@@ -592,63 +727,78 @@ if($argc > 1) {
 $Console = new Console(defined('VERBOSE')?VERBOSE:false);
 $scanResults = array();
 
-if($currentAction == 'scan' || $currentAction == null) {
+switch ($currentAction) {
+	case 'prepend':
 
-	$Console->Log("Current action: " . $Console->Color['green'] . "Scanning" . $Console->Color['normal'] );
-	if($signaturesBase == 'local') {
-		$Console->Log("Signature file: " . $Console->Color['blue'] . "local" . $Console->Color['normal'] );
-	} else {
-		$Console->Log("Signature file: " . $Console->Color['blue'] . "remote" . $Console->Color['normal'] );
-	}
-
-
-	$scanner = new Scanner();
-	$scanner->SignatureFile = $signaturesBase;
-	$scanner->Init();
-
-	$filelist = new FileList();
-
-	if(!isset($fileToScan)) {
-		$filelist->GetFileList(__DIR__);
-	} else {
-		$filelist->fileList[] = $fileToScan;
-	}
-
-	foreach ($filelist->fileList as $file) {
-
-		$fileScanResults = $scanner->Scan($file);
-		if ($fileScanResults != null) {
-			$scanResults[] = $fileScanResults;
-
-			$Console->Log($fileScanResults['file']['dirname'] . '/' . $fileScanResults['file']['basename'] . ' infection: ' . $Console->Color['red'] . $fileScanResults['name'] . $Console->Color['normal'] . " action: " . $Console->Color['blue'] . $fileScanResults['action'] . $Console->Color['normal'] );
+		if(!empty($_FILES)) {
+			foreach ($_FILES as $fileToScan) {
+				//print_r($fileToScan['tmp_name']);
+				$fileScanResults = $scanner->Scan($fileToScan['tmp_name'], false);
+				if(!empty($fileScanResults)) {
+					$healer->Quarantine($fileToScan['tmp_name'], $fileToScan['name']);
+				}
+				//print_r($fileScanResults);
+			}
 		}
-	}
-	if(!empty($scanResults)) {
-		//for
-		$encodedResults = json_encode($scanResults);
-		$resultsFile = file_put_contents(THEKADESHI_DIR . "/kadeshi.anamnesis.json", $encodedResults);
-	}
-}
-
-if($currentAction == 'prepend') {
-
-	$scanner = new Scanner();
-	$scanner->SignatureFile = $signaturesBase;
-	$scanner->Init();
-
-	$fileToCheck = $_SERVER['SCRIPT_FILENAME'];
-	$fileScanResults = $scanner->Scan($fileToCheck);
-	if(is_array($fileScanResults)) {
-		if($fileScanResults['action'] == 'cure') {
-			$Healer = new Healer();
-			$Healer->Cure($fileScanResults);
-			// @todo KDSH-4
+/*
+		echo("<br />GET: \r\n");
+		print_r($_GET);
+		echo("<br />POST: \r\n");
+		print_r($_POST);
+		echo("<br />REQUEST: \r\n");
+		print_r($_REQUEST);
+*/
+		$fileToCheck = $_SERVER['SCRIPT_FILENAME'];
+		$fileScanResults = $scanner->Scan($fileToCheck);
+		if(is_array($fileScanResults)) {
+			if($fileScanResults['action'] == 'cure') {
+				//$Healer = new Healer();
+				$healer->Cure($fileScanResults);
+				// @todo KDSH-4 Лечение
+			}
+			if($fileScanResults['action'] == 'delete') {
+				// @todo KDSH-4 Лечение
+			}
+		} elseif($fileScanResults > 1) {
+			// @todo KDSH-23 Карантин
 		}
-		if($fileScanResults['action'] == 'delete') {
-			// @todo KDSH-4
+		//print_r($fileScanResults);
+		break;
+
+	default:    //  Действие по умолчанию
+		$Console->Log("Current action: " . $Console->Color['green'] . "Scanning" . $Console->Color['normal'] );
+		if($signaturesBase == 'local') {
+			$Console->Log("Signature file: " . $Console->Color['blue'] . "local" . $Console->Color['normal'] );
+		} else {
+			$Console->Log("Signature file: " . $Console->Color['blue'] . "remote" . $Console->Color['normal'] );
 		}
-	} elseif($fileScanResults > 1) {
-		// @todo KDSH-23
-	}
-	print_r($fileScanResults);
+
+
+		//$scanner = new Scanner();
+		//$scanner->SignatureFile = $signaturesBase;
+		//$scanner->Init();
+
+		$filelist = new FileList();
+
+		if(!isset($fileToScan)) {
+			$filelist->GetFileList(__DIR__);
+		} else {
+			$filelist->fileList[] = $fileToScan;
+		}
+
+		foreach ($filelist->fileList as $file) {
+
+			$fileScanResults = $scanner->Scan($file);
+			if ($fileScanResults != null) {
+				$scanResults[] = $fileScanResults;
+
+				$Console->Log($fileScanResults['file']['dirname'] . '/' . $fileScanResults['file']['basename'] . ' infection: ' . $Console->Color['red'] . $fileScanResults['name'] . $Console->Color['normal'] . " action: " . $Console->Color['blue'] . $fileScanResults['action'] . $Console->Color['normal'] );
+			}
+		}
+		if(!empty($scanResults)) {
+			//for
+			$encodedResults = json_encode($scanResults);
+			$resultsFile = file_put_contents(THEKADESHI_DIR . "/kadeshi.anamnesis.json", $encodedResults);
+		}
+		break;
 }
