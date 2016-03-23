@@ -7,6 +7,75 @@
  * Created by PhpStorm.
  */
 
+class TheKadeshi {
+
+	public $fileList = array();
+
+	public $Scanner;
+
+	/**
+	 * Допустимые расширения для сканера
+	 * @var array
+	 */
+	private $ValidExtensions = array ('php', 'php4', 'php5', 'php7', 'js', 'css', 'html', 'htm', 'tpl');
+
+
+	function __construct() {
+		$this->Scanner = new Scanner();
+
+	}
+
+	public function Init() {
+		$this->Scanner = new Scanner();
+		$this->Scanner->Init();
+	}
+
+	public function GetFileList($dir) {
+
+		$dirContent = scandir($dir);
+		foreach($dirContent as $directoryElement) {
+			if($directoryElement != '..' && $directoryElement != '.') {
+				$someFile = $dir . '/' . $directoryElement;
+				if (is_file($someFile)) {
+					$fileData = pathinfo($someFile);
+					if(isset($fileData['extension'])) {
+						if(array_search($fileData['extension'], $this->ValidExtensions)) {
+							//if ($fileData['extension'] == 'php') {
+							$this->fileList[] = $someFile;
+							//}
+						}
+					}
+				}
+				if (is_dir($someFile)) {
+					$this->GetFileList($someFile);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Функция получения содержимого файла
+	 * @param $fileName
+	 * @return string
+	 */
+	private function GetFileContent($fileName) {
+
+		$fileInfo = pathinfo($fileName);
+		$content = false;
+
+		if(strtolower($_SERVER['PHP_SELF']) != strtolower($fileName)) {
+			if(array_search($fileInfo['extension'], $this->ValidExtensions)) {
+				//if (isset($this->realFileName['extension']) && $this->realFileName['extension'] != 'xml') {
+				$content = file_get_contents($fileName);
+				//}
+			}
+		}
+		//print_r($content);
+		return $content;
+	}
+
+}
+
 class Scanner {
 
 	/**
@@ -148,7 +217,7 @@ class Scanner {
 		return $rules;
 	}
 
-	public function Scan($fileName, $needChecksum = false) {
+	public function Scan($fileName, $needChecksum = true) {
 
 		//echo($fileName . "<br />\r\n");
 
@@ -161,22 +230,17 @@ class Scanner {
 		}
 
 		if($fileCheckSum !== true) {
-
-			if($needChecksum) {
-				$this->SetFileCheckSum($fileName);
-			}
-
+			
 			$heuristicScanResult = $this->Heuristic($fileName);
-			//echo($heuristicScanResult);
-			if ($heuristicScanResult > 1) {
-				//echo($fileName . " infected with " . $heuristicScanResult . "\r\n");
-				//$content = $this->GetFileContent($fileName);
 
-				//if ($content !== false && strlen($content) > 0) {
+			if ($heuristicScanResult > 1) {
+
 					$this->scanResults = $this->ScanContent($fileName);
-				//}
+
 			} else {
-				// @todo вставить проверку контрольной суммы
+				if($needChecksum) {
+					$this->SetFileCheckSum($fileName);
+				}
 			}
 		}
 
@@ -260,25 +324,6 @@ class Scanner {
 			return true;
 		}
 		return false;
-	}
-
-
-	/**
-	 * Функция получения содержимого файла
-	 * @param $fileName
-	 * @return string
-	 */
-	private function GetFileContent($fileName) {
-
-		$content = false;
-
-		if(strtolower($_SERVER['PHP_SELF']) != strtolower($fileName)) {
-			if (isset($this->realFileName['extension']) && $this->realFileName['extension'] != 'xml') {
-				$content = file_get_contents($fileName);
-			}
-		}
-		//print_r($content);
-		return $content;
 	}
 
 	private function ScanContent($fileName) {
@@ -510,7 +555,7 @@ class Healer {
 		$this->QuarantineDir = $this->TheKadeshiDir . "/quarantine";
 
 		$this->Anamnesis = array();
-		if(is_file(kadeshi.anamnesis.json)) {
+		if(is_file('kadeshi.anamnesis.json')) {
 			$this->GetAnamnesis();
 			if (!empty($this->Anamnesis)) {
 				//cure
@@ -578,37 +623,6 @@ class Healer {
 			unlink($sourceFile);
 		}
 
-	}
-}
-
-class FileList {
-
-	public $fileList = null;
-
-	function __construct() {
-		$this->fileList = array();
-	}
-
-
-	public function GetFileList($dir) {
-
-		$dirContent = scandir($dir);
-		foreach($dirContent as $directoryElement) {
-			if($directoryElement != '..' && $directoryElement != '.') {
-				$someFile = $dir . '/' . $directoryElement;
-				if (is_file($someFile)) {
-					$fileData = pathinfo($someFile);
-					if(isset($fileData['extension'])) {
-						if ($fileData['extension'] == 'php') {
-							$this->fileList[] = $someFile;
-						}
-					}
-				}
-				if (is_dir($someFile)) {
-					$this->GetFileList($someFile);
-				}
-			}
-		}
 	}
 }
 
@@ -691,9 +705,7 @@ if(isset($_SERVER['SERVER_NAME'])) {
 	}
 }
 
-$scanner = new Scanner();
-$scanner->SignatureFile = $signaturesBase;
-$scanner->Init();
+
 
 $healer = new Healer();
 
@@ -701,6 +713,8 @@ $healer = new Healer();
 $Status = new Status(THEKADESHI_DIR);
 $Status->Ping();
 $Status->writeStatus();
+
+$theKadeshi = new TheKadeshi();
 
 if(!empty($_REQUEST)) {
 	if(isset($_REQUEST['ping'])) {
@@ -760,6 +774,7 @@ switch ($currentAction) {
 		}
 
 		$fileToCheck = $_SERVER['SCRIPT_FILENAME'];
+		//print_r($fileToCheck);
 		$fileScanResults = $scanner->Scan($fileToCheck);
 		if(is_array($fileScanResults)) {
 			if($fileScanResults['action'] == 'cure') {
@@ -789,17 +804,17 @@ switch ($currentAction) {
 		//$scanner->SignatureFile = $signaturesBase;
 		//$scanner->Init();
 
-		$filelist = new FileList();
+		//$filelist = new FileList();
 
 		if(!isset($fileToScan)) {
-			$filelist->GetFileList(__DIR__);
+			$theKadeshi->GetFileList(__DIR__);
 		} else {
-			$filelist->fileList[] = $fileToScan;
+			$theKadeshi->fileList = $fileToScan;
 		}
 
-		foreach ($filelist->fileList as $file) {
+		foreach ($theKadeshi->fileList as $file) {
 
-			$fileScanResults = $scanner->Scan($file);
+			$fileScanResults = $theKadeshi->Scanner->Scan($file);
 			if ($fileScanResults != null) {
 				$scanResults[] = $fileScanResults;
 
