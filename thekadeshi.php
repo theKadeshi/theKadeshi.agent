@@ -9,6 +9,8 @@
 
 class TheKadeshi {
 
+	public $protectedPage = "PCFkb2N0eXBlIGh0bWw+PGh0bWw+PGhlYWQ+PG1ldGEgY2hhcnNldD11dGYtOD48dGl0bGU+VGhpcyB3ZWJzaXRlIGlzIHByb3RlY3RlZCBieSBUaGVLYWRlc2hpIHN5c3RlbTwvdGl0bGU+PGxpbmsgaHJlZj0naHR0cHM6Ly9mb250cy5nb29nbGVhcGlzLmNvbS9jc3M/ZmFtaWx5PVBUK1NhbnMnIHJlbD1zdHlsZXNoZWV0IHR5cGU9dGV4dC9jc3M+PHN0eWxlPmJvZHksaHRtbHtoZWlnaHQ6MTAwJTttYXJnaW46MDtiYWNrZ3JvdW5kLWNvbG9yOiNkY2RjZGN9aDF7Zm9udC1mYW1pbHk6J1BUIFNhbnMnLHNhbnMtc2VyaWZ9LnJlc3BvbnNpdmUtY29udGFpbmVye3Bvc2l0aW9uOnJlbGF0aXZlO3dpZHRoOjEwMCU7aGVpZ2h0OjEwMCV9LmltZy1jb250YWluZXJ7cG9zaXRpb246YWJzb2x1dGU7dG9wOjA7Ym90dG9tOjA7bGVmdDowO3JpZ2h0OjA7dGV4dC1hbGlnbjpjZW50ZXI7Zm9udDowLzAgYTt3aWR0aDoxMDAlO2ZvbnQtc2l6ZToxNTAlfWF7Y29sb3I6IzRkY2VjNTt0ZXh0LWRlY29yYXRpb246bm9uZX0uaW1nLWNvbnRhaW5lcjpiZWZvcmV7Y29udGVudDonICc7ZGlzcGxheTppbmxpbmUtYmxvY2s7dmVydGljYWwtYWxpZ246bWlkZGxlO2hlaWdodDo4MCV9LmltZy1jb250YWluZXIgaW1ne3ZlcnRpY2FsLWFsaWduOm1pZGRsZTtkaXNwbGF5OmlubGluZS1ibG9jazt3aWR0aDozMCV9PC9zdHlsZT48L2hlYWQ+PGJvZHk+PGRpdiBjbGFzcz1yZXNwb25zaXZlLWNvbnRhaW5lcj48ZGl2IGNsYXNzPWltZy1jb250YWluZXI+PGltZyBzcmM9aHR0cDovL3RoZWthZGVzaGkuY29tL2ltYWdlcy90aGVrYWRlc2hpLXJlbW90ZS5zdmc+PGJyLz48aDE+VGhpcyB3ZWJzaXRlIGlzIHByb3RlY3RlZCBieSA8YSBocmVmPWh0dHA6Ly90aGVrYWRlc2hpLmNvbSB0YXJnZXQ9X2JsYW5rPlRoZUthZGVzaGk8L2E+IHN5c3RlbTwvaDE+PC9kaXY+PC9kaXY+PC9ib2R5PjwvaHRtbD4=";
+
 	public $fileList = array();
 
 	public $Scanner;
@@ -19,10 +21,19 @@ class TheKadeshi {
 	 */
 	private $ValidExtensions = array ('php', 'php4', 'php5', 'php7', 'js', 'css', 'html', 'htm', 'tpl');
 
+	/**
+	 * Каталог кеша
+	 * @var string
+	 */
+	static $TheKadeshiDir = '';
+
+	static $options;
 
 	function __construct() {
 		$this->Scanner = new Scanner();
+		self::$TheKadeshiDir = __DIR__ . "/.thekadeshi";
 
+		$this->GetOptions();
 	}
 
 	public function Init() {
@@ -74,6 +85,30 @@ class TheKadeshi {
 		return $content;
 	}
 
+	private function GetOptions() {
+		$optionsFile = self::$TheKadeshiDir . "/" . ".options";
+		if(file_exists($optionsFile)) {
+			$json_decode = json_decode(file_get_contents($optionsFile), true);
+			if(!$json_decode) {
+				return false;
+			}
+			self::$options = $json_decode;
+			unset($json_decode);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private function GetRemoteToken($siteName = null) {
+		$tokenData = self::$options['token'];
+		
+	}
+	
+	public function Install() {
+		$siteUrl = $_SERVER['SERVER_NAME'];
+		
+	}
 }
 
 class Scanner {
@@ -84,11 +119,7 @@ class Scanner {
 	 */
 	public $SignatureFile = 'remote';
 
-	/**
-	 * Каталог кеша
-	 * @var string
-	 */
-	private $TheKadeshiDir = '';
+
 
 	/**
 	 * Каталог для контрольных сумм
@@ -144,20 +175,20 @@ class Scanner {
 	 * Инициализация
 	 */
 	public function Init() {
-		$this->TheKadeshiDir = __DIR__ . "/.thekadeshi";
+
 
 		switch($this->SignatureFile) {
 			case 'local':
-				$this->SignaturesDir = $this->TheKadeshiDir . '/signatures';
+				$this->SignaturesDir = parent::$TheKadeshiDir . '/signatures';
 				break;
 			default:
 				$this->SignaturesDir = 'http://thekadeshi.bagdad.tmweb.ru/signatures';
 				break;
 		}
 
-		$this->ChekSumDir = $this->TheKadeshiDir . "/checksum";
-		if(!is_dir($this->TheKadeshiDir)) {
-			mkdir($this->TheKadeshiDir);
+		$this->ChekSumDir = parent::$TheKadeshiDir . "/checksum";
+		if(!is_dir(parent::$TheKadeshiDir)) {
+			mkdir(parent::$TheKadeshiDir);
 		}
 		if(!is_dir($this->ChekSumDir)) {
 			mkdir($this->ChekSumDir);
