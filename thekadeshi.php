@@ -21,7 +21,7 @@ class TheKadeshi {
 
 	public $fileList = array();
 
-	public $Scanner;
+	public $Scanner, $Status;
 
 	/**
 	 * Допустимые расширения для сканера
@@ -40,6 +40,8 @@ class TheKadeshi {
 	static $CheckSumDir = '';
 
 	static $Options;
+
+	static $Logs;
 	
 	static $API_Path;
 
@@ -56,20 +58,17 @@ class TheKadeshi {
 			mkdir(self::$CheckSumDir);
 		}
 
-		$this->Scanner = new Scanner(self::$TheKadeshiDir);
+		$this->Scanner = new Scanner();
 
 		$this->GetOptions();
 
+		//print_r(self::$Options);
 		if(!isset(self::$Options['lastconfigcheck']) || (self::$Options['lastconfigcheck'] < time() - configCheckTimer) || (self::$Options['lastconfigcheck'] >= time())) {
 			$this->GetRemoteConfig(self::$Options['name']);
 		}
 
+		$this->Status = new Status();
 	}
-
-	//public function Init() {
-		//$this->Scanner = new Scanner();
-	//	$this->Scanner->Init();
-	//}
 
 	public function GetFileList($dir) {
 
@@ -122,7 +121,6 @@ class TheKadeshi {
 				return false;
 			}
 			self::$Options = $json_decode;
-			unset($json_decode);
 			return true;
 		} else {
 			return false;
@@ -130,52 +128,33 @@ class TheKadeshi {
 	}
 	
 	public function GetRemoteConfig($siteUrl) {
-		//$remoteToken = file_get_contents(self::$API_Path . "getToken");
 		$arguments = array(
 			'site' => $siteUrl
 		);
-		$ConfigData = $this->ServiceRequest('getConfig', $arguments);
+		$ConfigData = $this->ServiceRequest('getConfig', $arguments, false);
 		if($ConfigData) {
 			self::$Options = json_decode($ConfigData, true);
-			self::$Options[] = array('lastconfigcheck' => time());
+			self::$Options['lastconfigcheck'] = time();
 			file_put_contents(self::$OptionsFile, json_encode(self::$Options));
 		}
 	}
 
-/*
-	private function SaveOptions() {
-		$json_encoded = json_encode(self::$Options);
-		file_put_contents(self::$OptionsFile, $json_encoded);
-		unset($json_encoded);
-	}
-
-	private function GetRemoteToken($siteName = null) {
-		
-		$tokenData = self::$Options['token'];
-		
-	}
-*/
 	public function Install($siteUrl) {
 		if(!is_dir(self::$TheKadeshiDir)) {
 			mkdir(self::$TheKadeshiDir);
 		}
 		$this->GetRemoteConfig($siteUrl);
-
-		//if(!file_exists(THEKADESHI_DIR . "/.options")) {
-		//	file_put_contents(THEKADESHI_DIR . "/.options", json_encode($key));
-		//}
-
-		//$siteUrl = $_SERVER['SERVER_NAME'];
-		
 	}
 
+	/*
+	private function WriteLogData($event) {
 
+	}
+	*/
 
-	private function ServiceRequest($ApiMethod, $arguments = null) {
+	public function ServiceRequest($ApiMethod, $arguments = null, $sendToken = true) {
 
 		$curl = curl_init();
-
-		//$urlDatails = parse_url($url);
 
 		$curlOptions = array();
 
@@ -185,37 +164,25 @@ class TheKadeshi {
 		$curlOptions[CURLOPT_TIMEOUT] = 300;
 		$curlOptions[CURLOPT_FOLLOWLOCATION] = false;
 		$curlOptions[CURLOPT_USERAGENT] = 'TheKadeshi';
-		//if ($this->siteOptions['referer'] !== false) {
-		//	$curlOptions[CURLOPT_REFERER] = $this->siteOptions['referer'];
-		//}
-		//if ($this->siteOptions['ajax'] !== false) {
-		//	$curlOptions[CURLOPT_HTTPHEADER] = array("X-Requested-With: XMLHttpRequest");
-		//}
 
 		$curlOptions[CURLOPT_POST] = true;
 
-		//if(isset($this->siteOptions['post']) && $this->siteOptions['post'] === true) {
+		
 		if(isset($arguments)) {
-			$curlOptions[CURLOPT_POSTFIELDS] = http_build_query($arguments);//$urlDatails['query'];
+			if($sendToken == true) {
+				$arguments['token'] = self::$Options['token'];
+			}
+			$curlOptions[CURLOPT_POSTFIELDS] = http_build_query($arguments);
 		}
 		$curlOptions[CURLOPT_HTTPHEADER] = array(
-			//'Content-length:'.strlen($urlDatails['query']),
 			'Content-Type: application/x-www-form-urlencoded',
 			'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-		    'Sender: TheKadeshi'
-			/* 'Cookie: Cookie:ASP.NET_SessionId=iwwmkffugdvjsi45s5wmxwmn; __utmt=1; _ym_visorc_7415752=w; _ym_visorc_6333970=w; _ga=GA1.2.1821460200.1427287094; _dc_gtm_UA-51412757-1=1; __utma=69487449.1821460200.1427287094.1427287094.1427348781.2; __utmb=69487449.2.9.1427348783251; __utmc=69487449; __utmz=69487449.1427287094.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)' */);
-			//}
+		    'Sender: TheKadeshi');
 
-		//}
 		curl_setopt_array($curl, $curlOptions);
 		$pageContent = curl_exec($curl);
 
 		curl_close($curl);
-
-
-		//if(isset($this->siteOptions['codepage'])) {
-		//	$pageContent = mb_convert_encoding($pageContent, 'utf-8', $this->siteOptions['codepage']);
-		//}
 
 		return $pageContent;
 	}
@@ -266,7 +233,7 @@ class Scanner {
 	private $consonantsLetters = array('q', 'w', 'r', 't', 'p', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z', 'x', 'c', 'v', 'b', 'n', 'm');
 
 
-	function __construct($TheKadeshiDir) {
+	function __construct() {
 		$this->scanResults = array();
 
 		$this->namePatterns = array(
@@ -281,89 +248,6 @@ class Scanner {
 
 	}
 
-	/**
-	 * Инициализация
-	 */
-/*
-	public function Init() {
-
-
-
-		switch($this->SignatureFile) {
-			case 'local':
-				$this->SignaturesDir = parent::$TheKadeshiDir . '/signatures';
-				break;
-			default:
-				$this->SignaturesDir = 'http://thekadeshi.bagdad.tmweb.ru/signatures';
-				break;
-		}
-
-		$this->ChekSumDir = parent::$TheKadeshiDir . "/checksum";
-		if(!is_dir($this->ChekSumDir)) {
-			mkdir($this->ChekSumDir);
-		}
-		//if(!is_dir(parent::$TheKadeshiDir)) {
-		//	mkdir(parent::$TheKadeshiDir);
-		//}
-
-		$this->LoadRules();
-	}
-*/
-	/**
-	 * Функция получения списка правил из каталога
-	 *
-	 * @return mixed
-	 */
-/*
-	private function GetSignaturesFiles() {
-		$list = null;
-		$filesList = scandir($this->SignaturesDir);
-
-		foreach ($filesList as $file) {
-			if ($file != '.' && $file != '..') {
-				$list[] = $file;
-			}
-		}
-
-		$this->SignaturesFileList = $list;
-
-		return $list;
-	}
-*/
-
-	/**
-	 * Функция загрузки правил определения CMS
-	 *
-	 * @return array
-	 *
-	 * @todo На какое-то время это можно убрать.
-	 */
-/*
-	private function LoadRules() {
-		$rules = array();
-
-		$fileName = $this->SignaturesDir . '/' . 'database.xml';
-
-		if(file_exists($fileName)) {
-
-			$xml = simplexml_load_file($fileName, 'SimpleXMLElement', LIBXML_NOCDATA);
-
-			foreach ($xml[0] as $item) {
-				$name = trim($item->name[0]);
-				$signature = trim($item->signature[0]);
-				$action = trim($item->action[0]);
-
-				$this->Signatures[] = array(
-					'name' => $name, 'signature' => $signature, 'action' => $action
-				);
-			}
-
-			$this->RulesList = $rules;
-		}
-
-		return $rules;
-	}
-*/
 	public function Scan($fileName, $needChecksum = true) {
 
 		//echo($fileName . "<br />\r\n");
@@ -430,7 +314,7 @@ class Scanner {
 
 	public function GetFileCheckSum($fileName) {
 		$checkSumContent = false;
-		$currentCheckSumPath = $this->ChekSumDir;
+		$currentCheckSumPath = TheKadeshi::$CheckSumDir;
 		$realFileName = pathinfo($fileName);
 		$subdirSplitPath = mb_split("/", str_replace("\\", "/", $realFileName['dirname']));
 		foreach($subdirSplitPath as $pathElement) {
@@ -631,50 +515,66 @@ class Scanner {
 
 class Status {
 
-	private $kadeshiDir;
+	private $StatusFile;
 
-	private $selfStatus;
+	private $StatusContent;
 
-	function __construct($folder) {
-		$this->kadeshiDir = $folder;
+	function __construct() {
+		$this->StatusFile = TheKadeshi::$TheKadeshiDir . '/' . '.status';
+		if(file_exists($this->StatusFile)) {
+			$this->StatusContent = json_decode(file_get_contents($this->StatusFile), true);
+		}
+		
+		$this->Action();
 	}
 
 	public function FirewallEvent() {
-		$firewallLogsFile = $this->kadeshiDir . "/" . ".firewall";
+		$firewallLogsFile = TheKadeshi::$TheKadeshiDir . "/" . ".firewall";
 		$firewall_logs = array();
-		if(is_file($this->kadeshiDir . "/" . ".firewall")) {
+		if(is_file(TheKadeshi::$TheKadeshiDir . "/" . ".firewall")) {
 			$firewall_logs = json_decode(file_get_contents($firewallLogsFile), true);
 		}
 		$firewall_logs[] = date("Y-m-d H:i:s.u");
 		file_put_contents($firewallLogsFile, json_encode($firewall_logs));
 	}
 	
-	public function ReportDate() {
-		$report = array(
-			'firewall' => array(),
-			'quarantine' => array(),
-		);
-	}
-
 	public function Ping() {
-		$pingStatus = array(
+		$this->StatusContent['ping'] = array(
 			'date' => date("Y-m-d H:i:s"),
 			'status' => 'online'
 		);
-		$this->selfStatus['ping'] = $pingStatus;
+		
+		$this->writeStatus();
+
+		$pingResult = TheKadeshi::ServiceRequest('sendPing', array('data' => $this->StatusContent));
+
+		if($pingResult) {
+			$isErrors = json_decode($pingResult, true);
+			if($isErrors['errors'] == 'false') {
+				unlink($this->StatusFile );
+			}
+		}
+		//print_r($pingResult);
+	}
+	
+	private function Action() {
+		$currentHit = isset($this->StatusContent['action']['hit'])?$this->StatusContent['action']['hit']:0;
+		$currentHit++;
+		$this->StatusContent['action'] = array('date' => date("Y-m-d H:i:s"), 'hit' => $currentHit);
+		$this->writeStatus();
 	}
 
 	public function writeStatus() {
-		file_put_contents($this->kadeshiDir . "/" . ".status", json_encode($this->selfStatus));
+		file_put_contents($this->StatusFile, json_encode($this->StatusContent));
 	}
 
+	/*
 	public function Output() {
-		if(is_file($this->kadeshiDir . "/" . ".status")) {
-			echo(file_get_contents($this->kadeshiDir . "/" . ".status"));
-		} else {
-			$this->writeStatus();
+		if(is_file($this->StatusFile)) {
+			echo(file_get_contents($this->StatusFile));
 		}
 	}
+	*/
 }
 
 /**
@@ -823,58 +723,21 @@ class Console {
 $signaturesBase = 'remote';
 define('THEKADESHI_DIR', __DIR__ . "/.thekadeshi");
 
-// Первоначальная установка
-/*
-if(isset($_SERVER['SERVER_NAME'])) {
-	if(isset($_SERVER['REQUEST_URI'])) {
-		if(strpos($_SERVER['REQUEST_URI'], 'thekadeshi.php')) {
-			//print_r($_SERVER);
-
-			$key = array(
-				'url' => $_SERVER['SERVER_NAME'],
-			    'installed' => date("Y-m-d H:i:s"),
-				'reports' => array(
-					'send' => true,
-					'timeout' => 60
-				)
-			);
-
-			if(!is_dir(THEKADESHI_DIR)) {
-				mkdir(THEKADESHI_DIR);
-			}
-
-			if(!file_exists(THEKADESHI_DIR . "/.options")) {
-				file_put_contents(THEKADESHI_DIR . "/.options", json_encode($key));
-			}
-
-			if(!isset($_REQUEST['ping'])) {
-				header("location: /");
-				exit();
-			}
-		}
-
-	}
-}
-*/
-
-
 $healer = new Healer();
 
 // Статистика
-$Status = new Status(THEKADESHI_DIR);
-$Status->Ping();
-$Status->writeStatus();
+//$Status = new Status(THEKADESHI_DIR);
+//$Status->Ping();
+//$Status->writeStatus();
 
 $theKadeshi = new TheKadeshi();
 
 if(!empty($_REQUEST)) {
 	if(isset($_REQUEST['ping'])) {
-		$Status->Output();
+		$theKadeshi->Status->Ping();
 		exit();
 	}
-	echo("<!--\r\n");
-	print_r($_SERVER);
-	echo("-->\r\n");
+
 	if(isset($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], 'thekadeshi.php')) {
 		// Инсталляция, если запущен из браузера без параметров
 
