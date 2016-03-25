@@ -9,7 +9,15 @@
 
 class TheKadeshi {
 
-	public $protectedPage = "PCFkb2N0eXBlIGh0bWw+PGh0bWw+PGhlYWQ+PG1ldGEgY2hhcnNldD11dGYtOD48dGl0bGU+VGhpcyB3ZWJzaXRlIGlzIHByb3RlY3RlZCBieSBUaGVLYWRlc2hpIHN5c3RlbTwvdGl0bGU+PGxpbmsgaHJlZj0iaHR0cHM6Ly9mb250cy5nb29nbGVhcGlzLmNvbS9jc3M/ZmFtaWx5PVJvYm90bzoxMDAiIHJlbD0ic3R5bGVzaGVldCIgdHlwZT0idGV4dC9jc3MiPjxzdHlsZT5ib2R5LCBodG1sIHtoZWlnaHQ6IDEwMCU7bWFyZ2luOiAwO2JhY2tncm91bmQtY29sb3I6ICNkY2RjZGM7fWgxIHtmb250LWZhbWlseTogJ1JvYm90bycsIHNhbnMtc2VyaWYgIWltcG9ydGFudDtmb250LXdlaWdodDogMTAwICFpbXBvcnRhbnQ7bGluZS1oZWlnaHQ6IDQwcHg7fS5yZXNwb25zaXZlLWNvbnRhaW5lciB7cG9zaXRpb246IHJlbGF0aXZlO3dpZHRoOiAxMDAlO2hlaWdodDogMTAwJX0uaW1nLWNvbnRhaW5lciB7cG9zaXRpb246IGFic29sdXRlO3RvcDogMDtib3R0b206IDA7bGVmdDogMDtyaWdodDogMDt0ZXh0LWFsaWduOiBjZW50ZXI7Zm9udDogMC8wIGE7d2lkdGg6IDEwMCU7Zm9udC1zaXplOiAxNTAlO31hIHtjb2xvcjogIzRkY2VjNTt0ZXh0LWRlY29yYXRpb246IG5vbmU7fS5pbWctY29udGFpbmVyOmJlZm9yZSB7Y29udGVudDogJyAnO2Rpc3BsYXk6IGlubGluZS1ibG9jazt2ZXJ0aWNhbC1hbGlnbjogbWlkZGxlO2hlaWdodDogNjAlO30uaW1nLWNvbnRhaW5lciBpbWcge3ZlcnRpY2FsLWFsaWduOiBtaWRkbGU7ZGlzcGxheTogaW5saW5lLWJsb2NrO3dpZHRoOiAyMCU7fTwvc3R5bGU+PC9oZWFkPjxib2R5PjxkaXYgY2xhc3M9cmVzcG9uc2l2ZS1jb250YWluZXI+PGRpdiBjbGFzcz1pbWctY29udGFpbmVyPjxpbWcgc3JjPWh0dHA6Ly90aGVrYWRlc2hpLmNvbS9pbWFnZXMvdGhla2FkZXNoaS1yZW1vdGUuc3ZnPjxici8+PGgxPlRoaXMgd2Vic2l0ZSBpcyBwcm90ZWN0ZWQgYnkgPGEgaHJlZj1odHRwOi8vdGhla2FkZXNoaS5jb20gdGFyZ2V0PV9ibGFuaz5UaGVLYWRlc2hpPC9hPiBzeXN0ZW08L2gxPjwvZGl2PjwvZGl2PjwvYm9keT48L2h0bWw+";
+	/**
+	 * Содержимое страницы блокировки
+	 */
+	const ProtectedPage = "PCFkb2N0eXBlIGh0bWw+PGh0bWw+PGhlYWQ+PG1ldGEgY2hhcnNldD11dGYtOD48dGl0bGU+VGhpcyB3ZWJzaXRlIGlzIHByb3RlY3RlZCBieSBUaGVLYWRlc2hpIHN5c3RlbTwvdGl0bGU+PGxpbmsgaHJlZj0iaHR0cHM6Ly9mb250cy5nb29nbGVhcGlzLmNvbS9jc3M/ZmFtaWx5PVJvYm90bzoxMDAiIHJlbD0ic3R5bGVzaGVldCIgdHlwZT0idGV4dC9jc3MiPjxzdHlsZT5ib2R5LCBodG1sIHtoZWlnaHQ6IDEwMCU7bWFyZ2luOiAwO2JhY2tncm91bmQtY29sb3I6ICNkY2RjZGM7fWgxIHtmb250LWZhbWlseTogJ1JvYm90bycsIHNhbnMtc2VyaWYgIWltcG9ydGFudDtmb250LXdlaWdodDogMTAwICFpbXBvcnRhbnQ7bGluZS1oZWlnaHQ6IDQwcHg7fS5yZXNwb25zaXZlLWNvbnRhaW5lciB7cG9zaXRpb246IHJlbGF0aXZlO3dpZHRoOiAxMDAlO2hlaWdodDogMTAwJX0uaW1nLWNvbnRhaW5lciB7cG9zaXRpb246IGFic29sdXRlO3RvcDogMDtib3R0b206IDA7bGVmdDogMDtyaWdodDogMDt0ZXh0LWFsaWduOiBjZW50ZXI7Zm9udDogMC8wIGE7d2lkdGg6IDEwMCU7Zm9udC1zaXplOiAxNTAlO31hIHtjb2xvcjogIzRkY2VjNTt0ZXh0LWRlY29yYXRpb246IG5vbmU7fS5pbWctY29udGFpbmVyOmJlZm9yZSB7Y29udGVudDogJyAnO2Rpc3BsYXk6IGlubGluZS1ibG9jazt2ZXJ0aWNhbC1hbGlnbjogbWlkZGxlO2hlaWdodDogNjAlO30uaW1nLWNvbnRhaW5lciBpbWcge3ZlcnRpY2FsLWFsaWduOiBtaWRkbGU7ZGlzcGxheTogaW5saW5lLWJsb2NrO3dpZHRoOiAyMCU7fTwvc3R5bGU+PC9oZWFkPjxib2R5PjxkaXYgY2xhc3M9cmVzcG9uc2l2ZS1jb250YWluZXI+PGRpdiBjbGFzcz1pbWctY29udGFpbmVyPjxpbWcgc3JjPWh0dHA6Ly90aGVrYWRlc2hpLmNvbS9pbWFnZXMvdGhla2FkZXNoaS1yZW1vdGUuc3ZnPjxici8+PGgxPlRoaXMgd2Vic2l0ZSBpcyBwcm90ZWN0ZWQgYnkgPGEgaHJlZj1odHRwOi8vdGhla2FkZXNoaS5jb20gdGFyZ2V0PV9ibGFuaz5UaGVLYWRlc2hpPC9hPiBzeXN0ZW08L2gxPjwvZGl2PjwvZGl2PjwvYm9keT48L2h0bWw+";
+
+	/**
+	 * Адрес службы
+	 */
+	const ServiceUrl = "http://thekadeshi.com/";
 
 	public $fileList = array();
 
@@ -25,21 +33,43 @@ class TheKadeshi {
 	 * Каталог кеша
 	 * @var string
 	 */
-	static $TheKadeshiDir = '';
+	static $TheKadeshiDir;
+	
+	static $OptionsFile = '';
 
-	static $options;
+	static $CheckSumDir = '';
+
+	static $Options;
+	
+	static $API_Path;
+
+	const configCheckTimer = 3600;
 
 	function __construct() {
-		$this->Scanner = new Scanner();
+
 		self::$TheKadeshiDir = __DIR__ . "/.thekadeshi";
+		self::$OptionsFile = self::$TheKadeshiDir . "/" . ".options";
+		self::$API_Path = self::ServiceUrl . 'api/';
+
+		self::$CheckSumDir = self::$TheKadeshiDir . "/" . "checksum";
+		if(!is_dir(self::$CheckSumDir)) {
+			mkdir(self::$CheckSumDir);
+		}
+
+		$this->Scanner = new Scanner(self::$TheKadeshiDir);
 
 		$this->GetOptions();
+
+		if(!isset(self::$Options['lastconfigcheck']) || (self::$Options['lastconfigcheck'] < time() - configCheckTimer) || (self::$Options['lastconfigcheck'] >= time())) {
+			$this->GetRemoteConfig(self::$Options['name']);
+		}
+
 	}
 
-	public function Init() {
-		$this->Scanner = new Scanner();
-		$this->Scanner->Init();
-	}
+	//public function Init() {
+		//$this->Scanner = new Scanner();
+	//	$this->Scanner->Init();
+	//}
 
 	public function GetFileList($dir) {
 
@@ -86,28 +116,108 @@ class TheKadeshi {
 	}
 
 	private function GetOptions() {
-		$optionsFile = self::$TheKadeshiDir . "/" . ".options";
-		if(file_exists($optionsFile)) {
-			$json_decode = json_decode(file_get_contents($optionsFile), true);
+		if(file_exists(self::$OptionsFile)) {
+			$json_decode = json_decode(file_get_contents(self::$OptionsFile), true);
 			if(!$json_decode) {
 				return false;
 			}
-			self::$options = $json_decode;
+			self::$Options = $json_decode;
 			unset($json_decode);
 			return true;
 		} else {
 			return false;
 		}
 	}
+	
+	public function GetRemoteConfig($siteUrl) {
+		//$remoteToken = file_get_contents(self::$API_Path . "getToken");
+		$arguments = array(
+			'site' => $siteUrl
+		);
+		$ConfigData = $this->ServiceRequest('getConfig', $arguments);
+		if($ConfigData) {
+			self::$Options = json_decode($ConfigData, true);
+			self::$Options[] = array('lastconfigcheck' => time());
+			file_put_contents(self::$OptionsFile, json_encode(self::$Options));
+		}
+	}
+
+/*
+	private function SaveOptions() {
+		$json_encoded = json_encode(self::$Options);
+		file_put_contents(self::$OptionsFile, $json_encoded);
+		unset($json_encoded);
+	}
 
 	private function GetRemoteToken($siteName = null) {
-		$tokenData = self::$options['token'];
+		
+		$tokenData = self::$Options['token'];
 		
 	}
-	
-	public function Install() {
-		$siteUrl = $_SERVER['SERVER_NAME'];
+*/
+	public function Install($siteUrl) {
+		if(!is_dir(self::$TheKadeshiDir)) {
+			mkdir(self::$TheKadeshiDir);
+		}
+		$this->GetRemoteConfig($siteUrl);
+
+		//if(!file_exists(THEKADESHI_DIR . "/.options")) {
+		//	file_put_contents(THEKADESHI_DIR . "/.options", json_encode($key));
+		//}
+
+		//$siteUrl = $_SERVER['SERVER_NAME'];
 		
+	}
+
+
+
+	private function ServiceRequest($ApiMethod, $arguments = null) {
+
+		$curl = curl_init();
+
+		//$urlDatails = parse_url($url);
+
+		$curlOptions = array();
+
+		$curlOptions[CURLOPT_URL] = self::$API_Path . $ApiMethod;
+
+		$curlOptions[CURLOPT_RETURNTRANSFER] = true;
+		$curlOptions[CURLOPT_TIMEOUT] = 300;
+		$curlOptions[CURLOPT_FOLLOWLOCATION] = false;
+		$curlOptions[CURLOPT_USERAGENT] = 'TheKadeshi';
+		//if ($this->siteOptions['referer'] !== false) {
+		//	$curlOptions[CURLOPT_REFERER] = $this->siteOptions['referer'];
+		//}
+		//if ($this->siteOptions['ajax'] !== false) {
+		//	$curlOptions[CURLOPT_HTTPHEADER] = array("X-Requested-With: XMLHttpRequest");
+		//}
+
+		$curlOptions[CURLOPT_POST] = true;
+
+		//if(isset($this->siteOptions['post']) && $this->siteOptions['post'] === true) {
+		if(isset($arguments)) {
+			$curlOptions[CURLOPT_POSTFIELDS] = http_build_query($arguments);//$urlDatails['query'];
+		}
+		$curlOptions[CURLOPT_HTTPHEADER] = array(
+			//'Content-length:'.strlen($urlDatails['query']),
+			'Content-Type: application/x-www-form-urlencoded',
+			'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+		    'Sender: TheKadeshi'
+			/* 'Cookie: Cookie:ASP.NET_SessionId=iwwmkffugdvjsi45s5wmxwmn; __utmt=1; _ym_visorc_7415752=w; _ym_visorc_6333970=w; _ga=GA1.2.1821460200.1427287094; _dc_gtm_UA-51412757-1=1; __utma=69487449.1821460200.1427287094.1427287094.1427348781.2; __utmb=69487449.2.9.1427348783251; __utmc=69487449; __utmz=69487449.1427287094.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)' */);
+			//}
+
+		//}
+		curl_setopt_array($curl, $curlOptions);
+		$pageContent = curl_exec($curl);
+
+		curl_close($curl);
+
+
+		//if(isset($this->siteOptions['codepage'])) {
+		//	$pageContent = mb_convert_encoding($pageContent, 'utf-8', $this->siteOptions['codepage']);
+		//}
+
+		return $pageContent;
 	}
 }
 
@@ -156,7 +266,7 @@ class Scanner {
 	private $consonantsLetters = array('q', 'w', 'r', 't', 'p', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z', 'x', 'c', 'v', 'b', 'n', 'm');
 
 
-	function __construct($signaturesUpdate = true) {
+	function __construct($TheKadeshiDir) {
 		$this->scanResults = array();
 
 		$this->namePatterns = array(
@@ -174,7 +284,9 @@ class Scanner {
 	/**
 	 * Инициализация
 	 */
+/*
 	public function Init() {
+
 
 
 		switch($this->SignatureFile) {
@@ -187,20 +299,22 @@ class Scanner {
 		}
 
 		$this->ChekSumDir = parent::$TheKadeshiDir . "/checksum";
-		if(!is_dir(parent::$TheKadeshiDir)) {
-			mkdir(parent::$TheKadeshiDir);
-		}
 		if(!is_dir($this->ChekSumDir)) {
 			mkdir($this->ChekSumDir);
 		}
+		//if(!is_dir(parent::$TheKadeshiDir)) {
+		//	mkdir(parent::$TheKadeshiDir);
+		//}
+
 		$this->LoadRules();
 	}
-
+*/
 	/**
 	 * Функция получения списка правил из каталога
 	 *
 	 * @return mixed
 	 */
+/*
 	private function GetSignaturesFiles() {
 		$list = null;
 		$filesList = scandir($this->SignaturesDir);
@@ -215,6 +329,7 @@ class Scanner {
 
 		return $list;
 	}
+*/
 
 	/**
 	 * Функция загрузки правил определения CMS
@@ -223,6 +338,7 @@ class Scanner {
 	 *
 	 * @todo На какое-то время это можно убрать.
 	 */
+/*
 	private function LoadRules() {
 		$rules = array();
 
@@ -247,7 +363,7 @@ class Scanner {
 
 		return $rules;
 	}
-
+*/
 	public function Scan($fileName, $needChecksum = true) {
 
 		//echo($fileName . "<br />\r\n");
@@ -285,7 +401,8 @@ class Scanner {
 	 */
 	public function SetFileCheckSum($fileName) {
 		$currentFileCheckSum = md5_file($fileName);
-		$currentCheckSumPath = $this->ChekSumDir;
+		$currentCheckSumPath = TheKadeshi::$CheckSumDir;
+
 		$realFileName = pathinfo($fileName);
 		$subdirSplitPath = mb_split("/", str_replace("\\", "/", $realFileName['dirname']));
 		foreach($subdirSplitPath as $pathElement) {
@@ -707,10 +824,12 @@ $signaturesBase = 'remote';
 define('THEKADESHI_DIR', __DIR__ . "/.thekadeshi");
 
 // Первоначальная установка
+/*
 if(isset($_SERVER['SERVER_NAME'])) {
 	if(isset($_SERVER['REQUEST_URI'])) {
 		if(strpos($_SERVER['REQUEST_URI'], 'thekadeshi.php')) {
 			//print_r($_SERVER);
+
 			$key = array(
 				'url' => $_SERVER['SERVER_NAME'],
 			    'installed' => date("Y-m-d H:i:s"),
@@ -727,15 +846,16 @@ if(isset($_SERVER['SERVER_NAME'])) {
 			if(!file_exists(THEKADESHI_DIR . "/.options")) {
 				file_put_contents(THEKADESHI_DIR . "/.options", json_encode($key));
 			}
-	
+
 			if(!isset($_REQUEST['ping'])) {
 				header("location: /");
 				exit();
 			}
 		}
+
 	}
 }
-
+*/
 
 
 $healer = new Healer();
@@ -750,6 +870,16 @@ $theKadeshi = new TheKadeshi();
 if(!empty($_REQUEST)) {
 	if(isset($_REQUEST['ping'])) {
 		$Status->Output();
+		exit();
+	}
+	echo("<!--\r\n");
+	print_r($_SERVER);
+	echo("-->\r\n");
+	if(isset($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], 'thekadeshi.php')) {
+		// Инсталляция, если запущен из браузера без параметров
+
+		$theKadeshi->Install($_SERVER['SERVER_NAME']);
+		echo(base64_decode($theKadeshi::ProtectedPage));
 		exit();
 	}
 }
@@ -792,6 +922,8 @@ $scanResults = array();
 switch ($currentAction) {
 	case 'prepend':
 
+		$theKadeshi->GetRemoteConfig($_SERVER['SERVER_NAME']);
+
 		if(!empty($_FILES)) {
 			foreach ($_FILES as $fileToScan) {
 				//print_r($fileToScan['tmp_name']);
@@ -806,7 +938,7 @@ switch ($currentAction) {
 
 		$fileToCheck = $_SERVER['SCRIPT_FILENAME'];
 		//print_r($fileToCheck);
-		$fileScanResults = $scanner->Scan($fileToCheck);
+		$fileScanResults = $theKadeshi->Scanner->Scan($fileToCheck);
 		if(is_array($fileScanResults)) {
 			if($fileScanResults['action'] == 'cure') {
 				//$Healer = new Healer();
