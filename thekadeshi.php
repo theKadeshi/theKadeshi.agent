@@ -47,7 +47,11 @@ class TheKadeshi {
 
 	const configCheckTimer = 3600;
 
+	public $executionMicroTimeStart;
+
 	function __construct() {
+
+		$this->executionMicroTimeStart = microtime(true);
 
 		self::$TheKadeshiDir = __DIR__ . "/.thekadeshi";
 		self::$OptionsFile = self::$TheKadeshiDir . "/" . ".options";
@@ -59,15 +63,15 @@ class TheKadeshi {
 		}
 
 		$this->Scanner = new Scanner();
+		$this->Status = new Status();
 
 		$this->GetOptions();
 
 		//print_r(self::$Options);
-		if(!isset(self::$Options['lastconfigcheck']) || (self::$Options['lastconfigcheck'] < time() - configCheckTimer) || (self::$Options['lastconfigcheck'] >= time())) {
+		if(!isset(self::$Options['lastconfigcheck']) || (self::$Options['lastconfigcheck'] < (time() - self::configCheckTimer)) || (self::$Options['lastconfigcheck'] >= time())) {
 			$this->GetRemoteConfig(self::$Options['name']);
 		}
 
-		$this->Status = new Status();
 	}
 
 	public function GetFileList($dir) {
@@ -131,11 +135,65 @@ class TheKadeshi {
 		$arguments = array(
 			'site' => $siteUrl
 		);
+		$oldPrependOption = 0;
+		if(isset(self::$Options['prepend'])) {
+			$oldPrependOption = self::$Options['prepend'];
+		}
 		$ConfigData = $this->ServiceRequest('getConfig', $arguments, false);
 		if($ConfigData) {
 			self::$Options = json_decode($ConfigData, true);
 			self::$Options['lastconfigcheck'] = time();
 			file_put_contents(self::$OptionsFile, json_encode(self::$Options));
+		}
+		if(self::$Options['prepend'] != $oldPrependOption) {
+			$parameter = "php_value auto_prepend_file \"" . __DIR__ . "/thekadeshi.php\"";
+			if(self::$Options['prepend'] == 1) {
+				$this->htaccessModify($parameter, "prepend", "add");
+			} else {
+				$this->htaccessModify($parameter, "prepend", "delete");
+			}
+		}
+		$this->Status->Ping();
+	}
+
+	public function htaccessModify($line, $code, $action) {
+		$htaccessFile = __DIR__ . "/.htaccess";
+		$this->setChmod($htaccessFile, 'write');
+		$htaccessContent = file_get_contents($htaccessFile);
+		$startString = "# TheKadeshi # Start # " . $code . " #\r\n";
+		$endString = "# TheKadeshi # End # " . $code . " #\r\n";
+		switch($action) {
+			case 'add':
+				$newContent = $startString;
+				$newContent .= $line . "\r\n";
+				$newContent .= $endString;
+				$newContent .= $htaccessContent;
+				file_put_contents($htaccessFile, $newContent);
+				break;
+			case 'delete':
+				$startPosition = mb_strpos($htaccessContent, $startString);
+				$endPosition = mb_strpos($htaccessContent, $endString )+ mb_strlen($endString);
+				$startBlock = mb_substr($htaccessContent, 0, $startPosition);
+				$endBlock = mb_substr($htaccessContent, $endPosition);
+				$newContent = $startBlock . $endBlock;
+				file_put_contents($htaccessFile, $newContent);
+				break;
+		}
+		$this->setChmod($htaccessFile, 'read');
+	}
+
+	private function setChmod($fileName, $action = 'read') {
+		if($action == 'read') {
+			if (is_file($fileName)) {
+				chmod($fileName, 0440);
+			}
+		} else {
+			if (is_file($fileName)) {
+				chmod($fileName, 0640);
+			}
+		}
+		if (is_dir($fileName)) {
+			chmod($fileName, 0750);
 		}
 	}
 
@@ -143,6 +201,7 @@ class TheKadeshi {
 		if(!is_dir(self::$TheKadeshiDir)) {
 			mkdir(self::$TheKadeshiDir);
 		}
+
 		$this->GetRemoteConfig($siteUrl);
 	}
 
@@ -288,9 +347,9 @@ class Scanner {
 		$currentCheckSumPath = TheKadeshi::$CheckSumDir;
 
 		$realFileName = pathinfo($fileName);
-		$subdirSplitPath = mb_split("/", str_replace("\\", "/", $realFileName['dirname']));
+		$subdirSplitPath = mb_split("/", str_replace("\\", "/", strtolower($realFileName['dirname'])));
 		foreach($subdirSplitPath as $pathElement) {
-			$catalogCode = mb_substr(strtolower(trim($pathElement, ":;.\\/|'\"?<>,")), 0, 2);
+			$catalogCode = mb_substr(trim($pathElement, ":;.\\/|'\"?<>,"), 0, 2);
 			$currentCheckSumPath .= "/" . $catalogCode;
 			if(!is_dir($currentCheckSumPath)) {
 				mkdir($currentCheckSumPath);
@@ -299,8 +358,6 @@ class Scanner {
 		$checkSumContent = array(
 			'folder'=>$realFileName['dirname'],
 			'filename'=>$realFileName['basename'],
-			'date' => filemtime($fileName),
-		    'size' => filesize($fileName),
 			'checksum' => $currentFileCheckSum
 
 		);
@@ -316,9 +373,9 @@ class Scanner {
 		$checkSumContent = false;
 		$currentCheckSumPath = TheKadeshi::$CheckSumDir;
 		$realFileName = pathinfo($fileName);
-		$subdirSplitPath = mb_split("/", str_replace("\\", "/", $realFileName['dirname']));
+		$subdirSplitPath = mb_split("/", str_replace("\\", "/", strtolower($realFileName['dirname'])));
 		foreach($subdirSplitPath as $pathElement) {
-			$catalogCode = mb_substr(strtolower(trim($pathElement, ":;.\\/|'\"?<>,")), 0, 2);
+			$catalogCode = mb_substr(trim($pathElement, ":;.\\/|'\"?<>,"), 0, 2);
 			$currentCheckSumPath .= "/" . $catalogCode;
 		}
 
@@ -340,19 +397,10 @@ class Scanner {
 		if($savedCheckSum === false) {
 			return false;
 		}
-		//print_r($savedCheckSum);
-		$realFileName = pathinfo($fileName);
-		$currentFileCheckSum = md5_file($fileName);
-		$checkSumContent = array(
-			'folder'=>$realFileName['dirname'],
-			'filename'=>$realFileName['basename'],
-			'date' => filemtime($fileName),
-		    'size' => filesize($fileName),
-			'checksum' => $currentFileCheckSum
-		);
-		$checkDiff = array_diff($savedCheckSum, $checkSumContent);
 
-		if(!empty($checkDiff)) {
+		$currentFileCheckSum = md5_file($fileName);
+		
+		if($savedCheckSum['checksum'] == $currentFileCheckSum) {
 			return true;
 		}
 		return false;
@@ -398,51 +446,6 @@ class Scanner {
 
 		$fileContent = mb_convert_encoding(file_get_contents($fileName), "utf-8");
 
-		//Проверка на длинные слова
-		$pregResult = preg_match_all('/\$?\w+/i', $fileContent, $wordMatches);
-		if($pregResult !== false) {
-			//print_r(array_unique($wordMatches[0]));
-			foreach(array_unique($wordMatches[0]) as $someWord) {
-				if (strlen($someWord) >= 25) {
-					if(mb_substr($someWord, 0, 1) != '$') {
-						//  Чем длиннее слово, тем больше подозрение
-						if($someWord != strtoupper($someWord)) {
-							$suspicion = $suspicion + 0.001 * strlen($someWord);
-							//echo($someWord . " " . $suspicion . "\r\n");
-						}
-					}
-				}
-
-				//  Если слово - переменная
-				if(mb_substr($someWord, 0, 1) == '$') {
-					//print_r($someWord);
-					//  Проверка переменных на стремные именования
-					foreach ($this->namePatterns as $namePattern) {
-						$checkResult = preg_match($namePattern, mb_substr($someWord, 1));
-						if ($checkResult == 1) {
-							$suspicion = $suspicion + 0.01;
-							//echo $someWord . " - " . $namePattern . "\r\n";
-						}
-					}
-
-					//  Проверка переменных на частые использования в виде массивов
-					//$arrayPattern = '/\\' . $someWord . '\[[\'"]?\d+[\'"]?\]/i';
-					$arrayPattern = '/\\' . $someWord . '\[[\'"]?[\d\S]+[\'"]?\](\[\d+\])?/i';
-					//echo($arrayPattern . "\r\n");
-					$arrayCheckResult = preg_match_all($arrayPattern, $fileContent, $arrayPatternMatches);
-					if($arrayCheckResult !== false) {
-
-						$variableUsages = count(array_unique($arrayPatternMatches[0]));
-						if($variableUsages > 6) {
-							$suspicion = $suspicion + (0.2 + $variableUsages);
-						}
-						//print_r($arrayPatternMatches);
-					}
-
-				}
-			}
-		}
-
 		//  eval в коде выглядит очень подозрительно
 		if(mb_strpos($fileContent, "eval")) {
 			$evlFileterPattern = '/eval.+?\(/i';
@@ -452,28 +455,79 @@ class Scanner {
 			}
 			unset($evlMatches);
 		}
+		if($suspicion == 0) {
 
-		//  base64 тоже вызывает некоторые подозрения
-		if(mb_strpos($fileContent, "base64_decode")) {
-			$baseFilterPattern = '/base64_decode.+?\(/i';
-			$baseCheckResult = preg_match_all($baseFilterPattern, $fileContent, $baseMatches);
-			if($baseCheckResult !== false) {
-				$suspicion = $suspicion + 0.4 * count($baseMatches[0]);
+			//  base64 тоже вызывает некоторые подозрения
+			if (mb_strpos($fileContent, "base64_decode")) {
+				$baseFilterPattern = '/base64_decode.+?\(/i';
+				$baseCheckResult = preg_match_all($baseFilterPattern, $fileContent, $baseMatches);
+				if ($baseCheckResult !== false) {
+					$suspicion = $suspicion + 1 * count($baseMatches[0]);
+				}
+				unset($baseMatches);
 			}
-			unset($baseMatches);
-		}
 
-		//  str_rot13 может использоваться для маскировки
-		if(mb_strpos($fileContent, "str_rot13")) {
-			$rotFilterPattern = '/str_rot13.+?\(/i';
-			$rotCheckResult = preg_match_all($rotFilterPattern, $fileContent, $rotMatches);
-			if($rotCheckResult !== false) {
-				$suspicion = $suspicion + 0.3 + count($rotMatches[0]);
+			if ($suspicion == 0) {
+
+				//  str_rot13 может использоваться для маскировки
+				if (mb_strpos($fileContent, "str_rot13")) {
+					$rotFilterPattern = '/str_rot13.+?\(/i';
+					$rotCheckResult = preg_match_all($rotFilterPattern, $fileContent, $rotMatches);
+					if ($rotCheckResult !== false) {
+						$suspicion = $suspicion + 1 + count($rotMatches[0]);
+					}
+					unset($rotMatches);
+				}
+
+				if ($suspicion == 0) {
+					//Проверка на длинные слова
+					$pregResult = preg_match_all('/\$?\w+/i', $fileContent, $wordMatches);
+					if ($pregResult !== false) {
+						//print_r(array_unique($wordMatches[0]));
+						foreach (array_unique($wordMatches[0]) as $someWord) {
+							if (strlen($someWord) >= 25) {
+								if (mb_substr($someWord, 0, 1) != '$') {
+									//  Чем длиннее слово, тем больше подозрение
+									if ($someWord != strtoupper($someWord)) {
+										$suspicion = $suspicion + 0.001 * strlen($someWord);
+										//echo($someWord . " " . $suspicion . "\r\n");
+									}
+								}
+							}
+
+							//  Если слово - переменная
+							if (mb_substr($someWord, 0, 1) == '$') {
+								//print_r($someWord);
+								//  Проверка переменных на стремные именования
+								foreach ($this->namePatterns as $namePattern) {
+									$checkResult = preg_match($namePattern, mb_substr($someWord, 1));
+									if ($checkResult == 1) {
+										$suspicion = $suspicion + 0.01;
+										//echo $someWord . " - " . $namePattern . "\r\n";
+									}
+								}
+
+								//  Проверка переменных на частые использования в виде массивов
+								//$arrayPattern = '/\\' . $someWord . '\[[\'"]?\d+[\'"]?\]/i';
+								$arrayPattern = '/\\' . $someWord . '\[[\'"]?[\d\S]+[\'"]?\](\[\d+\])?/i';
+								//echo($arrayPattern . "\r\n");
+								$arrayCheckResult = preg_match_all($arrayPattern, $fileContent, $arrayPatternMatches);
+								if ($arrayCheckResult !== false) {
+
+									$variableUsages = count(array_unique($arrayPatternMatches[0]));
+									if ($variableUsages > 6) {
+										$suspicion = $suspicion + (0.2 + $variableUsages);
+									}
+									//print_r($arrayPatternMatches);
+								}
+
+							}
+						}
+					}
+				}
 			}
-			unset($rotMatches);
 		}
-
-
+		
 		return $suspicion;
 	}
 
@@ -503,10 +557,13 @@ class Scanner {
 
 	public function Heuristic($filename) {
 		$totalSuspicion = 0;
-
-		$fileNameSuspicion = $this->HeuristicFileName($filename);
+		$fileNameSuspicion = 0;
+		
 		$fileContentSuspicion = $this->HeuristicFileContent($filename);
-
+		if($fileContentSuspicion == 0) {
+			$fileNameSuspicion = $this->HeuristicFileName($filename);
+		}
+		
 		$totalSuspicion = $fileNameSuspicion + $fileContentSuspicion;
 
 		return $totalSuspicion;
@@ -543,18 +600,19 @@ class Status {
 			'date' => date("Y-m-d H:i:s"),
 			'status' => 'online'
 		);
-		
+
 		$this->writeStatus();
 
 		$pingResult = TheKadeshi::ServiceRequest('sendPing', array('data' => $this->StatusContent));
-
+		//print_r($pingResult);
 		if($pingResult) {
 			$isErrors = json_decode($pingResult, true);
-			if($isErrors['errors'] == 'false') {
+
+			if($isErrors['errors'] == false) {
 				unlink($this->StatusFile );
 			}
 		}
-		//print_r($pingResult);
+		//echo(base64_decode(TheKadeshi::ProtectedPage));
 	}
 	
 	private function Action() {
@@ -747,7 +805,7 @@ if(!empty($_REQUEST)) {
 	}
 }
 
-if($argc > 1) {
+if(isset($argc) && $argc > 1) {
 	foreach ($argv as $argument) {
 		if (strtolower($argument) == '--local') {
 			$signaturesBase = 'local';
@@ -785,7 +843,7 @@ $scanResults = array();
 switch ($currentAction) {
 	case 'prepend':
 
-		$theKadeshi->GetRemoteConfig($_SERVER['SERVER_NAME']);
+		//$theKadeshi->GetRemoteConfig($_SERVER['SERVER_NAME']);
 
 		if(!empty($_FILES)) {
 			foreach ($_FILES as $fileToScan) {
@@ -793,12 +851,13 @@ switch ($currentAction) {
 				$fileScanResults = $scanner->Scan($fileToScan['tmp_name'], false);
 				if(!empty($fileScanResults)) {
 					$healer->Quarantine($fileToScan['tmp_name'], $fileToScan['name']);
-					$Status->FirewallEvent();
+					//$Status->FirewallEvent();
 				}
 				
 			}
 		}
 
+		@header("Protection: TheKadeshi");
 		$fileToCheck = $_SERVER['SCRIPT_FILENAME'];
 		//print_r($fileToCheck);
 		$fileScanResults = $theKadeshi->Scanner->Scan($fileToCheck);
@@ -854,3 +913,4 @@ switch ($currentAction) {
 		}
 		break;
 }
+@header('Execute: ' . (microtime(true) - $theKadeshi->executionMicroTimeStart));
