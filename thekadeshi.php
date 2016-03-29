@@ -39,7 +39,7 @@ class TheKadeshi {
 
 	static $CheckSumDir = '';
 
-	static $Options;
+	public static $Options;
 
 	static $Logs;
 	
@@ -442,42 +442,23 @@ class Scanner {
 	public function HeuristicFileContent($fileName) {
 		$suspicion = 0.0;
 
-		//echo($fileName . "<br>\r\n");
-
 		$fileContent = mb_convert_encoding(file_get_contents($fileName), "utf-8");
 
 		//  eval в коде выглядит очень подозрительно
-		if(mb_strpos($fileContent, "eval")) {
-			$evlFileterPattern = '/eval.+?\(/i';
-			$evlCheckResult = preg_match_all($evlFileterPattern, $fileContent, $evlMatches);
-			if($evlCheckResult !== false) {
-				$suspicion = $suspicion + 1 * count($evlMatches[0]);
-			}
-			unset($evlMatches);
-		}
+		$evalCount = mb_substr_count($fileContent, 'eval');
+		$suspicion = $suspicion + 1 * count($evalCount);
+
 		if($suspicion == 0) {
 
 			//  base64 тоже вызывает некоторые подозрения
-			if (mb_strpos($fileContent, "base64_decode")) {
-				$baseFilterPattern = '/base64_decode.+?\(/i';
-				$baseCheckResult = preg_match_all($baseFilterPattern, $fileContent, $baseMatches);
-				if ($baseCheckResult !== false) {
-					$suspicion = $suspicion + 1 * count($baseMatches[0]);
-				}
-				unset($baseMatches);
-			}
+			$baseCount = mb_substr_count($fileContent, 'base64_decode');
+			$suspicion = $suspicion + 1 * count($baseCount);
 
 			if ($suspicion == 0) {
 
 				//  str_rot13 может использоваться для маскировки
-				if (mb_strpos($fileContent, "str_rot13")) {
-					$rotFilterPattern = '/str_rot13.+?\(/i';
-					$rotCheckResult = preg_match_all($rotFilterPattern, $fileContent, $rotMatches);
-					if ($rotCheckResult !== false) {
-						$suspicion = $suspicion + 1 + count($rotMatches[0]);
-					}
-					unset($rotMatches);
-				}
+				$rotCount = mb_substr_count($fileContent, 'str_rot13');
+				$suspicion = $suspicion + 1 * count($rotCount);
 
 				if ($suspicion == 0) {
 					//Проверка на длинные слова
@@ -857,7 +838,9 @@ switch ($currentAction) {
 			}
 		}
 
-		@header("Protection: TheKadeshi");
+		if($theKadeshi::$Options['modifyheaders']) {
+			@header("Protection: TheKadeshi");
+		}
 		$fileToCheck = $_SERVER['SCRIPT_FILENAME'];
 		//print_r($fileToCheck);
 		$fileScanResults = $theKadeshi->Scanner->Scan($fileToCheck);
