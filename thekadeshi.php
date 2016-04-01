@@ -19,25 +19,54 @@ class TheKadeshi {
 	 */
 	const ServiceUrl = "http://thekadeshi.com/";
 
-	public $fileList = array();
-
-	public $Scanner, $Status;
+	public $fileList;
 
 	/**
-	 * Допустимые расширения для сканера
-	 * @var array
+	 * @var object Scanner Экземпляр класса сканнера
+	 */
+	public $Scanner;
+
+	/**
+	 * @var object Healer Экземпляр класса лекаря
+	 */
+	public $Healer;
+
+	/**
+	 * @var object Экземпляр класса статуса
+	 */
+	public static $Status;
+
+	/**
+	 *
+	 * @var array Допустимые расширения для сканера
 	 */
 	private $ValidExtensions = array ('php', 'php4', 'php5', 'php7', 'js', 'css', 'html', 'htm', 'tpl');
 
 	/**
-	 * Каталог кеша
-	 * @var string
+	 * Каталоги
+	 */
+
+	/**
+	 * @var string Каталог Кадеш
 	 */
 	static $TheKadeshiDir;
-	
+
+	/**
+	 * @var string Каталог с контрольными суммами
+	 */
+	static $CheckSumDir = '';
+
+	/**
+	 * @var string Каталог с карантином
+	 */
+	static $QuarantineDir = '';
+
+
 	static $OptionsFile = '';
 
-	static $CheckSumDir = '';
+	static $SignatureFile = '';
+
+	static $AnamnesisFile = '';
 
 	public static $Options;
 
@@ -49,6 +78,14 @@ class TheKadeshi {
 
 	public $executionMicroTimeStart;
 
+	//public static $WorkWithoutSelfFolder = false;
+
+	/**
+	 * База сигнатур
+	 * @var array
+	 */
+	public static $signatureDatabase;
+
 	function __construct() {
 
 		$this->executionMicroTimeStart = microtime(true);
@@ -59,19 +96,41 @@ class TheKadeshi {
 
 		self::$CheckSumDir = self::$TheKadeshiDir . "/" . "checksum";
 		if(!is_dir(self::$CheckSumDir)) {
-			mkdir(self::$CheckSumDir);
+			$folderCreateResult = mkdir(self::$CheckSumDir, 0755, true);
+			if($folderCreateResult === false) {
+				self::$WorkWithoutSelfFolder = true;
+			}
 		}
 
+		self::$QuarantineDir = self::$TheKadeshiDir . "/" . ".quarantine";
+
+		self::$AnamnesisFile = self::$TheKadeshiDir . "/" . ".anamnesis";
+
+		self::$SignatureFile = self::$TheKadeshiDir . "/" . ".signatures";
+
 		$this->Scanner = new Scanner();
-		$this->Status = new Status();
+		$this->Healer = new Healer();
+		self::$Status = new Status();
 
 		$this->GetOptions();
 
-		//print_r(self::$Options);
+		$this->LoadSignatures();
+
 		if(!isset(self::$Options['lastconfigcheck']) || (self::$Options['lastconfigcheck'] < (time() - self::configCheckTimer)) || (self::$Options['lastconfigcheck'] >= time())) {
 			$this->GetRemoteConfig(self::$Options['name']);
 		}
+	}
 
+	private function LoadSignatures() {
+		if(!file_exists(self::$SignatureFile)) {
+			$this->GetRemoteSignatures();
+		}
+		if(isset(self::$Options['lastsignaturecheck']) && self::$Options['lastsignaturecheck'] < (time() - self::configCheckTimer)) {
+			$this->GetRemoteSignatures();
+		}
+		if(file_exists(self::$SignatureFile)) {
+			self::$signatureDatabase = json_decode(base64_decode(file_get_contents(self::$SignatureFile)), true);
+		}
 	}
 
 	public function GetFileList($dir) {
@@ -83,10 +142,8 @@ class TheKadeshi {
 				if (is_file($someFile)) {
 					$fileData = pathinfo($someFile);
 					if(isset($fileData['extension'])) {
-						if(array_search($fileData['extension'], $this->ValidExtensions)) {
-							//if ($fileData['extension'] == 'php') {
+						if(in_array($fileData['extension'], $this->ValidExtensions)) {
 							$this->fileList[] = $someFile;
-							//}
 						}
 					}
 				}
@@ -95,27 +152,6 @@ class TheKadeshi {
 				}
 			}
 		}
-	}
-
-	/**
-	 * Функция получения содержимого файла
-	 * @param $fileName
-	 * @return string
-	 */
-	private function GetFileContent($fileName) {
-
-		$fileInfo = pathinfo($fileName);
-		$content = false;
-
-		if(strtolower($_SERVER['PHP_SELF']) != strtolower($fileName)) {
-			if(array_search($fileInfo['extension'], $this->ValidExtensions)) {
-				//if (isset($this->realFileName['extension']) && $this->realFileName['extension'] != 'xml') {
-				$content = file_get_contents($fileName);
-				//}
-			}
-		}
-		//print_r($content);
-		return $content;
 	}
 
 	private function GetOptions() {
@@ -130,7 +166,20 @@ class TheKadeshi {
 			return false;
 		}
 	}
-	
+
+	public function GetRemoteSignatures() {
+		echo("Signatures request\r\n");
+		$signatureData = $this->ServiceRequest('getSignatures');
+		$receivedSignatures = json_decode($signatureData, true);
+		if($receivedSignatures !== false) {
+			if(!isset($receivedSignatures['error'])) {
+				file_put_contents(self::$SignatureFile, base64_encode(json_encode($receivedSignatures)));
+				self::$Options['lastsignaturecheck'] = time();
+				file_put_contents(self::$OptionsFile, json_encode(self::$Options));
+			}
+		}
+	}
+
 	public function GetRemoteConfig($siteUrl) {
 		$arguments = array(
 			'site' => $siteUrl
@@ -153,7 +202,9 @@ class TheKadeshi {
 				$this->htaccessModify($parameter, "prepend", "delete");
 			}
 		}
-		$this->Status->Ping();
+		//if(self::$WorkWithoutSelfFolder === false) {
+			self::$Status->Ping();
+		//}
 	}
 
 	public function htaccessModify($line, $code, $action) {
@@ -199,19 +250,13 @@ class TheKadeshi {
 
 	public function Install($siteUrl) {
 		if(!is_dir(self::$TheKadeshiDir)) {
-			mkdir(self::$TheKadeshiDir);
+			mkdir(self::$TheKadeshiDir, 0755, true);
 		}
 
 		$this->GetRemoteConfig($siteUrl);
 	}
 
-	/*
-	private function WriteLogData($event) {
-
-	}
-	*/
-
-	public function ServiceRequest($ApiMethod, $arguments = null, $sendToken = true) {
+	public static function ServiceRequest($ApiMethod, $arguments = array(), $sendToken = true) {
 
 		$curl = curl_init();
 
@@ -255,24 +300,6 @@ class Scanner {
 	 */
 	public $SignatureFile = 'remote';
 
-
-
-	/**
-	 * Каталог для контрольных сумм
-	 * @var string
-	 */
-	private $ChekSumDir = "";
-
-	/**
-	 * Каталог сигнатур
-	 * @var string
-	 */
-	private $SignaturesDir;
-
-	private $SignaturesFileList = array();
-
-	private $Signatures = array();
-
 	private $realFileName = null;
 
 	private $scanResults = array();
@@ -292,6 +319,9 @@ class Scanner {
 	private $consonantsLetters = array('q', 'w', 'r', 't', 'p', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z', 'x', 'c', 'v', 'b', 'n', 'm');
 
 
+	/**
+	 * Scanner constructor.
+	 */
 	function __construct() {
 		$this->scanResults = array();
 
@@ -307,31 +337,64 @@ class Scanner {
 
 	}
 
+	/**
+	 * Функция управления сканированием
+	 * @param $fileName
+	 * @param bool $needChecksum
+	 * @return array|float|int|null
+	 */
 	public function Scan($fileName, $needChecksum = true) {
 
-		//echo($fileName . "<br />\r\n");
+		$suspicion = array();
 
-		$this->scanResults = array();
+		//$scanResults = array();
 		$heuristicScanResult = 0;
 		$fileCheckSum = false;
+
+		//if(TheKadeshi::$WorkWithoutSelfFolder == true) {
+			//$needChecksum = false;
+		//}
 
 		if($needChecksum) {
 			$fileCheckSum = $this->CompareFileCheckSum($fileName);
 		}
 
 		if($fileCheckSum !== true) {
+
+			if(is_array($fileCheckSum)) {
+				$suspicion['checksum'] = $fileCheckSum;
+			}
 			
 			$heuristicScanResult = $this->Heuristic($fileName);
+			//echo($fileName . " : " . $heuristicScanResult . "; \r\n");
 
-			if ($heuristicScanResult > 1) {
+			if ($heuristicScanResult >= 1) {
 
-					$this->scanResults = $this->ScanContent($fileName);
+				$suspicion['heuristic'] = $heuristicScanResult;
+
+				if(!empty(TheKadeshi::$signatureDatabase)) {
+					$scanResults = $this->ScanContent($fileName);
+					if(!empty($scanResults)) {
+						$suspicion['scanner'] = $scanResults;
+					}
+					//print_r($this->scanResults);
+				}
+
 
 			} else {
 				if($needChecksum) {
 					$this->SetFileCheckSum($fileName);
 				}
 			}
+		}
+
+		if(!empty($suspicion)) {
+			//print_r(array($suspicion, $fileName));
+			$this->SaveAnamnesis($fileName, $suspicion);
+			//print_r();
+			$sendResult = TheKadeshi::ServiceRequest('sendAnamnesis', array('anamnesis' => $suspicion));
+
+			print_r($sendResult);
 		}
 
 		return (!empty($this->scanResults))?$this->scanResults:(($heuristicScanResult>1)?$heuristicScanResult:null);
@@ -351,9 +414,10 @@ class Scanner {
 		foreach($subdirSplitPath as $pathElement) {
 			$catalogCode = mb_substr(trim($pathElement, ":;.\\/|'\"?<>,"), 0, 2);
 			$currentCheckSumPath .= "/" . $catalogCode;
-			if(!is_dir($currentCheckSumPath)) {
-				mkdir($currentCheckSumPath);
-			}
+
+		}
+		if(!is_dir($currentCheckSumPath)) {
+			mkdir($currentCheckSumPath, 0755, true);
 		}
 		$checkSumContent = array(
 			'folder'=>$realFileName['dirname'],
@@ -403,31 +467,44 @@ class Scanner {
 		if($savedCheckSum['checksum'] == $currentFileCheckSum) {
 			return true;
 		}
-		return false;
+		return array(
+			'old' => $savedCheckSum['checksum'],
+			'current' => $currentFileCheckSum
+		);
 	}
 
+	/**
+	 * Основная фнкция сканирования по базе сигнатур
+	 * @param $fileName
+	 * @return array|null
+	 */
 	private function ScanContent($fileName) {
 		$scanResults = null;
-		$content = $this->GetFileContent($fileName);
+		$content = file_get_contents($fileName);
 
 		if ($content !== false && strlen($content) > 0) {
 
 			$content = mb_convert_encoding($content, "utf-8");
-			foreach ($this->Signatures as $virusSignature) {
+			foreach (TheKadeshi::$signatureDatabase as $virusSignature) {
 
-				preg_match($virusSignature['signature'], $content, $results);
+				preg_match($virusSignature['expression'], $content, $results);
 
 				if (isset($results) && !empty($results)) {
-					//print_r($results);
+
 					$files[] = array('file' => '', 'action' => $virusSignature['action']);
 					$scanResults = array(
-						'file' => $this->realFileName, 'name' => $virusSignature['name'], 'positions' => array(
-							'start' => mb_strpos($content, $results[0]), 'length' => mb_strlen($results[0])
-						), //'content' => $results[0],
+						'file' => $this->realFileName,
+						'name' => $virusSignature['title'],
+						'id' => $virusSignature['id'],
+						'positions' => array(
+							'start' => mb_strpos($content, $results[0]),
+							'length' => mb_strlen($results[0])
+						),
 						'action' => $virusSignature['action']
 					);
 				}
-				$content = preg_replace($virusSignature['signature'], '', $content);
+				// @todo функционал лечения?
+				//$content = preg_replace($virusSignature['expression'], '', $content);
 
 			}
 		}
@@ -446,19 +523,19 @@ class Scanner {
 
 		//  eval в коде выглядит очень подозрительно
 		$evalCount = mb_substr_count($fileContent, 'eval');
-		$suspicion = $suspicion + 1 * count($evalCount);
+		$suspicion = $suspicion + 1 * $evalCount;
 
 		if($suspicion == 0) {
 
 			//  base64 тоже вызывает некоторые подозрения
 			$baseCount = mb_substr_count($fileContent, 'base64_decode');
-			$suspicion = $suspicion + 1 * count($baseCount);
+			$suspicion = $suspicion + 1 * $baseCount;
 
 			if ($suspicion == 0) {
 
 				//  str_rot13 может использоваться для маскировки
 				$rotCount = mb_substr_count($fileContent, 'str_rot13');
-				$suspicion = $suspicion + 1 * count($rotCount);
+				$suspicion = $suspicion + 1 * $rotCount;
 
 				if ($suspicion == 0) {
 					//Проверка на длинные слова
@@ -516,6 +593,7 @@ class Scanner {
 	 * Эвристический алгоритм проверки файла
 	 *
 	 * @param $fileName string
+	 * @return float
 	 */
 	public function HeuristicFileName($fileName) {
 		$suspicion = 0.0;
@@ -549,6 +627,27 @@ class Scanner {
 
 		return $totalSuspicion;
 	}
+
+	/**
+	 * Функция записи анамнеза в файл
+	 * @param $fileName
+	 * @param $suspicion
+	 */
+	public function SaveAnamnesis($fileName, $suspicion) {
+		$anamnesisContent = array();
+
+		if(is_file(TheKadeshi::$AnamnesisFile)) {
+			$anamnesisContent = json_decode(file_get_contents(TheKadeshi::$AnamnesisFile), true);
+		}
+
+		$anamnesisContent[] = array(
+			'date' => date("Y-m-d H:i:s"),
+			'file' => $fileName,
+			'suspiction' => $suspicion,
+		);
+
+		file_put_contents(TheKadeshi::$AnamnesisFile, json_encode($anamnesisContent));
+	}
 }
 
 class Status {
@@ -557,8 +656,11 @@ class Status {
 
 	private $StatusContent;
 
+	//private $AnamnesisFile;
+
 	function __construct() {
 		$this->StatusFile = TheKadeshi::$TheKadeshiDir . '/' . '.status';
+		//$this->AnamnesisFile = TheKadeshi::$TheKadeshiDir . '/' . '.anamnesis';
 		if(file_exists($this->StatusFile)) {
 			$this->StatusContent = json_decode(file_get_contents($this->StatusFile), true);
 		}
@@ -585,7 +687,6 @@ class Status {
 		$this->writeStatus();
 
 		$pingResult = TheKadeshi::ServiceRequest('sendPing', array('data' => $this->StatusContent));
-		//print_r($pingResult);
 		if($pingResult) {
 			$isErrors = json_decode($pingResult, true);
 
@@ -593,9 +694,12 @@ class Status {
 				unlink($this->StatusFile );
 			}
 		}
-		//echo(base64_decode(TheKadeshi::ProtectedPage));
 	}
-	
+
+	/**
+	 * Функция записи счетчика вызова скрипта
+	 *
+	 */
 	private function Action() {
 		$currentHit = isset($this->StatusContent['action']['hit'])?$this->StatusContent['action']['hit']:0;
 		$currentHit++;
@@ -607,13 +711,6 @@ class Status {
 		file_put_contents($this->StatusFile, json_encode($this->StatusContent));
 	}
 
-	/*
-	public function Output() {
-		if(is_file($this->StatusFile)) {
-			echo(file_get_contents($this->StatusFile));
-		}
-	}
-	*/
 }
 
 /**
@@ -635,23 +732,22 @@ class Healer {
 	
 	private $QuarantineDir = "";
 
-	function __construct()
-	{
-		$this->TheKadeshiDir = __DIR__ . "/.thekadeshi";
+	function __construct() {
+		//$this->TheKadeshiDir = __DIR__ . "/.thekadeshi";
 		
-		$this->QuarantineDir = $this->TheKadeshiDir . "/quarantine";
+		//$this->QuarantineDir = $this->TheKadeshiDir . "/quarantine";
 
 		$this->Anamnesis = array();
-		if(is_file('kadeshi.anamnesis.json')) {
+		if(is_file(TheKadeshi::$AnamnesisFile)) {
 			$this->GetAnamnesis();
 			if (!empty($this->Anamnesis)) {
-				//cure
+				$this->Cure();
 			}
 		}
 	}
 
 	public function GetAnamnesis() {
-		$anamnesisContent = file_get_contents('kadeshi.anamnesis.json');
+		$anamnesisContent = file_get_contents(TheKadeshi::$AnamnesisFile);
 		$this->Anamnesis = json_decode($anamnesisContent, true);
 	}
 
@@ -677,9 +773,14 @@ class Healer {
 		}
 	}
 
+	/**
+	 * Функция карантина
+	 * @param $sourceFile
+	 * @param null $originalFileName
+	 */
 	public function Quarantine($sourceFile, $originalFileName = null) {
 		if(!is_dir($this->QuarantineDir)) {
-			mkdir($this->QuarantineDir);
+			mkdir($this->QuarantineDir, 0755, true);
 		}
 		if(!is_null($originalFileName)) {
 			$fileName = $originalFileName;
@@ -704,7 +805,6 @@ class Healer {
 			)
 		);
 		$quarantineResult = file_put_contents($this->QuarantineDir . "/" . $quarantineFileName, json_encode($quarantineFile));
-		
 
 		if($quarantineResult) {
 			unlink($sourceFile);
@@ -764,25 +864,27 @@ define('THEKADESHI_DIR', __DIR__ . "/.thekadeshi");
 
 $healer = new Healer();
 
-// Статистика
-//$Status = new Status(THEKADESHI_DIR);
-//$Status->Ping();
-//$Status->writeStatus();
-
 $theKadeshi = new TheKadeshi();
 
 if(!empty($_REQUEST)) {
-	if(isset($_REQUEST['ping'])) {
-		$theKadeshi->Status->Ping();
-		exit();
-	}
-
 	if(isset($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], 'thekadeshi.php')) {
-		// Инсталляция, если запущен из браузера без параметров
 
-		$theKadeshi->Install($_SERVER['SERVER_NAME']);
-		echo(base64_decode($theKadeshi::ProtectedPage));
-		exit();
+		if(isset($_REQUEST['ping'])) {
+			$theKadeshi::$Status->Ping();
+			exit();
+		}
+
+		if(isset($_REQUEST['scan'])) {
+			exec("php " . __DIR__ . $_SERVER['PHP_SELF'] . " --scan");
+			exit();
+		} else {
+
+			// Инсталляция, если запущен из браузера без параметров
+
+			$theKadeshi->Install($_SERVER['SERVER_NAME']);
+			echo(base64_decode($theKadeshi::ProtectedPage));
+			exit();
+		}
 	}
 }
 
@@ -808,7 +910,7 @@ if(isset($argc) && $argc > 1) {
 	}
 
 } else {
-	$currentAction = 'scan';
+	//$currentAction = 'scan';
 	//  Если запущенный скрипт не антивирус, значит запущен prepend режим
 	if(!strpos($_SERVER['PHP_SELF'], 'thekadeshi')) {
 		if(!defined('PREPEND')) {
@@ -867,33 +969,29 @@ switch ($currentAction) {
 			$Console->Log("Signature file: " . $Console->Color['blue'] . "remote" . $Console->Color['normal'] );
 		}
 
-
-		//$scanner = new Scanner();
-		//$scanner->SignatureFile = $signaturesBase;
-		//$scanner->Init();
-
-		//$filelist = new FileList();
-
 		if(!isset($fileToScan)) {
 			$theKadeshi->GetFileList(__DIR__);
 		} else {
 			$theKadeshi->fileList = $fileToScan;
 		}
-
+		//die();
+		//print_r(array($theKadeshi->fileList, __DIR__));
 		foreach ($theKadeshi->fileList as $file) {
 
 			$fileScanResults = $theKadeshi->Scanner->Scan($file);
 			if ($fileScanResults != null) {
 				$scanResults[] = $fileScanResults;
 
-				$Console->Log($fileScanResults['file']['dirname'] . '/' . $fileScanResults['file']['basename'] . ' infection: ' . $Console->Color['red'] . $fileScanResults['name'] . $Console->Color['normal'] . " action: " . $Console->Color['blue'] . $fileScanResults['action'] . $Console->Color['normal'] );
+				//$Console->Log($fileScanResults['file']['dirname'] . '/' . $fileScanResults['file']['basename'] . ' infection: ' . $Console->Color['red'] . $fileScanResults['name'] . $Console->Color['normal'] . " action: " . $Console->Color['blue'] . $fileScanResults['action'] . $Console->Color['normal'] );
 			}
 		}
+/*
 		if(!empty($scanResults)) {
 			//for
 			$encodedResults = json_encode($scanResults);
 			$resultsFile = file_put_contents(THEKADESHI_DIR . "/kadeshi.anamnesis.json", $encodedResults);
 		}
+*/
 		break;
 }
 @header('Execute: ' . (microtime(true) - $theKadeshi->executionMicroTimeStart));
