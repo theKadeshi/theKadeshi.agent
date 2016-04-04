@@ -371,12 +371,27 @@ class Scanner {
 			if ($heuristicScanResult >= 1) {
 
 				$suspicion['heuristic'] = $heuristicScanResult;
+				$suspicion['file_original'] = base64_encode(gzcompress(file_get_contents($fileName), 9));
 
 				if(!empty(TheKadeshi::$signatureDatabase)) {
 					$scanResults = $this->ScanContent($fileName);
 					if(!empty($scanResults)) {
 						$suspicion['scanner'] = $scanResults;
+
+						if($suspicion['scanner']['action'] == 'cure') {
+							// @todo Описать этот момент тестами
+							$fileContent = file_get_contents($fileName);
+							$fileParts[0] = mb_substr($fileContent, 0, $suspicion['scanner']['positions']['start']);
+							$fileParts[1] = mb_substr($fileContent, $suspicion['scanner']['positions']['start'] + $suspicion['scanner']['positions']['length']);
+							$fixedContent = $fileParts[0] . $fileParts[1];
+							$suspicion['file_fixed'] = base64_encode(gzcompress($fixedContent, 9));
+							file_put_contents($fileName, $fixedContent);
+						}
+						if($suspicion['scanner']['action'] == 'delete') {
+							unlink($fileName);
+						}
 					}
+
 					//print_r($this->scanResults);
 				}
 
@@ -392,9 +407,7 @@ class Scanner {
 			//print_r(array($suspicion, $fileName));
 			$this->SaveAnamnesis($fileName, $suspicion);
 			//print_r();
-			$sendResult = TheKadeshi::ServiceRequest('sendAnamnesis', array('anamnesis' => $suspicion));
 
-			print_r($sendResult);
 		}
 
 		return (!empty($this->scanResults))?$this->scanResults:(($heuristicScanResult>1)?$heuristicScanResult:null);
@@ -491,7 +504,7 @@ class Scanner {
 
 				if (isset($results) && !empty($results)) {
 
-					$files[] = array('file' => '', 'action' => $virusSignature['action']);
+					//$files[] = array('file' => '', 'action' => $virusSignature['action']);
 					$scanResults = array(
 						'file' => $this->realFileName,
 						'name' => $virusSignature['title'],
@@ -503,9 +516,6 @@ class Scanner {
 						'action' => $virusSignature['action']
 					);
 				}
-				// @todo функционал лечения?
-				//$content = preg_replace($virusSignature['expression'], '', $content);
-
 			}
 		}
 		return $scanResults;
@@ -648,6 +658,22 @@ class Scanner {
 
 		file_put_contents(TheKadeshi::$AnamnesisFile, json_encode($anamnesisContent));
 	}
+
+	public function SendAnamnesis() {
+		if(file_exists(TheKadeshi::$AnamnesisFile)) {
+
+			$anamnesisContent = json_decode(file_get_contents(TheKadeshi::$AnamnesisFile), true);
+			$sendResult = TheKadeshi::ServiceRequest('sendAnamnesis', array('anamnesis' => $anamnesisContent));
+
+			$jsonResult = json_decode($sendResult, true);
+			if($jsonResult['success'] == true) {
+				unlink(TheKadeshi::$AnamnesisFile);
+			}
+			//print_r($jsonResult);
+			//file_put_contents("result.html", $sendResult);
+			//print_r($sendResult);
+		}
+	}
 }
 
 class Status {
@@ -728,7 +754,7 @@ class Healer {
 	 * Каталог кеша
 	 * @var string
 	 */
-	private $TheKadeshiDir = '';
+	//private $TheKadeshiDir = '';
 	
 	private $QuarantineDir = "";
 
@@ -736,7 +762,7 @@ class Healer {
 		//$this->TheKadeshiDir = __DIR__ . "/.thekadeshi";
 		
 		//$this->QuarantineDir = $this->TheKadeshiDir . "/quarantine";
-
+/*
 		$this->Anamnesis = array();
 		if(is_file(TheKadeshi::$AnamnesisFile)) {
 			$this->GetAnamnesis();
@@ -744,6 +770,7 @@ class Healer {
 				$this->Cure();
 			}
 		}
+*/
 	}
 
 	public function GetAnamnesis() {
@@ -752,6 +779,9 @@ class Healer {
 	}
 
 	public function Cure($infectedElement) {
+		foreach ($this->Anamnesis as $anamnesisElement) {
+			//
+		}
 		$filePath = $infectedElement['file']['dirname'] . '/' . $infectedElement['file']['basename'];
 		$cureAction = $infectedElement['action'];
 		switch(mb_strtolower($cureAction)){
@@ -946,6 +976,7 @@ switch ($currentAction) {
 		$fileToCheck = $_SERVER['SCRIPT_FILENAME'];
 		//print_r($fileToCheck);
 		$fileScanResults = $theKadeshi->Scanner->Scan($fileToCheck);
+/*		
 		if(is_array($fileScanResults)) {
 			if($fileScanResults['action'] == 'cure') {
 				//$Healer = new Healer();
@@ -958,6 +989,7 @@ switch ($currentAction) {
 		} elseif($fileScanResults > 1) {
 			// @todo KDSH-23 Карантин
 		}
+*/
 		//print_r($fileScanResults);
 		break;
 
@@ -984,6 +1016,10 @@ switch ($currentAction) {
 
 				//$Console->Log($fileScanResults['file']['dirname'] . '/' . $fileScanResults['file']['basename'] . ' infection: ' . $Console->Color['red'] . $fileScanResults['name'] . $Console->Color['normal'] . " action: " . $Console->Color['blue'] . $fileScanResults['action'] . $Console->Color['normal'] );
 			}
+		}
+		//echo(TheKadeshi::$AnamnesisFile);
+		if(file_exists(TheKadeshi::$AnamnesisFile)) {
+			$theKadeshi->Scanner->SendAnamnesis();
 		}
 /*
 		if(!empty($scanResults)) {
