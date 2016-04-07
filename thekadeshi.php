@@ -557,7 +557,7 @@ class Scanner {
 								if (mb_substr($someWord, 0, 1) != '$') {
 									//  Чем длиннее слово, тем больше подозрение
 									if ($someWord != strtoupper($someWord)) {
-										$suspicion = $suspicion + 0.001 * strlen($someWord);
+										$suspicion = $suspicion + 0.01 * strlen($someWord);
 										//echo($someWord . " " . $suspicion . "\r\n");
 									}
 								}

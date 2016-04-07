@@ -254,7 +254,7 @@ class Scanner {
 			}
 			
 			$heuristicScanResult = $this->Heuristic($fileName);
-			echo($fileName . " : " . $heuristicScanResult . "; \r\n");
+			//echo($fileName . " : " . $heuristicScanResult . "; \r\n");
 
 			if ($heuristicScanResult >= 1) {
 
@@ -460,47 +460,54 @@ class Scanner {
 								$suspicion = $suspicion + 1 * $rotCount;
 
 								if ($suspicion == 0) {
-									//Проверка на длинные слова
-									$pregResult = preg_match_all('/\$?\w+/i', $fileContent, $wordMatches);
-									if ($pregResult !== false) {
-										//print_r(array_unique($wordMatches[0]));
-										foreach (array_unique($wordMatches[0]) as $someWord) {
-											if (strlen($someWord) >= 25) {
-												if (mb_substr($someWord, 0, 1) != '$') {
-													//  Чем длиннее слово, тем больше подозрение
-													if ($someWord != strtoupper($someWord)) {
-														$suspicion = $suspicion + 0.01 * strlen($someWord);
-														//echo($someWord . " " . $suspicion . "\r\n");
-													}
-												}
-											}
 
-											//  Если слово - переменная
-											if (mb_substr($someWord, 0, 1) == '$') {
-												//print_r($someWord);
-												//  Проверка переменных на стремные именования
-												foreach ($this->namePatterns as $namePattern) {
-													$checkResult = preg_match($namePattern, mb_substr($someWord, 1));
-													if ($checkResult == 1) {
-														$suspicion = $suspicion + 0.01;
-														//echo $someWord . " - " . $namePattern . "\r\n";
+									//  script в документе
+									$rotCount = mb_substr_count($fileContent, 'script');
+									$suspicion = $suspicion + 1 * $rotCount;
+
+									if ($suspicion == 0) {
+										//Проверка на длинные слова
+										$pregResult = preg_match_all('/\$?\w+/i', $fileContent, $wordMatches);
+										if ($pregResult !== false) {
+											//print_r(array_unique($wordMatches[0]));
+											foreach (array_unique($wordMatches[0]) as $someWord) {
+												if (strlen($someWord) >= 25) {
+													if (mb_substr($someWord, 0, 1) != '$') {
+														//  Чем длиннее слово, тем больше подозрение
+														if ($someWord != strtoupper($someWord)) {
+															$suspicion = $suspicion + 0.01 * strlen($someWord);
+															//echo($someWord . " " . $suspicion . "\r\n");
+														}
 													}
 												}
 
-												//  Проверка переменных на частые использования в виде массивов
-												//$arrayPattern = '/\\' . $someWord . '\[[\'"]?\d+[\'"]?\]/i';
-												$arrayPattern = '/\\' . $someWord . '\[[\'"]?[\d\S]+[\'"]?\](\[\d+\])?/i';
-												//echo($arrayPattern . "\r\n");
-												$arrayCheckResult = preg_match_all($arrayPattern, $fileContent, $arrayPatternMatches);
-												if ($arrayCheckResult !== false) {
-
-													$variableUsages = count(array_unique($arrayPatternMatches[0]));
-													if ($variableUsages > 6) {
-														$suspicion = $suspicion + (0.2 + $variableUsages);
+												//  Если слово - переменная
+												if (mb_substr($someWord, 0, 1) == '$') {
+													//print_r($someWord);
+													//  Проверка переменных на стремные именования
+													foreach ($this->namePatterns as $namePattern) {
+														$checkResult = preg_match($namePattern, mb_substr($someWord, 1));
+														if ($checkResult == 1) {
+															$suspicion = $suspicion + 0.01;
+															//echo $someWord . " - " . $namePattern . "\r\n";
+														}
 													}
-													//print_r($arrayPatternMatches);
-												}
 
+													//  Проверка переменных на частые использования в виде массивов
+													//$arrayPattern = '/\\' . $someWord . '\[[\'"]?\d+[\'"]?\]/i';
+													$arrayPattern = '/\\' . $someWord . '\[[\'"]?[\d\S]+[\'"]?\](\[\d+\])?/i';
+													//echo($arrayPattern . "\r\n");
+													$arrayCheckResult = preg_match_all($arrayPattern, $fileContent, $arrayPatternMatches);
+													if ($arrayCheckResult !== false) {
+
+														$variableUsages = count(array_unique($arrayPatternMatches[0]));
+														if ($variableUsages > 6) {
+															$suspicion = $suspicion + (0.2 + $variableUsages);
+														}
+														//print_r($arrayPatternMatches);
+													}
+
+												}
 											}
 										}
 									}
@@ -822,6 +829,7 @@ if(!isset($fileToScan)) {
 }
 //die();
 //print_r(array($theKadeshi->fileList, __DIR__));
+$result_line = "";
 foreach ($theKadeshi->fileList as $file) {
 
 	$fileScanResults = $theKadeshi->Scanner->Scan($file);
@@ -836,6 +844,7 @@ foreach ($theKadeshi->fileList as $file) {
 			//die();
 				echo("suspected: " . $fileScanResults['heuristic']);
 				echo(" " . $fileScanResults['scanner']['name'] . " " . $fileScanResults['scanner']['action']);
+				$result_line .= $file . " " . $fileScanResults['scanner']['name'] . " " . $fileScanResults['scanner']['action'] . "\r\n";
 			}
 			echo("\r\n");
 		}
@@ -843,4 +852,6 @@ foreach ($theKadeshi->fileList as $file) {
 		//die();
 		$scanResults[] = $fileScanResults;
 	}
+	
 }
+echo("\r\n" . $result_line . "\r\n");

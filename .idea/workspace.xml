@@ -1,68 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BookmarkManager">
+    <bookmark url="file://$PROJECT_DIR$/thekadeshi.php" line="345" />
+    <bookmark url="file://$PROJECT_DIR$/thekadeshi.php" line="493" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="340d8aa7-8099-46bc-b63d-0a81d6f7d953" name="Default" comment="KDSH-51 #time 2h #done  #comment Контрольные суммы">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/classes/Archiver.inc.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/classes/Auth.inc.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/classes/CmsVersionDetector.inc.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/classes/DownloadController.inc.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/classes/ExecutorController.inc.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/classes/FileInfo.inc.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/classes/FileList.inc.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/classes/Healer.inc.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/classes/Initialization.inc.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/classes/Localization.inc.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/classes/MalwareDetector.inc.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/classes/Quarantiner.inc.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/classes/ScannerController.inc.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/classes/Template.inc.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/classes/View.inc.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/classes/WebServerEnvInfo.inc.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/classes/Writer.inc.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/classes/XmlValidator.inc.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/index.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/static/css/auth.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/static/css/common.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/static/css/executor.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/static/css/help.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/static/css/scanner.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/static/html/help.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/static/img/arrow.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/static/img/close.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/static/img/ru.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/static/img/screen1.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/static/img/screen2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/static/img/screen3.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/static/img/tick.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/static/img/tr.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/static/img/ua.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/static/img/uk.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/static/js/auth.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/static/js/bootbox.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/static/js/common.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/static/js/executor.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/static/js/localization.en.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/static/js/localization.ru.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/static/js/validate.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/static/signatures/malware_db.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/static/templates/auth.tpl" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/static/templates/executor.tpl" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/static/templates/executor_changes.tpl" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/static/templates/executor_done.tpl" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/static/templates/executor_item.tpl" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/static/templates/footer.tpl" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/static/templates/scanner.tpl" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/static/templates/start_check.tpl" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/static/xsd/log.xsd" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/static/xsd/malware_db.xsd" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/static/xsd/recipe.xsd" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/manul/tmp/.htaccess" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.htaccess" afterPath="$PROJECT_DIR$/.htaccess" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/antivir.iml" afterPath="$PROJECT_DIR$/.idea/antivir.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dictionaries/Bagdad.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/Bagdad.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/webServers.xml" afterPath="$PROJECT_DIR$/.idea/webServers.xml" />
+    <list default="true" id="340d8aa7-8099-46bc-b63d-0a81d6f7d953" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/test.php" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/php.xml" afterPath="$PROJECT_DIR$/.idea/php.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.php" afterPath="$PROJECT_DIR$/index.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scanner.php" afterPath="$PROJECT_DIR$/scanner.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/thekadeshi.php" afterPath="$PROJECT_DIR$/thekadeshi.php" />
     </list>
     <ignored path="antivir.iws" />
@@ -78,7 +25,7 @@
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/antivir$ScannerTest.coverage" NAME="ScannerTest Coverage Results" MODIFIED="1457848549058" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="PhpCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/antivir$ScannerTest.coverage" NAME="ScannerTest Coverage Results" MODIFIED="1459499880265" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="PhpCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -92,31 +39,9 @@
       <file leaf-file-name="ScannerTest.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Tests/ScannerTest.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="395">
+            <state relative-caret-position="0">
               <caret line="101" column="24" selection-start-line="101" selection-start-column="24" selection-end-line="101" selection-end-column="24" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name=".htaccess" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.htaccess">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="test.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-              <folding>
-                <element signature="e#6#134#0#PHP" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -124,7 +49,7 @@
       <file leaf-file-name="content.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/classes/content.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="234">
+            <state relative-caret-position="255">
               <caret line="21" column="23" selection-start-line="21" selection-start-column="23" selection-end-line="21" selection-end-column="23" />
               <folding />
             </state>
@@ -134,21 +59,34 @@
       <file leaf-file-name="index.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="55">
+            <state relative-caret-position="697">
               <caret line="41" column="47" selection-start-line="41" selection-start-column="47" selection-end-line="41" selection-end-column="47" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="thekadeshi.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/thekadeshi.php">
+      <file leaf-file-name="scanner.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/scanner.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="193">
-              <caret line="451" column="0" selection-start-line="451" selection-start-column="0" selection-end-line="451" selection-end-column="0" />
+            <state relative-caret-position="357">
+              <caret line="468" column="49" selection-start-line="468" selection-start-column="49" selection-end-line="468" selection-end-column="49" />
               <folding>
-                <element signature="n#FileList#0;n#!!top" expanded="false" />
-                <element signature="n#Console#0;n#!!top" expanded="false" />
+                <element signature="n#Status#0;n#!!top" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="text.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/forTest/text.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="306">
+              <caret line="37" column="0" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
+              <folding>
+                <element signature="e#3251#3388#0#HTML" expanded="true" />
+                <element signature="e#3801#3938#0#HTML" expanded="true" />
+                <element signature="e#13216#13378#0#HTML" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -170,10 +108,28 @@
         <option value="$PROJECT_DIR$/test.php" />
         <option value="$PROJECT_DIR$/Tests/ScannerTest.php" />
         <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/.htaccess" />
         <option value="$PROJECT_DIR$/index.php" />
         <option value="&lt;037391e8-ce91-4fea-b633-1a51970969fd&gt;/.thekadeshi/quarantine/2016-03-22-10-09-17-000000.json" />
+        <option value="&lt;037391e8-ce91-4fea-b633-1a51970969fd&gt;/.htaccess" />
+        <option value="$PROJECT_DIR$/.htaccess" />
+        <option value="$PROJECT_DIR$/forTest/test.php" />
+        <option value="$PROJECT_DIR$/.thekadeshi/.options" />
+        <option value="$PROJECT_DIR$/.thekadeshi/.options.json" />
+        <option value="$PROJECT_DIR$/.thekadeshi/.anamnesis" />
+        <option value="$PROJECT_DIR$/.thekadeshi/.anamnesis.json" />
+        <option value="C:/temp/mof/scanner.php" />
+        <option value="$PROJECT_DIR$/forTest/virus0049.php" />
+        <option value="$PROJECT_DIR$/forTest/virus0032.php" />
+        <option value="C:/temp/mof/masterstroy52.ru/assets/plugins/managermanager/widgets/!template/thumbs.php" />
+        <option value="$PROJECT_DIR$/forTest/virus0050.php" />
+        <option value="$PROJECT_DIR$/forTest/virus0048.php" />
         <option value="$PROJECT_DIR$/thekadeshi.php" />
+        <option value="$PROJECT_DIR$/forTest/virus0002.php" />
+        <option value="$PROJECT_DIR$/forTest/virus0011.php" />
+        <option value="$PROJECT_DIR$/forTest/virus0010.php" />
+        <option value="$PROJECT_DIR$/forTest/virus0001.html" />
+        <option value="$PROJECT_DIR$/scanner.php" />
+        <option value="$PROJECT_DIR$/forTest/text.php" />
       </list>
     </option>
   </component>
@@ -185,7 +141,7 @@
   <component name="PhpServers">
     <servers />
   </component>
-  <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" interpreter_name="PHP 5.6" />
+  <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" interpreter_name="PHP 7" />
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
@@ -236,6 +192,34 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="antivir" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="antivir" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="forTest" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="antivir" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="antivir" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value=".thekadeshi" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
@@ -249,17 +233,24 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.highlight.symlinks" value="true" />
     <property name="WebServerToolWindowPanel.toolwindow.highlight.mappings" value="true" />
+    <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php" />
+    <property name="settings.editor.splitter.proportion" value="0.2" />
+    <property name="last_opened_file_path" value="C:/xampp/tmp/cachegrind.out.1459175755-C__Users_Bagdad_Documents_web_project_antivir_thekadeshi_php" />
   </component>
-  <component name="RunManager" selected="PHP Script.scan local">
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Bagdad\Documents\web\project\antivir\forTest" />
+      <recent name="C:\Users\Bagdad\Documents\web\project\antivir\forTest\temp\mof\masterstroy52.ru\assets\plugins\managermanager\widgets\!template" />
+      <recent name="C:\Users\Bagdad\Documents\web\project\antivir" />
+    </key>
+  </component>
+  <component name="RunManager" selected="PHP Script.scanner.php">
+    <configuration default="false" name="scan local" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/thekadeshi.php" scriptParameters="--scan --local --verbose">
+      <CommandLine parameters="-d xdebug.profiler_enable=1" />
+      <method />
+    </configuration>
     <configuration default="false" name="ScannerTest" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
       <TestRunner class="ScannerTest" file="$PROJECT_DIR$/Tests/ScannerTest.php" scope="Class" />
-      <method />
-    </configuration>
-    <configuration default="false" name="scan local" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/thekadeshi.php" scriptParameters="--scan --local --verbose">
-      <method />
-    </configuration>
-    <configuration default="false" name="ScannerTest.testHeuristicWordDevider" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
-      <TestRunner class="ScannerTest" file="$PROJECT_DIR$/Tests/ScannerTest.php" method="testHeuristicWordDevider" scope="Method" />
       <method />
     </configuration>
     <configuration default="false" name="ScannerTest.testHeuristicContent_Word_Length" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
@@ -268,6 +259,9 @@
     </configuration>
     <configuration default="false" name="ScannerTest.testSetFileCheckSum" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
       <TestRunner class="ScannerTest" file="$PROJECT_DIR$/Tests/ScannerTest.php" method="testSetFileCheckSum" scope="Method" />
+      <method />
+    </configuration>
+    <configuration default="false" name="scanner.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/scanner.php">
       <method />
     </configuration>
     <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
@@ -301,24 +295,27 @@
       <method />
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="PHPUnit.ScannerTest" />
-      <item index="1" class="java.lang.String" itemvalue="PHP Script.scan local" />
-      <item index="2" class="java.lang.String" itemvalue="PHPUnit.ScannerTest.testHeuristicWordDevider" />
-      <item index="3" class="java.lang.String" itemvalue="PHPUnit.ScannerTest.testHeuristicContent_Word_Length" />
-      <item index="4" class="java.lang.String" itemvalue="PHPUnit.ScannerTest.testSetFileCheckSum" />
+      <item index="0" class="java.lang.String" itemvalue="PHP Script.scan local" />
+      <item index="1" class="java.lang.String" itemvalue="PHPUnit.ScannerTest" />
+      <item index="2" class="java.lang.String" itemvalue="PHPUnit.ScannerTest.testHeuristicContent_Word_Length" />
+      <item index="3" class="java.lang.String" itemvalue="PHPUnit.ScannerTest.testSetFileCheckSum" />
+      <item index="4" class="java.lang.String" itemvalue="PHP Script.scanner.php" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="PHP Script.scan local" />
-        <item index="1" class="java.lang.String" itemvalue="PHPUnit.ScannerTest" />
-        <item index="2" class="java.lang.String" itemvalue="PHPUnit.ScannerTest.testSetFileCheckSum" />
-        <item index="3" class="java.lang.String" itemvalue="PHPUnit.ScannerTest.testHeuristicContent_Word_Length" />
-        <item index="4" class="java.lang.String" itemvalue="PHPUnit.ScannerTest.testHeuristicWordDevider" />
+        <item index="0" class="java.lang.String" itemvalue="PHP Script.scanner.php" />
+        <item index="1" class="java.lang.String" itemvalue="PHP Script.scan local" />
+        <item index="2" class="java.lang.String" itemvalue="PHPUnit.ScannerTest" />
+        <item index="3" class="java.lang.String" itemvalue="PHPUnit.ScannerTest.testSetFileCheckSum" />
+        <item index="4" class="java.lang.String" itemvalue="PHPUnit.ScannerTest.testHeuristicContent_Word_Length" />
       </list>
     </recent_temporary>
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
+  </component>
+  <component name="StructureViewFactory">
+    <option name="ACTIVE_ACTIONS" value=",SHOW_INHERITED" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -331,7 +328,24 @@
       <option name="presentableId" value="Default" />
       <updated>1457504457811</updated>
       <workItem from="1458539105101" duration="8643000" />
-      <workItem from="1458626366149" duration="7046000" />
+      <workItem from="1458626366149" duration="14540000" />
+      <workItem from="1458709879528" duration="4456000" />
+      <workItem from="1458823600597" duration="1907000" />
+      <workItem from="1458877102693" duration="17809000" />
+      <workItem from="1459138596162" duration="770000" />
+      <workItem from="1459153591787" duration="11698000" />
+      <workItem from="1459224174329" duration="9191000" />
+      <workItem from="1459238140540" duration="102000" />
+      <workItem from="1459257348799" duration="4099000" />
+      <workItem from="1459315139404" duration="8812000" />
+      <workItem from="1459486441580" duration="8662000" />
+      <workItem from="1459748196220" duration="9068000" />
+      <workItem from="1459766084156" duration="1889000" />
+      <workItem from="1459830861062" duration="85000" />
+      <workItem from="1459874887819" duration="1939000" />
+      <workItem from="1459918765733" duration="9282000" />
+      <workItem from="1460003645560" duration="1518000" />
+      <workItem from="1460032589300" duration="9680000" />
     </task>
     <task id="LOCAL-00001" summary="KDSH-45 #time 4h 30m #comment Альфа версия эвристического алгоритма">
       <created>1457514082672</created>
@@ -389,11 +403,102 @@
       <option name="project" value="LOCAL" />
       <updated>1457852018854</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="KDSH-12 #time 4h #progress  #comment Базовый функционал фаервола">
+      <created>1458633619184</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1458633619185</updated>
+    </task>
+    <task id="LOCAL-00010" summary="KDSH-12 #time 1h #progress  #comment Некоторые исправления">
+      <created>1458636887168</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1458636887168</updated>
+    </task>
+    <task id="LOCAL-00011" summary="KDSH-54 #time 45m #progress  #comment Рефакторинг">
+      <created>1458711861799</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1458711861799</updated>
+    </task>
+    <task id="LOCAL-00012" summary="KDSH-59 #time 2h #done  #comment Верстка добавлена в скрипт">
+      <created>1458824490395</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1458824490395</updated>
+    </task>
+    <task id="LOCAL-00013" summary="KDSH-59 #time 5m #done  #comment Правки шрифта">
+      <created>1458825945651</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1458825945651</updated>
+    </task>
+    <task id="LOCAL-00014" summary="KDSH-5 #time 4h  #comment Обновление настроек">
+      <created>1458892186309</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1458892186309</updated>
+    </task>
+    <task id="LOCAL-00015" summary="KDSH-8 #time 3h  #comment Правки в API">
+      <created>1458899437246</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1458899437246</updated>
+    </task>
+    <task id="LOCAL-00016" summary="KDSH-62 #time 3h #done #comment Настройки и быстродействие">
+      <created>1459176999281</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1459176999281</updated>
+    </task>
+    <task id="LOCAL-00017" summary="KDSH-63 #time 10m #done #comment Оптимизация эвристического алгоритма">
+      <created>1459224984740</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1459224984740</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Прсто заливка, чтоб не просрать">
+      <created>1459517780409</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1459517780409</updated>
+    </task>
+    <task id="LOCAL-00019" summary="KDSH-4 KDSH-3 KDSH-23 #time 8h #done #comment Более-менее стабильная альфа">
+      <created>1459758651722</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1459758651722</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Правки и костыли по результатам тестирования">
+      <created>1459924295687</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1459924295687</updated>
+    </task>
+    <task id="LOCAL-00021" summary="KDSH-114 #done">
+      <created>1459930107516</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1459930107516</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="ScannerTest - 2016.03.13 at 08h 56m 02s.xml">
+    <history-entry file="ScannerTest - 2016.04.04 at 09h 47m 54s.xml">
       <configuration name="ScannerTest" configurationId="PHPUnitRunConfigurationType" />
     </history-entry>
     <history-entry file="ScannerTest_testSetFileCheckSum - 2016.03.13 at 08h 26m 16s.xml">
@@ -425,31 +530,31 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="15689000" />
+    <option name="totallyTimeSpent" value="124150000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1456" height="876" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
-      <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19054441" sideWeight="0.47834274" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24140401" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19037357" sideWeight="0.47834274" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22063038" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="File Transfer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19892474" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32974428" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28494623" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24928367" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293011" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24327958" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24928162" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32839838" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39973083" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Command Line Tools Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293011" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295129" sideWeight="0.5216572" order="4" side_tool="true" content_ui="tabs" />
+      <window_info id="File Transfer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19758065" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32902297" sideWeight="0.5216572" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32839838" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -475,345 +580,57 @@
     <MESSAGE value="KDSH-49 #time 10m #done #comment Вирусы отделены от основого кода" />
     <MESSAGE value="KDSH-4 #time 10m  #comment Альфа версия лекаря" />
     <MESSAGE value="KDSH-51 #time 2h #done  #comment Контрольные суммы" />
-    <option name="LAST_COMMIT_MESSAGE" value="KDSH-51 #time 2h #done  #comment Контрольные суммы" />
+    <MESSAGE value="KDSH-12 #time 4h #progress  #comment Базовый функционал фаервола" />
+    <MESSAGE value="KDSH-12 #time 1h #progress  #comment Некоторые исправления" />
+    <MESSAGE value="KDSH-54 #time 45m #progress  #comment Рефакторинг" />
+    <MESSAGE value="KDSH-59 #time 2h #done  #comment Верстка добавлена в скрипт" />
+    <MESSAGE value="KDSH-59 #time 5m #done  #comment Правки шрифта" />
+    <MESSAGE value="KDSH-5 #time 4h  #comment Обновление настроек" />
+    <MESSAGE value="KDSH-8 #time 3h  #comment Правки в API" />
+    <MESSAGE value="KDSH-62 #time 3h #done #comment Настройки и быстродействие" />
+    <MESSAGE value="KDSH-63 #time 10m #done #comment Оптимизация эвристического алгоритма" />
+    <MESSAGE value="Прсто заливка, чтоб не просрать" />
+    <MESSAGE value="KDSH-4 KDSH-3 KDSH-23 #time 8h #done #comment Более-менее стабильная альфа" />
+    <MESSAGE value="Правки и костыли по результатам тестирования" />
+    <MESSAGE value="KDSH-114 #done" />
+    <option name="LAST_COMMIT_MESSAGE" value="KDSH-114 #done" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="2" />
+      <option name="time" value="5" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/thekadeshi.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8041">
-          <caret line="479" column="9" selection-start-line="479" selection-start-column="9" selection-end-line="479" selection-end-column="9" />
-          <folding>
-            <element signature="n#FileList#0;n#!!top" expanded="false" />
-            <element signature="n#Console#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Tests/ScannerTest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1717">
-          <caret line="101" column="24" selection-start-line="101" selection-start-column="24" selection-end-line="101" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.htaccess">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="77" selection-start-line="2" selection-start-column="77" selection-end-line="2" selection-end-column="77" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding>
-            <element signature="e#6#134#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/classes/content.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="21" column="23" selection-start-line="21" selection-start-column="23" selection-end-line="21" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/manul/classes/MalwareDetector.inc.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/thekadeshi.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#FileList#0;n#!!top" expanded="false" />
-            <element signature="n#Console#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Tests/ScannerTest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1717">
-          <caret line="101" column="24" selection-start-line="101" selection-start-column="24" selection-end-line="101" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.htaccess">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="77" selection-start-line="2" selection-start-column="77" selection-end-line="2" selection-end-column="77" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding>
-            <element signature="e#6#134#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/classes/content.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="21" column="23" selection-start-line="21" selection-start-column="23" selection-end-line="21" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/manul/classes/MalwareDetector.inc.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/thekadeshi.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#FileList#0;n#!!top" expanded="false" />
-            <element signature="n#Console#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Tests/ScannerTest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="101" column="24" selection-start-line="101" selection-start-column="24" selection-end-line="101" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.htaccess">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="2" column="77" selection-start-line="2" selection-start-column="77" selection-end-line="2" selection-end-column="77" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding>
-            <element signature="e#6#134#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/classes/content.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="21" column="23" selection-start-line="21" selection-start-column="23" selection-end-line="21" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/manul/classes/MalwareDetector.inc.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/thekadeshi.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#FileList#0;n#!!top" expanded="false" />
-            <element signature="n#Console#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.htaccess">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="2" column="77" selection-start-line="2" selection-start-column="77" selection-end-line="2" selection-end-column="77" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding>
-            <element signature="e#6#134#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/classes/content.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="21" column="23" selection-start-line="21" selection-start-column="23" selection-end-line="21" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/manul/classes/MalwareDetector.inc.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/thekadeshi.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="234" column="32" selection-start-line="234" selection-start-column="32" selection-end-line="234" selection-end-column="32" />
-          <folding>
-            <element signature="n#FileList#0;n#!!top" expanded="false" />
-            <element signature="n#Console#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.htaccess">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/classes/content.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="21" column="23" selection-start-line="21" selection-start-column="23" selection-end-line="21" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/manul/classes/MalwareDetector.inc.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Tests/ScannerTest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="95" column="0" selection-start-line="95" selection-start-column="0" selection-end-line="95" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/thekadeshi.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#FileList#0;n#!!top" expanded="false" />
-            <element signature="n#Console#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/manul/classes/MalwareDetector.inc.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Tests/ScannerTest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="93" column="64" selection-start-line="93" selection-start-column="64" selection-end-line="93" selection-end-column="64" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/signatures/database.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/manul/classes/Initialization.inc.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/manul/classes/CmsVersionDetector.inc.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/manul/classes/DownloadController.inc.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="13" column="41" selection-start-line="13" selection-start-column="37" selection-end-line="13" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/manul/classes/ExecutorController.inc.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="76" column="40" selection-start-line="76" selection-start-column="37" selection-end-line="76" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding>
-            <element signature="e#6#134#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/kadeshi.anamnesis.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/kadeshi.anamnesis.json" />
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="3" column="9" selection-start-line="3" selection-start-column="9" selection-end-line="3" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/manul/classes/MalwareDetector.inc.php" />
+    <entry file="file://$PROJECT_DIR$/classes/content.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="21" column="23" selection-start-line="21" selection-start-column="23" selection-end-line="21" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.thekadeshi/kadeshi.anamnesis.json" />
+    <entry file="file://$PROJECT_DIR$/.htaccess">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="74" selection-start-line="3" selection-start-column="74" selection-end-line="3" selection-end-column="74" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Tests/ScannerTest.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="101" column="24" selection-start-line="101" selection-start-column="24" selection-end-line="101" selection-end-column="24" />
           <folding />
         </state>
       </provider>
@@ -821,19 +638,125 @@
     <entry file="file://$PROJECT_DIR$/.thekadeshi/.status">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
-          <caret line="0" column="36" selection-start-line="0" selection-start-column="36" selection-end-line="0" selection-end-column="36" />
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Tests/ScannerTest.php">
+    <entry file="file://$PROJECT_DIR$/.thekadeshi/.anamnesis.json" />
+    <entry file="file://$PROJECT_DIR$/signatures/database.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="395">
-          <caret line="101" column="24" selection-start-line="101" selection-start-column="24" selection-end-line="101" selection-end-column="24" />
+        <state relative-caret-position="-1262">
+          <caret line="11" column="10" selection-start-line="11" selection-start-column="10" selection-end-line="11" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.thekadeshi/.anamnesis.json" />
+    <entry file="file://$PROJECT_DIR$/.thekadeshi/.options.json" />
+    <entry file="file://$PROJECT_DIR$/.thekadeshi/.anamnesis.json" />
+    <entry file="file://$PROJECT_DIR$/.thekadeshi/.anamnesis.json" />
+    <entry file="file://$PROJECT_DIR$/.thekadeshi/.signatures">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.thekadeshi/.anamnesis.json" />
+    <entry file="file://$PROJECT_DIR$/.thekadeshi/.anamnesis.json" />
+    <entry file="file://$PROJECT_DIR$/forTest/test.php" />
+    <entry file="file://$PROJECT_DIR$/test.php" />
+    <entry file="file://$PROJECT_DIR$/.thekadeshi/.options">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="368" selection-start-line="0" selection-start-column="164" selection-end-line="0" selection-end-column="368" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="697">
+          <caret line="41" column="47" selection-start-line="41" selection-start-column="47" selection-end-line="41" selection-end-column="47" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/manul/classes/MalwareDetector.inc.php">
+    <entry file="file://C:/temp/mof/scanner.php" />
+    <entry file="file://$PROJECT_DIR$/forTest/virus0032.php" />
+    <entry file="file://$PROJECT_DIR$/forTest/virus0044.php" />
+    <entry file="file://$PROJECT_DIR$/forTest/virus0046.php" />
+    <entry file="file://$PROJECT_DIR$/forTest/temp/mof/masterstroy52.ru/assets/plugins/managermanager/widgets/!template/ini.php" />
+    <entry file="file://$PROJECT_DIR$/forTest/ini.php" />
+    <entry file="file://$PROJECT_DIR$/forTest/thumbs.php" />
+    <entry file="file://$PROJECT_DIR$/forTest/!template.php" />
+    <entry file="file://C:/temp/mof/masterstroy52.ru/assets/plugins/managermanager/widgets/!template/thumbs.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/forTest/virus0053.php" />
+    <entry file="file://$PROJECT_DIR$/forTest/virus0052.php" />
+    <entry file="file://$PROJECT_DIR$/forTest/virus0051.php" />
+    <entry file="file://$PROJECT_DIR$/forTest/virus0049.php" />
+    <entry file="file://$PROJECT_DIR$/forTest/virus0048.php" />
+    <entry file="file://$PROJECT_DIR$/forTest/virus0050.php" />
+    <entry file="file://$PROJECT_DIR$/thekadeshi.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="365">
+          <caret line="559" column="68" selection-start-line="559" selection-start-column="68" selection-end-line="559" selection-end-column="68" />
+          <folding>
+            <element signature="n#GetFileList#0;n#TheKadeshi#0;n#!!top" expanded="false" />
+            <element signature="n#GetOptions#0;n#TheKadeshi#0;n#!!top" expanded="false" />
+            <element signature="n#htaccessModify#0;n#TheKadeshi#0;n#!!top" expanded="false" />
+            <element signature="n#setChmod#0;n#TheKadeshi#0;n#!!top" expanded="false" />
+            <element signature="n#Install#0;n#TheKadeshi#0;n#!!top" expanded="false" />
+            <element signature="n#__construct#0;n#Scanner#0;n#!!top" expanded="false" />
+            <element signature="n#SetFileCheckSum#0;n#Scanner#0;n#!!top" expanded="false" />
+            <element signature="n#GetFileCheckSum#0;n#Scanner#0;n#!!top" expanded="false" />
+            <element signature="n#HeuristicFileName#0;n#Scanner#0;n#!!top" expanded="false" />
+            <element signature="n#Status#0;n#!!top" expanded="false" />
+            <element signature="e#24075#24113#0#PHP" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/forTest/virus0047.php" />
+    <entry file="file://$PROJECT_DIR$/forTest/virus0001.php" />
+    <entry file="file://$PROJECT_DIR$/forTest/virus0004.php" />
+    <entry file="file://$PROJECT_DIR$/forTest/virus0002.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="4" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/forTest/virus0006.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="5" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/forTest/virus0007.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="43" selection-start-line="0" selection-start-column="43" selection-end-line="0" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/forTest/virus0008.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="37" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="146" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/forTest/virus0003.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -841,37 +764,56 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/classes/content.php">
+    <entry file="file://$PROJECT_DIR$/forTest/virus0009.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="21" column="23" selection-start-line="21" selection-start-column="23" selection-end-line="21" selection-end-column="23" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.htaccess">
+    <entry file="file://$PROJECT_DIR$/forTest/virus0001.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+        <state relative-caret-position="17">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.php">
+    <entry file="file://$PROJECT_DIR$/forTest/virus0010.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="55">
-          <caret line="41" column="47" selection-start-line="41" selection-start-column="47" selection-end-line="41" selection-end-column="47" />
+        <state relative-caret-position="380">
+          <caret line="34" column="172" selection-start-line="34" selection-start-column="172" selection-end-line="34" selection-end-column="172" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/thekadeshi.php">
+    <entry file="file://$PROJECT_DIR$/forTest/virus0011.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="193">
-          <caret line="451" column="0" selection-start-line="451" selection-start-column="0" selection-end-line="451" selection-end-column="0" />
+        <state relative-caret-position="51">
+          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scanner.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="468" column="49" selection-start-line="468" selection-start-column="49" selection-end-line="468" selection-end-column="49" />
           <folding>
-            <element signature="n#FileList#0;n#!!top" expanded="false" />
-            <element signature="n#Console#0;n#!!top" expanded="false" />
+            <element signature="n#Status#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/forTest/text.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="37" column="0" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
+          <folding>
+            <element signature="e#3251#3388#0#HTML" expanded="true" />
+            <element signature="e#3801#3938#0#HTML" expanded="true" />
+            <element signature="e#13216#13378#0#HTML" expanded="true" />
           </folding>
         </state>
       </provider>
