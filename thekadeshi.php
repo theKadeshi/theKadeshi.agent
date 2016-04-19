@@ -320,6 +320,15 @@ class Scanner {
 
 
 	/**
+	 * Список подозрительных функций
+	 * @var array
+	 */
+	private $dangerousFunctions = array('eval', 'assert', 'base64_decode', 'str_rot13', 'mail',
+	                                    'move_uploaded_file', 'is_uploaded_file', 'script',
+	                                    'fopen', 'curl_init', 'document.write', '$GLOBAL',
+	                                    'passthru', 'system', 'exec');
+
+	/**
 	 * Scanner constructor.
 	 */
 	function __construct() {
@@ -531,64 +540,48 @@ class Scanner {
 
 		$fileContent = mb_convert_encoding(file_get_contents($fileName), "utf-8");
 
-		//  eval в коде выглядит очень подозрительно
-		$evalCount = mb_substr_count($fileContent, 'eval');
-		$suspicion = $suspicion + 1 * $evalCount;
+		foreach ($this->dangerousFunctions as $dangerousFunction) {
+			$functionCount =  mb_substr_count($fileContent, $dangerousFunction);
+			$suspicion = $suspicion + (1 * $functionCount);
+			if($suspicion > 1) {
+				return $suspicion;
+			}
+		}
 
-		if($suspicion == 0) {
-
-			//  base64 тоже вызывает некоторые подозрения
-			$baseCount = mb_substr_count($fileContent, 'base64_decode');
-			$suspicion = $suspicion + 1 * $baseCount;
-
-			if ($suspicion == 0) {
-
-				//  str_rot13 может использоваться для маскировки
-				$rotCount = mb_substr_count($fileContent, 'str_rot13');
-				$suspicion = $suspicion + 1 * $rotCount;
-
-				if ($suspicion == 0) {
-					//Проверка на длинные слова
-					$pregResult = preg_match_all('/\$?\w+/i', $fileContent, $wordMatches);
-					if ($pregResult !== false) {
-						//print_r(array_unique($wordMatches[0]));
-						foreach (array_unique($wordMatches[0]) as $someWord) {
-							if (strlen($someWord) >= 25) {
-								if (mb_substr($someWord, 0, 1) != '$') {
-									//  Чем длиннее слово, тем больше подозрение
-									if ($someWord != strtoupper($someWord)) {
-										$suspicion = $suspicion + 0.01 * strlen($someWord);
-										//echo($someWord . " " . $suspicion . "\r\n");
-									}
-								}
+		if ($suspicion == 0) {
+			//Проверка на длинные слова
+			$pregResult = preg_match_all('/\$?\w+/i', $fileContent, $wordMatches);
+			if ($pregResult !== false) {;
+				foreach (array_unique($wordMatches[0]) as $someWord) {
+					if (strlen($someWord) >= 25) {
+						if (mb_substr($someWord, 0, 1) != '$') {
+							//  Чем длиннее слово, тем больше подозрение
+							if ($someWord != strtoupper($someWord)) {
+								$suspicion = $suspicion + 0.01 * strlen($someWord);
+								//echo($someWord . " " . $suspicion . "\r\n");
 							}
+						}
+					}
 
-							//  Если слово - переменная
-							if (mb_substr($someWord, 0, 1) == '$') {
-								//print_r($someWord);
-								//  Проверка переменных на стремные именования
-								foreach ($this->namePatterns as $namePattern) {
-									$checkResult = preg_match($namePattern, mb_substr($someWord, 1));
-									if ($checkResult == 1) {
-										$suspicion = $suspicion + 0.01;
-										//echo $someWord . " - " . $namePattern . "\r\n";
-									}
-								}
+					//  Если слово - переменная
+					if (mb_substr($someWord, 0, 1) == '$') {
+						//  Проверка переменных на стремные именования
+						foreach ($this->namePatterns as $namePattern) {
+							$checkResult = preg_match($namePattern, mb_substr($someWord, 1));
+							if ($checkResult == 1) {
+								$suspicion = $suspicion + 0.01;
+							}
+						}
 
-								//  Проверка переменных на частые использования в виде массивов
-								//$arrayPattern = '/\\' . $someWord . '\[[\'"]?\d+[\'"]?\]/i';
-								$arrayPattern = '/\\' . $someWord . '\[[\'"]?[\d\S]+[\'"]?\](\[\d+\])?/i';
-								//echo($arrayPattern . "\r\n");
-								$arrayCheckResult = preg_match_all($arrayPattern, $fileContent, $arrayPatternMatches);
-								if ($arrayCheckResult !== false) {
+						//  Проверка переменных на частые использования в виде массивов
+						$arrayPattern = '/\\' . $someWord . '\[[\'"]?[\d\S]+[\'"]?\](\[\d+\])?/i';
+						//echo($arrayPattern . "\r\n");
+						$arrayCheckResult = preg_match_all($arrayPattern, $fileContent, $arrayPatternMatches);
+						if ($arrayCheckResult !== false) {
 
-									$variableUsages = count(array_unique($arrayPatternMatches[0]));
-									if ($variableUsages > 6) {
-										$suspicion = $suspicion + (0.2 + $variableUsages);
-									}
-									//print_r($arrayPatternMatches);
-								}
-
+							$variableUsages = count(array_unique($arrayPatternMatches[0]));
+							if ($variableUsages > 4) {
+								$suspicion = $suspicion + (0.2 + $variableUsages);
 							}
 						}
 					}

@@ -40,7 +40,7 @@ class TheKadeshi {
 	 *
 	 * @var array Допустимые расширения для сканера
 	 */
-	private $ValidExtensions = array ('php', 'php4', 'php5', 'php7', 'js', 'css', 'html', 'htm', 'tpl');
+	private $ValidExtensions = array ('php', 'php4', 'php5', 'php7', 'js', 'css', 'html', 'htm', 'tpl', 'inc');
 
 	/**
 	 * Каталоги
@@ -207,6 +207,15 @@ class Scanner {
 	private $consonantsLetters = array('q', 'w', 'r', 't', 'p', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z', 'x', 'c', 'v', 'b', 'n', 'm');
 
 
+	/**
+	 * Список подозрительных функций
+	 * @var array
+	 */
+	private $dangerousFunctions = array('eval', 'assert', 'base64_decode', 'str_rot13', 'mail', 
+	                                    'move_uploaded_file', 'is_uploaded_file', 'script',
+	                                    'fopen', 'curl_init', 'document.write', '$GLOBAL',
+	                                    'passthru', 'system', 'exec');
+	
 	/**
 	 * Scanner constructor.
 	 */
@@ -419,148 +428,48 @@ class Scanner {
 
 		$fileContent = mb_convert_encoding(file_get_contents($fileName), "utf-8");
 
-		//  eval в коде выглядит очень подозрительно
-		$evalCount = mb_substr_count($fileContent, 'eval');
-		$suspicion = $suspicion + 1 * $evalCount;
+		foreach ($this->dangerousFunctions as $dangerousFunction) {
+			$functionCount =  mb_substr_count($fileContent, $dangerousFunction);
+			$suspicion = $suspicion + (1 * $functionCount);
+			if($suspicion > 1) {
+				return $suspicion;
+			}
+		}
 
-		if($suspicion == 0) {
+		if ($suspicion == 0) {
+			//Проверка на длинные слова
+			$pregResult = preg_match_all('/\$?\w+/i', $fileContent, $wordMatches);
+			if ($pregResult !== false) {;
+				foreach (array_unique($wordMatches[0]) as $someWord) {
+					if (strlen($someWord) >= 25) {
+						if (mb_substr($someWord, 0, 1) != '$') {
+							//  Чем длиннее слово, тем больше подозрение
+							if ($someWord != strtoupper($someWord)) {
+								$suspicion = $suspicion + 0.01 * strlen($someWord);
+								//echo($someWord . " " . $suspicion . "\r\n");
+							}
+						}
+					}
 
-			//  assert какой-то стремный
-			$baseCount = mb_substr_count($fileContent, 'assert');
-			$suspicion = $suspicion + 1 * $baseCount;
+					//  Если слово - переменная
+					if (mb_substr($someWord, 0, 1) == '$') {
+						//  Проверка переменных на стремные именования
+						foreach ($this->namePatterns as $namePattern) {
+							$checkResult = preg_match($namePattern, mb_substr($someWord, 1));
+							if ($checkResult == 1) {
+								$suspicion = $suspicion + 0.01;
+							}
+						}
 
-			if ($suspicion == 0) {
+						//  Проверка переменных на частые использования в виде массивов
+						$arrayPattern = '/\\' . $someWord . '\[[\'"]?[\d\S]+[\'"]?\](\[\d+\])?/i';
+						//echo($arrayPattern . "\r\n");
+						$arrayCheckResult = preg_match_all($arrayPattern, $fileContent, $arrayPatternMatches);
+						if ($arrayCheckResult !== false) {
 
-				//  base64 тоже вызывает некоторые подозрения
-				$baseCount = mb_substr_count($fileContent, 'base64_decode');
-				$suspicion = $suspicion + 1 * $baseCount;
-
-				if ($suspicion == 0) {
-
-					//  str_rot13 может использоваться для маскировки
-					$rotCount = mb_substr_count($fileContent, 'str_rot13');
-					$suspicion = $suspicion + 1 * $rotCount;
-
-					if ($suspicion == 0) {
-
-						//  mail для отправки спама
-						$rotCount = mb_substr_count($fileContent, 'mail');
-						$suspicion = $suspicion + 1 * $rotCount;
-
-						if ($suspicion == 0) {
-
-							//  Перемещение загруженного файла
-							$rotCount = mb_substr_count($fileContent, 'move_uploaded_file');
-							$suspicion = $suspicion + 1 * $rotCount;
-
-							if ($suspicion == 0) {
-
-								//  Проверка файла на загрузку
-								$rotCount = mb_substr_count($fileContent, 'is_uploaded_file');
-								$suspicion = $suspicion + 1 * $rotCount;
-
-								if ($suspicion == 0) {
-
-									//  script в документе
-									$rotCount = mb_substr_count($fileContent, 'script');
-									$suspicion = $suspicion + 1 * $rotCount;
-
-									if ($suspicion == 0) {
-
-										//  fopen в документе
-										$rotCount = mb_substr_count($fileContent, 'fopen');
-										$suspicion = $suspicion + 1 * $rotCount;
-
-										if ($suspicion == 0) {
-
-											//  curl_init в документе
-											$rotCount = mb_substr_count($fileContent, 'curl_init');
-											$suspicion = $suspicion + 1 * $rotCount;
-
-											if ($suspicion == 0) {
-
-												//  document.write в документе
-												$rotCount = mb_substr_count($fileContent, 'document.write');
-												$suspicion = $suspicion + 1 * $rotCount;
-
-												if ($suspicion == 0) {
-
-													//  $GLOBAL в документе
-													$rotCount = mb_substr_count($fileContent, '$GLOBAL');
-													$suspicion = $suspicion + 1 * $rotCount;
-
-													if ($suspicion == 0) {
-
-														//  passthru в документе
-														$rotCount = mb_substr_count($fileContent, 'passthru');
-														$suspicion = $suspicion + 1 * $rotCount;
-
-														if ($suspicion == 0) {
-
-															//  passthru в документе
-															$rotCount = mb_substr_count($fileContent, 'system');
-															$suspicion = $suspicion + 1 * $rotCount;
-
-															if ($suspicion == 0) {
-
-																//  exec в документе
-																$rotCount = mb_substr_count($fileContent, 'exec');
-																$suspicion = $suspicion + 1 * $rotCount;
-
-																if ($suspicion == 0) {
-																	//Проверка на длинные слова
-																	$pregResult = preg_match_all('/\$?\w+/i', $fileContent, $wordMatches);
-																	if ($pregResult !== false) {
-																		//print_r(array_unique($wordMatches[0]));
-																		foreach (array_unique($wordMatches[0]) as $someWord) {
-																			if (strlen($someWord) >= 25) {
-																				if (mb_substr($someWord, 0, 1) != '$') {
-																					//  Чем длиннее слово, тем больше подозрение
-																					if ($someWord != strtoupper($someWord)) {
-																						$suspicion = $suspicion + 0.01 * strlen($someWord);
-																						//echo($someWord . " " . $suspicion . "\r\n");
-																					}
-																				}
-																			}
-
-																			//  Если слово - переменная
-																			if (mb_substr($someWord, 0, 1) == '$') {
-																				//print_r($someWord);
-																				//  Проверка переменных на стремные именования
-																				foreach ($this->namePatterns as $namePattern) {
-																					$checkResult = preg_match($namePattern, mb_substr($someWord, 1));
-																					if ($checkResult == 1) {
-																						$suspicion = $suspicion + 0.01;
-																						//echo $someWord . " - " . $namePattern . "\r\n";
-																					}
-																				}
-
-																				//  Проверка переменных на частые использования в виде массивов
-																				//$arrayPattern = '/\\' . $someWord . '\[[\'"]?\d+[\'"]?\]/i';
-																				$arrayPattern = '/\\' . $someWord . '\[[\'"]?[\d\S]+[\'"]?\](\[\d+\])?/i';
-																				//echo($arrayPattern . "\r\n");
-																				$arrayCheckResult = preg_match_all($arrayPattern, $fileContent, $arrayPatternMatches);
-																				if ($arrayCheckResult !== false) {
-
-																					$variableUsages = count(array_unique($arrayPatternMatches[0]));
-																					if ($variableUsages > 6) {
-																						$suspicion = $suspicion + (0.2 + $variableUsages);
-																					}
-																					//print_r($arrayPatternMatches);
-																				}
-
-																			}
-																		}
-																	}
-																}
-															}
-														}
-													}
-												}
-											}
-										}
-									}
-								}
+							$variableUsages = count(array_unique($arrayPatternMatches[0]));
+							if ($variableUsages > 4) {
+								$suspicion = $suspicion + (0.2 + $variableUsages);
 							}
 						}
 					}
