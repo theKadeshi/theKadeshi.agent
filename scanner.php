@@ -40,7 +40,7 @@ class TheKadeshi {
 	 *
 	 * @var array Допустимые расширения для сканера
 	 */
-	private $ValidExtensions = array ('php', 'php4', 'php5', 'php7', 'js', 'css', 'html', 'htm', 'tpl', 'inc');
+	private $ValidExtensions = array ('php', 'php4', 'php5', 'php7', 'js', 'css', 'phtml', 'html', 'htm', 'tpl', 'inc');
 
 	/**
 	 * Каталоги
@@ -397,6 +397,7 @@ class Scanner {
 			$content = mb_convert_encoding($content, "utf-8");
 			foreach (TheKadeshi::$signatureDatabase as $virusSignature) {
 
+				$scanTimerStart = microtime(true);
 				preg_match($virusSignature['expression'], $content, $results);
 
 				if (isset($results) && !empty($results)) {
@@ -413,6 +414,8 @@ class Scanner {
 						'action' => $virusSignature['action']
 					);
 				}
+				$scanTimerEnd = microtime(true);
+				//echo($virusSignature['title'] . " : " . ($scanTimerEnd - $scanTimerStart) . "\r\n");
 			}
 		}
 		return $scanResults;
@@ -788,14 +791,19 @@ if(!isset($fileToScan)) {
 //die();
 //print_r(array($theKadeshi->fileList, __DIR__));
 $result_line = "";
+$totalFiles = count($theKadeshi->fileList);
+$fileCounter = 1;
+$totalScanTime = 0;
+$fileScanTime = 0;
 foreach ($theKadeshi->fileList as $file) {
+	$fileMicrotimeStart = microtime(true);
 
 	$fileScanResults = $theKadeshi->Scanner->Scan($file);
 
 	if ($fileScanResults != null) {
 
-
 		if($fileScanResults['heuristic'] > 0) {
+			echo("[" . $fileCounter . " of " . $totalFiles . " ~" . number_format(($fileScanTime * $totalFiles - $fileScanTime * $fileCounter), 2) . "s] ");
 			echo($file . " ");
 			if(isset($fileScanResults['scanner'])) {
 			//print_r($fileScanResults);
@@ -810,6 +818,10 @@ foreach ($theKadeshi->fileList as $file) {
 		//die();
 		$scanResults[] = $fileScanResults;
 	}
+	$fileMicrotimeEnd = microtime(true);
+	$totalScanTime = $totalScanTime + ($fileMicrotimeEnd - $fileMicrotimeStart);
+	$fileScanTime = $totalScanTime / $fileCounter;
+	$fileCounter++;
 	
 }
 echo("\r\n" . $result_line . "\r\n");

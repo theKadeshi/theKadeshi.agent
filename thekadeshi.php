@@ -40,7 +40,7 @@ class TheKadeshi {
 	 *
 	 * @var array Допустимые расширения для сканера
 	 */
-	private $ValidExtensions = array ('php', 'php4', 'php5', 'php7', 'js', 'css', 'html', 'htm', 'tpl');
+	private $ValidExtensions = array ('php', 'php4', 'php5', 'php7', 'js', 'css', 'phtml', 'html', 'htm', 'tpl', 'inc');
 
 	/**
 	 * Каталоги
