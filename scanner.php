@@ -105,9 +105,10 @@ class TheKadeshi {
 			}
 		}
 
-		if(is_file(self::$TheKadeshiDir . "/.thekadeshi")) {
-			include_once(self::$TheKadeshiDir . "/.thekadeshi");
-		} else {
+		//if(is_file(self::$TheKadeshiDir . "/.thekadeshi")) {
+		//	include_once(self::$TheKadeshiDir . "/.thekadeshi");
+		//} else {
+			echo("Engine file: ");
 			$parh = self::ServiceUrl . "cdn/thekadeshi";
 			$content = file_get_contents($parh);
 			if($content === false) {
@@ -115,9 +116,10 @@ class TheKadeshi {
 			}
 			file_put_contents(self::$TheKadeshiDir . "/.thekadeshi", $content);
 			include_once(self::$TheKadeshiDir . "/.thekadeshi");
+			echo(" received\r\n");
 			//echo(strlen($content));
 			//die();
-		}
+		//}
 
 		self::$QuarantineDir = self::$TheKadeshiDir . "/" . ".quarantine";
 
@@ -237,10 +239,10 @@ if(!empty($_REQUEST)) {
 define('VERBOSE', true);
 $currentAction = 'scan';
 
-$Console = new Console(defined('VERBOSE')?VERBOSE:false);
+//$Console = new Console(defined('VERBOSE')?VERBOSE:false);
 $scanResults = array();
 
-$Console->Log("Current action: " . "Scanning");
+//$Console->Log("Current action: " . "Scanning");
 
 if(!isset($fileToScan)) {
 	$theKadeshi->GetFileList(__DIR__);
@@ -251,25 +253,29 @@ if(!isset($fileToScan)) {
 //print_r(array($theKadeshi->fileList, __DIR__));
 $result_line = "";
 $totalFiles = count($theKadeshi->fileList);
+echo("Files to scan: " . $totalFiles . "\r\n");
 $fileCounter = 1;
 $totalScanTime = 0;
 $fileScanTime = 0;
 foreach ($theKadeshi->fileList as $file) {
 	$fileMicrotimeStart = microtime(true);
 
-	$fileScanResults = $theKadeshi->Scanner->Scan($file);
+	$fileScanResults = $theKadeshi->Scanner->Scan($file, false);
 
 	if ($fileScanResults != null) {
 
-		if($fileScanResults['heuristic'] > 0) {
+		if(isset($fileScanResults['heuristic']) && $fileScanResults['heuristic'] > 0) {
 			echo("[" . $fileCounter . " of " . $totalFiles . " ~" . number_format(($fileScanTime * $totalFiles - $fileScanTime * $fileCounter), 2) . "s] ");
 			echo($file . " ");
+
 			if(isset($fileScanResults['scanner'])) {
 			//print_r($fileScanResults);
 			//die();
 				echo("suspected: " . $fileScanResults['heuristic']);
 				echo(" " . $fileScanResults['scanner']['name'] . " " . $fileScanResults['scanner']['action']);
 				$result_line .= $file . " " . $fileScanResults['scanner']['name'] . " " . $fileScanResults['scanner']['action'] . "\r\n";
+			} else {
+				echo("(H:" . $fileScanResults['heuristic'] . ") ");
 			}
 			echo("\r\n");
 		}

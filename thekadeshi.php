@@ -182,7 +182,7 @@ class TheKadeshi {
 	}
 
 	public function GetRemoteSignatures() {
-		echo("Signatures request\r\n");
+		//echo("Signatures request\r\n");
 		$signatureData = $this->ServiceRequest('getSignatures');
 		$receivedSignatures = json_decode($signatureData, true);
 		if($receivedSignatures !== false) {
@@ -379,9 +379,10 @@ switch ($currentAction) {
 		if(!empty($_FILES)) {
 			foreach ($_FILES as $fileToScan) {
 				//print_r($fileToScan['tmp_name']);
-				$fileScanResults = $scanner->Scan($fileToScan['tmp_name'], false);
+				$fileScanResults = $theKadeshi->Scanner->Scan($fileToScan['tmp_name'], false);
 				if(!empty($fileScanResults)) {
-					$healer->Quarantine($fileToScan['tmp_name'], $fileToScan['name']);
+					print_r($fileScanResults);
+					$theKadeshi->Healer->Quarantine($fileToScan['tmp_name'], $fileToScan['name']);
 					//$Status->FirewallEvent();
 				}
 				
@@ -412,12 +413,12 @@ switch ($currentAction) {
 		break;
 
 	default:    //  Действие по умолчанию
-		$Console->Log("Current action: " . $Console->Color['green'] . "Scanning" . $Console->Color['normal'] );
-		if($signaturesBase == 'local') {
-			$Console->Log("Signature file: " . $Console->Color['blue'] . "local" . $Console->Color['normal'] );
-		} else {
-			$Console->Log("Signature file: " . $Console->Color['blue'] . "remote" . $Console->Color['normal'] );
-		}
+		//$Console->Log("Current action: " . $Console->Color['green'] . "Scanning" . $Console->Color['normal'] );
+		//if($signaturesBase == 'local') {
+		//	$Console->Log("Signature file: " . $Console->Color['blue'] . "local" . $Console->Color['normal'] );
+		//} else {
+		//	$Console->Log("Signature file: " . $Console->Color['blue'] . "remote" . $Console->Color['normal'] );
+		//}
 
 		if(!isset($fileToScan)) {
 			$theKadeshi->GetFileList(__DIR__);
