@@ -136,8 +136,15 @@ class TheKadeshi {
 
 	private function LoadSignatures() {
 
-		self::$signatureDatabase = json_decode($this->ServiceRequest('getSignatures', array('notoken'=>true), false), true);
-		echo("Load " . count(self::$signatureDatabase) . " remote signatures" . "\r\n");
+		$remoteSignatures = json_decode($this->ServiceRequest('getSignatures', array('notoken'=>true), false), true);
+		//print_r($remoteSignatures);
+		//die();
+		self::$signatureDatabase = $remoteSignatures;
+		$totalCount = 0;
+		foreach (self::$signatureDatabase as $subSignature) {
+			$totalCount = $totalCount + count($subSignature);
+		}
+		echo("Load " . $totalCount . " remote signatures" . "\r\n");
 		//print_r(self::$signatureDatabase);
 
 	}
@@ -215,31 +222,6 @@ define('THEKADESHI_DIR', __DIR__ . "/.thekadeshi");
 
 $theKadeshi = new TheKadeshi();
 
-if(!empty($_REQUEST)) {
-	if(isset($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], 'thekadeshi.php')) {
-
-		if(isset($_REQUEST['ping'])) {
-			$theKadeshi::$Status->Ping();
-			exit();
-		}
-
-		if(isset($_REQUEST['scan'])) {
-			exec("php " . __DIR__ . $_SERVER['PHP_SELF'] . " --scan");
-			exit();
-		} else {
-
-			// Инсталляция, если запущен из браузера без параметров
-
-			$theKadeshi->Install($_SERVER['SERVER_NAME']);
-			echo(base64_decode($theKadeshi::ProtectedPage));
-			exit();
-		}
-	}
-}
-define('VERBOSE', true);
-$currentAction = 'scan';
-
-//$Console = new Console(defined('VERBOSE')?VERBOSE:false);
 $scanResults = array();
 
 //$Console->Log("Current action: " . "Scanning");
@@ -288,5 +270,12 @@ foreach ($theKadeshi->fileList as $file) {
 	$fileScanTime = $totalScanTime / $fileCounter;
 	$fileCounter++;
 	
+}
+if(isset($theKadeshi->Scanner->signatureLog)) {
+	arsort($theKadeshi->Scanner->signatureLog);
+	file_put_contents($theKadeshi::$TheKadeshiDir . "/signature.log.json", json_encode($theKadeshi->Scanner->signatureLog));
+}
+if(file_exists($theKadeshi::$TheKadeshiDir . "/.thekadeshi")) {
+	unlink($theKadeshi::$TheKadeshiDir . "/.thekadeshi");
 }
 echo("\r\n" . $result_line . "\r\n");

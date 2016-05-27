@@ -37,9 +37,6 @@
 
 	<div class="row">
 		<form action="/" method="post" enctype="multipart/form-data">
-			<div class="col-xs-3">
-				<input type="checkbox" name="ping" value="true"> Ping
-			</div>
 			<div class="form-group">
 				<label for="exampleInputEmail1">Email address</label>
 				<input type="email" name="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
