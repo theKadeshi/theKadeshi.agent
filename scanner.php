@@ -27,11 +27,6 @@ class TheKadeshi {
 	public $Scanner;
 
 	/**
-	 * @var object Healer Экземпляр класса лекаря
-	 */
-	public $Healer;
-
-	/**
 	 * @var object Экземпляр класса статуса
 	 */
 	public static $Status;
@@ -127,7 +122,7 @@ class TheKadeshi {
 
 
 		$this->Scanner = new Scanner();
-		$this->Healer = new Healer();
+		//$this->Healer = new Healer();
 		self::$Status = new Status();
 
 		$this->LoadSignatures();
@@ -235,7 +230,7 @@ if(!isset($fileToScan)) {
 //print_r(array($theKadeshi->fileList, __DIR__));
 $result_line = "";
 $totalFiles = count($theKadeshi->fileList);
-echo("Files to scan: " . $totalFiles . "\r\n");
+echo("Files to scan: " . chr(27) . $totalFiles . "\r\n");
 $fileCounter = 1;
 $totalScanTime = 0;
 $fileScanTime = 0;
@@ -251,9 +246,7 @@ foreach ($theKadeshi->fileList as $file) {
 			echo($file . " ");
 
 			if(isset($fileScanResults['scanner'])) {
-			//print_r($fileScanResults);
-			//die();
-				echo("suspected: " . $fileScanResults['heuristic']);
+
 				echo(" " . $fileScanResults['scanner']['name'] . " " . $fileScanResults['scanner']['action']);
 				$result_line .= $file . " " . $fileScanResults['scanner']['name'] . " " . $fileScanResults['scanner']['action'] . "\r\n";
 			} else {
@@ -265,12 +258,17 @@ foreach ($theKadeshi->fileList as $file) {
 		//die();
 		$scanResults[] = $fileScanResults;
 	}
+
+	//$theKadeshi->Scanner->SendAnamnesis();
+
 	$fileMicrotimeEnd = microtime(true);
 	$totalScanTime = $totalScanTime + ($fileMicrotimeEnd - $fileMicrotimeStart);
 	$fileScanTime = $totalScanTime / $fileCounter;
 	$fileCounter++;
 	
 }
+$theKadeshi->Scanner->SaveAnamnesis();
+$theKadeshi->Scanner->SendAnamnesis(false);
 if(isset($theKadeshi->Scanner->signatureLog)) {
 	arsort($theKadeshi->Scanner->signatureLog);
 	file_put_contents($theKadeshi::$TheKadeshiDir . "/signature.log.json", json_encode($theKadeshi->Scanner->signatureLog));

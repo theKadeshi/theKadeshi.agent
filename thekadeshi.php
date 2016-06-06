@@ -27,11 +27,6 @@ class TheKadeshi {
 	public $Scanner;
 
 	/**
-	 * @var object Healer Экземпляр класса лекаря
-	 */
-	public $Healer;
-
-	/**
 	 * @var object Экземпляр класса статуса
 	 */
 	public static $Status;
@@ -56,11 +51,6 @@ class TheKadeshi {
 	 */
 	static $CheckSumDir = '';
 
-	/**
-	 * @var string Каталог с карантином
-	 */
-	//static $QuarantineDir = '';
-
 	static $OptionsFile = '';
 
 	static $SignatureFile = '';
@@ -72,7 +62,7 @@ class TheKadeshi {
 	public static $Options;
 
 	static $Logs;
-	
+
 	static $API_Path;
 
 	const configCheckTimer = 3600;
@@ -118,7 +108,7 @@ class TheKadeshi {
 			include_once(self::$TheKadeshiDir . "/.thekadeshi");
 
 			$this->Scanner = new Scanner();
-			$this->Healer = new Healer();
+			//$this->Healer = new Healer();
 			self::$Status = new Status();
 
 			$this->LoadSignatures();
@@ -133,12 +123,19 @@ class TheKadeshi {
 	}
 
 	private function Update() {
-		$parh = self::ServiceUrl . "cdn/thekadeshi";
-			$content = file_get_contents($parh);
-			if($content === false) {
-				echo("something wrong");
-			}
-			file_put_contents(self::$TheKadeshiDir . "/.thekadeshi", $content);
+		$path = self::ServiceUrl . "cdn/thekadeshi";
+		$content = file_get_contents($path);
+		if($content === false) {
+			echo("something wrong");
+		}
+		file_put_contents(self::$TheKadeshiDir . "/.thekadeshi", $content);
+
+		$path = self::ServiceUrl . "cdn/agent";
+		$content = file_get_contents($path);
+		if($content === false) {
+			echo("something wrong");
+		}
+		file_put_contents(__DIR__ . "/thekadeshi.php", $content);
 	}
 
 	private function SendFirewallLogs() {
@@ -215,6 +212,10 @@ class TheKadeshi {
 				file_put_contents(self::$OptionsFile, json_encode(self::$Options));
 			}
 		}
+	}
+
+	private function SelfUpdate() {
+		$signatureData = $this->ServiceRequest('getSignatures');
 	}
 
 	public function GetRemoteConfig($siteUrl) {
@@ -406,7 +407,7 @@ class TheKadeshi {
 
 		$curlOptions[CURLOPT_POST] = true;
 
-		
+
 		if(isset($arguments)) {
 			if($sendToken == true) {
 				$arguments['token'] = self::$Options['token'];
@@ -456,32 +457,9 @@ if(php_sapi_name() !== 'cli') {
 			exit();
 		}
 	}
-}
 
-if(isset($argc) && $argc > 1) {
-	foreach ($argv as $argument) {
-		if (strtolower($argument) == '--local') {
-			$signaturesBase = 'local';
-		}
-		if (strtolower($argument) == '--scan') {
-			$currentAction = 'scan';
-		}
-		if(strtolower($argument) == '--verbose') {
-			if(!defined('VERBOSE')) {
-				define('VERBOSE', true);
-			}
-		}
 
-	}
-
-	$probablySingleFile = $argv[$argc-1];
-	if(is_file($probablySingleFile)) {
-		$fileToScan = $probablySingleFile;
-	}
-
-} else {
-	//$currentAction = 'scan';
-	//  Если запущенный скрипт не антивирус, значит запущен prepend режим
+	//print_r($_SERVER);
 	if(!strpos($_SERVER['PHP_SELF'], 'thekadeshi')) {
 		if(!defined('PREPEND')) {
 			define('PREPEND', true);
@@ -491,7 +469,33 @@ if(isset($argc) && $argc > 1) {
 	if(isset($_REQUEST['block'])) {
 		$currentAction = "block";
 	}
+} else {
+	$currentAction = 'scan';
 }
+
+//if(isset($argc) && $argc > 1) {
+	//foreach ($argv as $argument) {
+	//	if (strtolower($argument) == '--scan') {
+	///
+	//	}
+	//	if(strtolower($argument) == '--verbose') {
+	//		if(!defined('VERBOSE')) {
+	//			define('VERBOSE', true);
+	//		}
+	//	}
+//
+//	}
+
+	//$probablySingleFile = $argv[$argc-1];
+	//if(is_file($probablySingleFile)) {
+	//	$fileToScan = $probablySingleFile;
+	//}
+
+//} else {
+	//$currentAction = 'scan';
+	//  Если запущенный скрипт не антивирус, значит запущен prepend режим
+
+//}
 //print_r($_GET);
 //$Console = new Console(defined('VERBOSE')?VERBOSE:false);
 $scanResults = array();
@@ -500,90 +504,77 @@ $needToBlock = false;
 switch ($currentAction) {
 	case 'prepend':
 
-		//$theKadeshi->GetRemoteConfig($_SERVER['SERVER_NAME']);
+		if(isset($theKadeshi::$Options['modifyheaders']) && $theKadeshi::$Options['modifyheaders'] == true) {
+			@header("Protection: TheKadeshi");
+		}
 
-		if(!empty($_FILES) && ($_FILES['size'] > 0)) {
+		if(!empty($_FILES)) {
 			foreach ($_FILES as $fileToScan) {
-				//echo("file<br/>\r\n");
-				//print_r($_FILES);
 				$fileScanResults = $theKadeshi->Scanner->Scan($fileToScan['tmp_name'], false);
-				if(!empty($fileScanResults)) {
-					//print_r($fileScanResults);
-					$theKadeshi->Healer->Quarantine($fileToScan['tmp_name'], $fileToScan['name']);
-					//$Status->FirewallEvent();
+				//print_r($fileScanResults);
+				if(!empty($fileScanResults) && isset($fileScanResults['scanner'])) {
+					$needToBlock = true;
+					$theKadeshi->Scanner->SaveAnamnesis();
+					$theKadeshi->Scanner->SendAnamnesis();
+					//break;
 				}
 			}
 		}
-
-		//if($Options['firewall']) {
-//
-//			$sqlPattern = "#(;|\*/)\s*(SELECT|INSERT\s+INTO|UPDATE|DELETE\s+FROM|DROP\s+(TABLE|DATABASE|VIEW)|TRUNCATE\s+TABLE)\s#i";
-//			$xssPattern = "#base64_?(de|en)code\s*\(#i";
-//			if (!empty($_POST)) {
-//				foreach ($_POST as $postVar) {
-//					preg_match_all($sqlPattern, $postVar, $matches);
-//					if (!empty($matches)) {
-//						$needToBlock = true;
-//					}
-//				}
-//			}
-//		}
-
-		if($theKadeshi::$Options['modifyheaders']) {
-			@header("Protection: TheKadeshi");
-		}
+		//print($_SERVER);
 		if(isset($_SERVER['SCRIPT_FILENAME'])) {
 			//echo($_SERVER['SCRIPT_FILENAME']);
 			$fileToCheck = $_SERVER['SCRIPT_FILENAME'];
 			//print_r($fileToCheck);
 			if (method_exists($theKadeshi->Scanner, "Scan")) {
 				$fileScanResults = $theKadeshi->Scanner->Scan($fileToCheck, true);
+				//print_r($fileScanResults);
+				//die();
+				if(!empty($fileScanResults) && isset($fileScanResults['scanner'])) {
+					$needToBlock = true;
+					$theKadeshi->Scanner->SaveAnamnesis();
+					$theKadeshi->Scanner->SendAnamnesis();
+					//break;
+				}
 			}
 		}
 
-		//print_r($fileScanResults);
 		break;
 
 	case "block":
-		$blockedIp = $_SERVER['REMOTE_ADDR'];
-		$theKadeshi->WriteFirewallLog($blockedIp);
 		$needToBlock = true;
-		header('HTTP/1.0 403 Forbidden');
-		//print_r($_SERVER);
 		break;
 	default:
 
-		if(!isset($fileToScan)) {
+		//if(!isset($fileToScan)) {
 			$theKadeshi->GetFileList(__DIR__);
-		} else {
-			$theKadeshi->fileList = $fileToScan;
-		}
-		//die();
-		//print_r(array($theKadeshi->fileList, __DIR__));
+		//} else {
+			//$theKadeshi->fileList = $fileToScan;
+		//}
+
 		foreach ($theKadeshi->fileList as $file) {
 
-			$fileScanResults = $theKadeshi->Scanner->Scan($file);
+			$fileScanResults = $theKadeshi->Scanner->Scan($file, true);
 			if ($fileScanResults != null) {
 				$scanResults[] = $fileScanResults;
 
 				//$Console->Log($fileScanResults['file']['dirname'] . '/' . $fileScanResults['file']['basename'] . ' infection: ' . $Console->Color['red'] . $fileScanResults['name'] . $Console->Color['normal'] . " action: " . $Console->Color['blue'] . $fileScanResults['action'] . $Console->Color['normal'] );
 			}
 		}
-		//echo(TheKadeshi::$AnamnesisFile);
-		if(file_exists(TheKadeshi::$AnamnesisFile)) {
+
+		if(!empty($fileScanResults) && isset($fileScanResults['scanner'])) {
+			$needToBlock = true;
+			$theKadeshi->Scanner->SaveAnamnesis();
 			$theKadeshi->Scanner->SendAnamnesis();
+			//break;
 		}
-/*
-		if(!empty($scanResults)) {
-			//for
-			$encodedResults = json_encode($scanResults);
-			$resultsFile = file_put_contents(THEKADESHI_DIR . "/kadeshi.anamnesis.json", $encodedResults);
-		}
-*/
+
 		break;
 }
 @header('Execute: ' . (microtime(true) - $theKadeshi->executionMicroTimeStart));
 if($needToBlock == true) {
+	$blockedIp = $_SERVER['REMOTE_ADDR'];
+	$theKadeshi->WriteFirewallLog($blockedIp);
+	header('HTTP/1.0 403 Forbidden');
 	echo(base64_decode($theKadeshi::ProtectedPage));
 	die();
 }

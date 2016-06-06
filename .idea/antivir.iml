@@ -4,6 +4,8 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/Tests" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/.thekadeshi" />
+      <excludeFolder url="file://$MODULE_DIR$/forExamine" />
+      <excludeFolder url="file://$MODULE_DIR$/forTest" />
       <excludeFolder url="file://$MODULE_DIR$/infected" />
     </content>
     <orderEntry type="inheritedJdk" />
