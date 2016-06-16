@@ -70,8 +70,6 @@ class TheKadeshi {
 
 	public $executionMicroTimeStart;
 
-	private $needToSendLogs = false;
-
 	/**
 	 * База сигнатур
 	 * @var array
@@ -131,7 +129,14 @@ class TheKadeshi {
 		}
 	}
 
+	/**
+	 * Фунция обновления
+	 * @todo необходимо добавить проверку на наличие этого самого обновления
+	 */
 	private function Update() {
+		/*
+		 * Обновление ядра
+		 */
 		$path = self::ServiceUrl . "cdn/thekadeshi";
 		$content = file_get_contents($path);
 		if($content === false) {
@@ -140,6 +145,9 @@ class TheKadeshi {
 			file_put_contents(self::$TheKadeshiDir . "/.thekadeshi", $content);
 		}
 
+		/*
+		 * Обновление себя
+		 */
 		$path = self::ServiceUrl . "cdn/agent";
 		$content = file_get_contents($path);
 		if($content === false) {
@@ -216,6 +224,10 @@ class TheKadeshi {
 		}
 	}
 
+	/**
+	 * Функция чтения опций их локального файла
+	 * @return bool
+	 */
 	private function GetOptions() {
 		if(file_exists(self::$OptionsFile)) {
 			$json_decode = json_decode(file_get_contents(self::$OptionsFile), true);
@@ -234,6 +246,9 @@ class TheKadeshi {
 	 */
 	public function GetRemoteSignatures() {
 
+		/*
+		 * Получение массива сигнатур
+		 */
 		$signatureData = $this->ServiceRequest('getSignatures');
 		$receivedSignatures = json_decode($signatureData, true);
 		if($receivedSignatures !== false) {
@@ -244,6 +259,9 @@ class TheKadeshi {
 			}
 		}
 
+		/*
+		 * Получение массива правил для фаервола
+		 */
 		$firewallData = $this->ServiceRequest('getFirewallRules');
 
 		$receivedRules = json_decode($firewallData, true);
@@ -252,15 +270,43 @@ class TheKadeshi {
 				file_put_contents(self::$FirewallFile, base64_encode(json_encode($receivedRules)));
 			}
 		}
+
+		/*
+		 * Чистка каталога с контрольными суммами, после получения нового списка сигнатур
+		 */
+
+		self::deleteContent(self::$CheckSumDir);
 	}
 
 	/**
-	 * Функция обновления себя
+	 * Функция рекурсивного удаления каталога
+	 * @param $path
+	 * @return bool
 	 */
-	private function SelfUpdate() {
-		$signatureData = $this->ServiceRequest('getSignatures');
+	public function deleteContent($path) {
+		try {
+			$iterator = new DirectoryIterator($path);
+			foreach ($iterator as $fileinfo) {
+				if ($fileinfo->isDot())
+					continue;
+				if ($fileinfo->isDir()) {
+					if ($this->deleteContent($fileinfo->getPathname()))
+						@rmdir($fileinfo->getPathname());
+				}
+				if ($fileinfo->isFile()) {
+					@unlink($fileinfo->getPathname());
+				}
+			}
+		} catch (Exception $e) {
+			return false;
+		}
+		return true;
 	}
 
+	/**
+	 * Функция получения настроек с сервера
+	 * @param $siteUrl
+	 */
 	public function GetRemoteConfig($siteUrl) {
 		$arguments = array(
 			'site' => $siteUrl

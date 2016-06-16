@@ -165,6 +165,54 @@ class TheKadeshi {
 		}
 	}
 
+	/**
+	 * Функция рекурсивного удаления каталога
+	 * @param $path
+	 * @return bool
+	 */
+	public function deleteContent($path) {
+		try {
+			$iterator = new DirectoryIterator($path);
+			foreach ($iterator as $fileinfo) {
+				if ($fileinfo->isDot())
+					continue;
+				if ($fileinfo->isDir()) {
+					if ($this->deleteContent($fileinfo->getPathname()))
+						@rmdir($fileinfo->getPathname());
+				}
+				if ($fileinfo->isFile()) {
+					@unlink($fileinfo->getPathname());
+				}
+			}
+		} catch (Exception $e) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Эксперементальная функция получения списка файлов
+	 * Требует PHP > 5.2
+	 * @param $dir
+	 */
+	public function GetIteratorFileList($dir) {
+		$directory = new \RecursiveDirectoryIterator($dir);
+		$iterator = new \RecursiveIteratorIterator($directory);
+
+		foreach ($iterator as $info) {
+
+			$fileData = pathinfo($info);
+			if (isset($fileData['extension'])) {
+				if (in_array($fileData['extension'], $this->ValidExtensions)) {
+					$this->fileList[] = $info;
+				}
+			}
+		}
+
+		unset($directory);
+		unset($iterator);
+	}
+
 	public static function ServiceRequest($ApiMethod, $arguments = array(), $sendToken = true) {
 
 		$curl = curl_init();
@@ -222,7 +270,11 @@ $scanResults = array();
 //$Console->Log("Current action: " . "Scanning");
 
 if(!isset($fileToScan)) {
+
 	$theKadeshi->GetFileList(__DIR__);
+
+	//$theKadeshi->GetIteratorFileList(__DIR__);
+
 } else {
 	$theKadeshi->fileList = $fileToScan;
 }
