@@ -230,7 +230,7 @@ if(!isset($fileToScan)) {
 //print_r(array($theKadeshi->fileList, __DIR__));
 $result_line = "";
 $totalFiles = count($theKadeshi->fileList);
-echo("Files to scan: " . chr(27) . $totalFiles . "\r\n");
+echo("Files to scan: " . $totalFiles . "\r\n");
 $fileCounter = 1;
 $totalScanTime = 0;
 $fileScanTime = 0;
