@@ -407,8 +407,11 @@ class TheKadeshi {
 	/**
 	 * Функция записи логов фаервола
 	 * @param $ip
+	 * @param null $ruleId
+	 * @param null $script
+	 * @param null $query
 	 */
-	public function WriteFirewallLog($ip) {
+	public function WriteFirewallLog($ip, $ruleId = null, $script = null, $query = null) {
 		$firewallData = array();
 		if(file_exists(self::$FirewallLogFile)) {
 			$this->setChmod(self::$FirewallLogFile, 'write');
@@ -420,7 +423,10 @@ class TheKadeshi {
 		}
 		$firewallData['logs'][] = array(
 			'ip' => $ip,
-			'time' => gmdate("Y-m-d H:i:s")
+			'time' => gmdate("Y-m-d H:i:s"),
+			'rule' => $ruleId,
+			'script' => $script,
+			'query' => $query
 		);
 		$firewallLogContent = json_encode($firewallData);
 		file_put_contents(self::$FirewallLogFile, $firewallLogContent);
@@ -561,14 +567,15 @@ switch ($currentAction) {
 					}
 					$firewallResult = (bool)preg_match("~" . $firewallRule['rule'] . "~msA", $requestItem);
 
-
 					if($firewallResult!==false) {
-
+						$requestItem = $_SERVER['PHP_SELF'];
+						$requestQuery = base64_encode($_SERVER['QUERY_STRING']);
+						$ruleId = $firewallRule['id'];
 						$needToBlock = true;
 						break;
+
 					}
 				}
-
 			}
 		}
 
@@ -620,7 +627,7 @@ switch ($currentAction) {
 
 if($needToBlock == true) {
 	$blockedIp = $_SERVER['REMOTE_ADDR'];
-	$theKadeshi->WriteFirewallLog($blockedIp);
+	$theKadeshi->WriteFirewallLog($blockedIp, (isset($ruleId)?$ruleId:0), (isset($requestItem)?$requestItem:''), (isset($requestQuery)?$requestQuery:''));
 	header('HTTP/1.0 403 Forbidden');
 	echo(base64_decode($theKadeshi::ProtectedPage));
 	die();

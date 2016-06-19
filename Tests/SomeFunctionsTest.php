@@ -10,7 +10,7 @@ class FunctionsTest extends PHPUnit_Framework_TestCase {
 
 	public function testGetHashForFile() {
 
-		$file = "../forTest/adodb.class.php";
+		$file = "../forExamine/popup-pomo.php";
 		
 		if(file_exists($file)) {
 			//echo "Ok";
