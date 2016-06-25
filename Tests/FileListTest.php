@@ -8,14 +8,15 @@
  * Created by PhpStorm.
  */
 
-require_once '../classes/filelist.php';
+require_once '../thekadeshi.php';
 
 class FileListTest extends PHPUnit_Framework_TestCase {
 
-	public function testScan() {
-		$scanner = new TheKadeshi\FileList();
-		$dir = __DIR__ . '/..';
+	public function testSendFirewallLogs() {
+		$kadeshiClass = new TheKadeshi();
 
-		$scanner->GetFileList($dir);
+		$kadeshiClass->SendFirewallLogs();
+
+		//$scanner->GetFileList($dir);
 	}
 }

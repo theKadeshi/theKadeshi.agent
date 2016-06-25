@@ -105,7 +105,7 @@ class TheKadeshi {
 		//} else {
 			echo("Engine file: ");
 			$parh = self::ServiceUrl . "cdn/thekadeshi";
-			$content = file_get_contents($parh);
+			$content = file_get_contents($parh . '?dev=1');
 			if($content === false) {
 				echo("something wrong");	
 			}

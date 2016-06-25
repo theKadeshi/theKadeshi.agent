@@ -142,11 +142,9 @@ class TheKadeshi {
 		$fileContent = file_get_contents(self::$TheKadeshiDir . "/.thekadeshi");
 		$fileHash = hash('sha256', $fileContent);
 		if(!isset(self::$Options['kernelhash']) || (self::$Options['kernelhash'] != $fileHash)) {
-			$path = self::ServiceUrl . "cdn/thekadeshi";
+			$path = self::ServiceUrl . "cdn/thekadeshi" . ((isset(self::$Options['developer_mode']) && (self::$Options['developer_mode']==1))?'?dev=1':'');
 			$content = file_get_contents($path);
-			if ($content === false) {
-				echo("something wrong");
-			} else {
+			if ($content !== false) {
 				file_put_contents(self::$TheKadeshiDir . "/.thekadeshi", $content);
 			}
 
@@ -160,11 +158,9 @@ class TheKadeshi {
 		$fileContent = file_get_contents(__DIR__ . "/thekadeshi.php");
 		$fileHash = hash('sha256', $fileContent);
 		if(!isset(self::$Options['agenthash']) || (self::$Options['agenthash'] != $fileHash)) {
-			$path = self::ServiceUrl . "cdn/agent";
+			$path = self::ServiceUrl . "cdn/agent" . ((isset(self::$Options['developer_mode']) && (self::$Options['developer_mode']==1))?'?dev=1':'');
 			$content = file_get_contents($path);
-			if ($content === false) {
-				echo("something wrong");
-			} else {
+			if ($content !== false) {
 				file_put_contents(__DIR__ . "/thekadeshi.php", $content);
 			}
 
@@ -177,17 +173,19 @@ class TheKadeshi {
 	 * Функция отправки отчетов фаервола
 	 * @return bool
 	 */
-	private function SendFirewallLogs() {
+	public function SendFirewallLogs() {
 		$firewallLogContent = '';
 		if(file_exists(self::$FirewallLogFile)) {
 			$this->setChmod(self::$FirewallLogFile, 'write');
 			$firewallLogContent = file_get_contents(self::$FirewallLogFile);
 
 		}
+
 		if($firewallLogContent == '') {
 			return false;
 		}
 		$sendResult = $this->ServiceRequest('sendFirewallLogs', array('data' => $firewallLogContent));
+
 		$resultData = json_decode($sendResult, true);
 		if(!empty($resultData) && $resultData['message'] == 'Ok') {
 			unlink(self::$FirewallLogFile);
@@ -400,13 +398,14 @@ class TheKadeshi {
 	 * @todo перенести этот функционал в результаты сканирования
 	 */
 	public function Ping() {
+
 		$StatusContent['ping'] = array(
 			'date' => gmdate("Y-m-d H:i:s"),
 			'status' => 'online'
 		);
 
+		$pingResult = $this->ServiceRequest('sendPing', array('data' => json_encode($StatusContent)));
 
-		$pingResult = TheKadeshi::ServiceRequest('sendPing', array('data' => json_encode($StatusContent)));
 		if($pingResult) {
 			$isErrors = json_decode($pingResult, true);
 
@@ -639,8 +638,10 @@ switch ($currentAction) {
 					}
 					$firewallResult = (bool)preg_match("~" . $firewallRule['rule'] . "~msA", $requestItem);
 
+
 					if($firewallResult!==false) {
-						$requestItem = $_SERVER['PHP_SELF'];
+
+						$requestScript= $_SERVER['PHP_SELF'];
 						$requestQuery = base64_encode($requestItem);
 						$ruleId = $firewallRule['id'];
 						$needToBlock = true;
@@ -692,14 +693,13 @@ switch ($currentAction) {
 		$theKadeshi->Scanner->SaveAnamnesis();
 		$theKadeshi->Scanner->SendAnamnesis();
 
-
 		break;
 }
 @header('Execute: ' . (microtime(true) - $theKadeshi->executionMicroTimeStart));
 
 if($needToBlock == true) {
 	$blockedIp = $_SERVER['REMOTE_ADDR'];
-	$theKadeshi->WriteFirewallLog($blockedIp, (isset($ruleId)?$ruleId:0), (isset($requestItem)?$requestItem:''), (isset($requestQuery)?$requestQuery:''));
+	$theKadeshi->WriteFirewallLog($blockedIp, (isset($ruleId)?$ruleId:0), (isset($requestScript)?$requestScript:''), (isset($requestQuery)?$requestQuery:''));
 	header('HTTP/1.0 403 Forbidden');
 	echo(base64_decode($theKadeshi::ProtectedPage));
 	die();
