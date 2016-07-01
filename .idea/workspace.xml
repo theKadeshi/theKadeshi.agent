@@ -2,13 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="340d8aa7-8099-46bc-b63d-0a81d6f7d953" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.user.ini" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.htaccess" afterPath="$PROJECT_DIR$/.htaccess" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/FileListTest.php" afterPath="$PROJECT_DIR$/Tests/FileListTest.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/SomeFunctionsTest.php" afterPath="$PROJECT_DIR$/Tests/SomeFunctionsTest.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scanner.php" afterPath="$PROJECT_DIR$/scanner.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/thekadeshi.php" afterPath="$PROJECT_DIR$/thekadeshi.php" />
     </list>
     <ignored path="antivir.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -52,7 +47,7 @@
         <entry file="file://$PROJECT_DIR$/Tests/SomeFunctionsTest.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="204">
-              <caret line="12" column="38" selection-start-line="12" selection-start-column="38" selection-end-line="12" selection-end-column="38" />
+              <caret line="12" column="34" selection-start-line="12" selection-start-column="34" selection-end-line="12" selection-end-column="34" />
               <folding />
             </state>
           </provider>
@@ -61,11 +56,21 @@
       <file leaf-file-name="thekadeshi.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/thekadeshi.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="214">
-              <caret line="633" column="17" selection-start-line="633" selection-start-column="17" selection-end-line="633" selection-end-column="17" />
+            <state relative-caret-position="4723">
+              <caret line="609" column="23" selection-start-line="609" selection-start-column="23" selection-end-line="609" selection-end-column="23" />
               <folding>
                 <element signature="e#6#134#0#PHP" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="thekadeshi.inc.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/thekadeshi.inc.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="17">
+              <caret line="289" column="64" selection-start-line="289" selection-start-column="52" selection-end-line="289" selection-end-column="64" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -75,16 +80,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="238">
               <caret line="20" column="5" selection-start-line="20" selection-start-column="5" selection-end-line="20" selection-end-column="5" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="thekadeshi.inc.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/thekadeshi.inc.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="7293">
-              <caret line="429" column="27" selection-start-line="429" selection-start-column="21" selection-end-line="429" selection-end-column="27" />
               <folding />
             </state>
           </provider>
@@ -115,7 +110,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/forExamine/calendar.js" />
         <option value="$PROJECT_DIR$/forTest/config.js" />
         <option value="$PROJECT_DIR$/forTest/calendar-ru_win_.js" />
         <option value="$PROJECT_DIR$/forTest/xfields.upload.php" />
@@ -160,12 +154,13 @@
         <option value="$PROJECT_DIR$/.thekadeshi/signature.log.json" />
         <option value="$PROJECT_DIR$/forExamine/tset.php" />
         <option value="$PROJECT_DIR$/forTest/test.php" />
-        <option value="$PROJECT_DIR$/Tests/SomeFunctionsTest.php" />
         <option value="$PROJECT_DIR$/forTest/include.php" />
         <option value="$PROJECT_DIR$/forTest/virus0036.php" />
         <option value="&lt;037391e8-ce91-4fea-b633-1a51970969fd&gt;/.thekadeshi/.options" />
         <option value="$PROJECT_DIR$/Tests/FileListTest.php" />
+        <option value="$PROJECT_DIR$/thekadeshi.inc.php" />
         <option value="$PROJECT_DIR$/thekadeshi.php" />
+        <option value="$PROJECT_DIR$/Tests/SomeFunctionsTest.php" />
       </list>
     </option>
   </component>
@@ -182,7 +177,7 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
-    <option name="width" value="1456" />
+    <option name="width" value="1444" />
     <option name="height" value="876" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
@@ -211,6 +206,7 @@
     </navigator>
     <panes>
       <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -253,6 +249,20 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="forTest" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="antivir" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="antivir" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="forExamine" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
@@ -273,7 +283,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -284,14 +293,14 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.highlight.symlinks" value="true" />
     <property name="WebServerToolWindowPanel.toolwindow.highlight.mappings" value="true" />
-    <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="last_opened_file_path" value="C:/temp/russia/stivenson10" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\Bagdad\Documents\web\project\antivir\forTest" />
       <recent name="C:\Users\Bagdad\Documents\web\project\antivir\forExamine" />
+      <recent name="C:\Users\Bagdad\Documents\web\project\antivir\forTest" />
       <recent name="C:\Users\Bagdad\Documents\web\project\antivir\.thekadeshi" />
       <recent name="C:\Users\Bagdad\Documents\web\project\antivir" />
       <recent name="C:\Users\Bagdad\Documents\web\project\antivir\virusdie" />
@@ -300,7 +309,7 @@
       <recent name="C:\Users\Bagdad\Documents\web\project\antivir\forExamine" />
     </key>
   </component>
-  <component name="RunManager" selected="PHPUnit.FileListTest">
+  <component name="RunManager" selected="PHPUnit.FunctionsTest">
     <configuration default="false" name="scan local" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/thekadeshi.php">
       <method />
     </configuration>
@@ -358,9 +367,9 @@
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="PHPUnit.FileListTest" />
+        <item index="0" class="java.lang.String" itemvalue="PHPUnit.FunctionsTest" />
         <item index="1" class="java.lang.String" itemvalue="PHP Script.scanner.php" />
-        <item index="2" class="java.lang.String" itemvalue="PHPUnit.FunctionsTest" />
+        <item index="2" class="java.lang.String" itemvalue="PHPUnit.FileListTest" />
         <item index="3" class="java.lang.String" itemvalue="PHP Script.scan local" />
         <item index="4" class="java.lang.String" itemvalue="PHPUnit.ScannerTest (1)" />
       </list>
@@ -451,7 +460,13 @@
       <workItem from="1466660354027" duration="6258000" />
       <workItem from="1466685707772" duration="2421000" />
       <workItem from="1466746380813" duration="25096000" />
-      <workItem from="1466871221072" duration="6735000" />
+      <workItem from="1466871221072" duration="6758000" />
+      <workItem from="1467042368525" duration="599000" />
+      <workItem from="1467108685118" duration="1961000" />
+      <workItem from="1467190004631" duration="1688000" />
+      <workItem from="1467200613180" duration="1295000" />
+      <workItem from="1467277224224" duration="4764000" />
+      <workItem from="1467370209895" duration="2197000" />
     </task>
     <task id="LOCAL-00001" summary="KDSH-45 #time 4h 30m #comment Альфа версия эвристического алгоритма">
       <created>1457514082672</created>
@@ -691,13 +706,17 @@
       <option name="project" value="LOCAL" />
       <updated>1466692023812</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="Более-менее стабильная версия">
+      <created>1466883930073</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1466883930073</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="FileListTest - 2016.06.25 at 21h 40m 22s.xml">
-      <configuration name="FileListTest" configurationId="PHPUnitRunConfigurationType" />
-    </history-entry>
     <history-entry file="FileListTest - 2016.06.25 at 21h 41m 11s.xml">
       <configuration name="FileListTest" configurationId="PHPUnitRunConfigurationType" />
     </history-entry>
@@ -725,20 +744,22 @@
     <history-entry file="FunctionsTest - 2016.06.24 at 19h 05m 20s.xml">
       <configuration name="FunctionsTest" configurationId="PHPUnitRunConfigurationType" />
     </history-entry>
+    <history-entry file="FunctionsTest - 2016.07.01 at 14h 01m 37s.xml">
+      <configuration name="FunctionsTest" configurationId="PHPUnitRunConfigurationType" />
+    </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="544392000" />
+    <option name="totallyTimeSpent" value="556919000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1456" height="876" extended-state="6" />
+    <frame x="-8" y="-8" width="1444" height="876" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18553008" sideWeight="0.47834274" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23567335" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25289017" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="File Transfer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19380888" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32974428" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2422611" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.247851" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -751,6 +772,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Command Line Tools Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32839838" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="File Transfer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19380888" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32902297" sideWeight="0.5216572" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32839838" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -803,7 +825,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/forTest/virus0178.php" />
     <entry file="file://$PROJECT_DIR$/forTest/wpconf.php" />
     <entry file="file://$PROJECT_DIR$/forExamine/gemb.php" />
     <entry file="file://$PROJECT_DIR$/forExamine/hirec.php" />
@@ -826,13 +847,7 @@
     <entry file="file://$PROJECT_DIR$/forTest/page42.php" />
     <entry file="file://$PROJECT_DIR$/forExamine/language.php" />
     <entry file="file://$PROJECT_DIR$/forExamine/footer.php" />
-    <entry file="file://$PROJECT_DIR$/forTest/virus0204.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/forTest/virus0204.php" />
     <entry file="file://$PROJECT_DIR$/.user.ini" />
     <entry file="file://$PROJECT_DIR$/.thekadeshi/.status">
       <provider selected="true" editor-type-id="text-editor">
@@ -846,7 +861,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -860,51 +874,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/forTest/functions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="741" column="0" selection-start-line="741" selection-start-column="0" selection-end-line="741" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/forTest/functions.js" />
     <entry file="file://$PROJECT_DIR$/forExamine/config.php" />
     <entry file="file://$PROJECT_DIR$/forExamine/b374k-2.8.php" />
-    <entry file="file://$PROJECT_DIR$/forTest/css.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-287">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/forTest/AsynGoogleAnalytics.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="403">
-          <caret line="99" column="0" selection-start-line="99" selection-start-column="0" selection-end-line="99" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/forTest/css.php" />
+    <entry file="file://$PROJECT_DIR$/forTest/AsynGoogleAnalytics.php" />
     <entry file="file://$PROJECT_DIR$/forTest/ajax.php" />
     <entry file="file://$PROJECT_DIR$/forExamine/tset.php" />
     <entry file="file://$PROJECT_DIR$/forExamine/templates.php" />
     <entry file="file://$PROJECT_DIR$/forExamine/configuration.php" />
-    <entry file="file://$PROJECT_DIR$/forTest/test.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/forTest/test.php" />
     <entry file="file://$PROJECT_DIR$/forExamine/firewall.log" />
     <entry file="file://$PROJECT_DIR$/forExamine/error.php" />
-    <entry file="file://$PROJECT_DIR$/.thekadeshi/signature.log.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="86" selection-start-line="0" selection-start-column="86" selection-end-line="0" selection-end-column="86" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/forTest/menus.php" />
     <entry file="file://$PROJECT_DIR$/forExamine/index.php">
       <provider selected="true" editor-type-id="text-editor">
@@ -914,26 +895,19 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/forExamine/tryagain.php" />
-    <entry file="file://$PROJECT_DIR$/thekadeshi.inc.php">
+    <entry file="file://$PROJECT_DIR$/forTest/virus0036.php" />
+    <entry file="file://$PROJECT_DIR$/forTest/include.php" />
+    <entry file="file://$PROJECT_DIR$/forTest/jquery.fancybox-1.3.1.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7293">
-          <caret line="429" column="27" selection-start-line="429" selection-start-column="21" selection-end-line="429" selection-end-column="27" />
-          <folding />
+        <state relative-caret-position="-17">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/forTest/virus0036.php">
+    <entry file="file://$PROJECT_DIR$/.thekadeshi/signature.log.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4702">
-          <caret line="0" column="2481" selection-start-line="0" selection-start-column="2481" selection-end-line="0" selection-end-column="2481" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/forTest/include.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-8748">
-          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+        <state relative-caret-position="0">
+          <caret line="0" column="86" selection-start-line="0" selection-start-column="86" selection-end-line="0" selection-end-column="86" />
           <folding />
         </state>
       </provider>
@@ -946,18 +920,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/thekadeshi.inc.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="289" column="64" selection-start-line="289" selection-start-column="52" selection-end-line="289" selection-end-column="64" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Tests/SomeFunctionsTest.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
-          <caret line="12" column="38" selection-start-line="12" selection-start-column="38" selection-end-line="12" selection-end-column="38" />
+          <caret line="12" column="34" selection-start-line="12" selection-start-column="34" selection-end-line="12" selection-end-column="34" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/thekadeshi.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="214">
-          <caret line="633" column="17" selection-start-line="633" selection-start-column="17" selection-end-line="633" selection-end-column="17" />
+        <state relative-caret-position="4723">
+          <caret line="609" column="23" selection-start-line="609" selection-start-column="23" selection-end-line="609" selection-end-column="23" />
           <folding>
             <element signature="e#6#134#0#PHP" expanded="true" />
           </folding>
