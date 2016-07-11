@@ -87,12 +87,12 @@ class TheKadeshi {
 
 		$this->executionMicroTimeStart = microtime(true);
 
-		self::$TheKadeshiDir = __DIR__ . "/.thekadeshi";
-		self::$OptionsFile = self::$TheKadeshiDir . "/" . ".options";
+		self::$TheKadeshiDir = __DIR__ . '/.thekadeshi';
+		self::$OptionsFile = self::$TheKadeshiDir . '/.options';
 		self::$API_Path = self::ServiceUrl . 'api/';
 		self::$CDN_Path = self::ServiceUrl . 'cdn/';
 
-		self::$CheckSumDir = self::$TheKadeshiDir . "/" . "checksum";
+		self::$CheckSumDir = self::$TheKadeshiDir . '/checksum';
 		if(!is_dir(self::$CheckSumDir)) {
 			$folderCreateResult = mkdir(self::$CheckSumDir, 0755, true);
 			if($folderCreateResult === false) {
@@ -103,22 +103,22 @@ class TheKadeshi {
 		//if(is_file(self::$TheKadeshiDir . "/.thekadeshi")) {
 		//	include_once(self::$TheKadeshiDir . "/.thekadeshi");
 		//} else {
-			echo("Engine file: ");
-			$parh = self::ServiceUrl . "cdn/thekadeshi";
+			echo('Engine file: ');
+			$parh = self::ServiceUrl . 'cdn/thekadeshi';
 			$content = file_get_contents($parh . '?dev=1');
 			if($content === false) {
-				echo("something wrong");	
+				echo('something wrong');
 			}
-			file_put_contents(self::$TheKadeshiDir . "/.thekadeshi", $content);
-			include_once(self::$TheKadeshiDir . "/.thekadeshi");
+			file_put_contents(self::$TheKadeshiDir . '/.thekadeshi', $content);
+			include_once(self::$TheKadeshiDir . '/.thekadeshi');
 			echo(" received\r\n");
 			//echo(strlen($content));
 			//die();
 		//}
 
-		self::$QuarantineDir = self::$TheKadeshiDir . "/" . ".quarantine";
+		self::$QuarantineDir = self::$TheKadeshiDir . '/.quarantine';
 
-		self::$AnamnesisFile = self::$TheKadeshiDir . "/" . ".anamnesis";
+		self::$AnamnesisFile = self::$TheKadeshiDir . '/.anamnesis';
 
 
 		$this->Scanner = new Scanner();
@@ -131,7 +131,7 @@ class TheKadeshi {
 
 	private function LoadSignatures() {
 
-		$remoteSignatures = json_decode($this->ServiceRequest('getSignatures', array('notoken'=>true), false), true);
+		$remoteSignatures = json_decode(static::ServiceRequest('getSignatures', array('notoken'=>true), false), true);
 		//print_r($remoteSignatures);
 		//die();
 		self::$signatureDatabase = $remoteSignatures;
@@ -139,7 +139,7 @@ class TheKadeshi {
 		foreach (self::$signatureDatabase as $subSignature) {
 			$totalCount = $totalCount + count($subSignature);
 		}
-		echo("Load " . $totalCount . " remote signatures" . "\r\n");
+		echo('Load ' . $totalCount . ' remote signatures' . "\r\n");
 		//print_r(self::$signatureDatabase);
 
 	}
@@ -174,12 +174,12 @@ class TheKadeshi {
 		try {
 			$iterator = new DirectoryIterator($path);
 			foreach ($iterator as $fileinfo) {
-				if ($fileinfo->isDot())
+				if (true === $fileinfo->isDot())
 					continue;
-				if ($fileinfo->isDir()) {
-					if ($this->deleteContent($fileinfo->getPathname()))
-						@rmdir($fileinfo->getPathname());
-				}
+					if ($fileinfo->isDir()) {
+						if ($this->deleteContent($fileinfo->getPathname()))
+							@rmdir($fileinfo->getPathname());
+					}
 				if ($fileinfo->isFile()) {
 					@unlink($fileinfo->getPathname());
 				}
@@ -209,11 +209,11 @@ class TheKadeshi {
 			}
 		}
 
-		unset($directory);
-		unset($iterator);
+		unset($directory, $iterator);
+		//unset($iterator);
 	}
 
-	public static function ServiceRequest($ApiMethod, $arguments = array(), $sendToken = true) {
+	public static function ServiceRequest($ApiMethod, array $arguments = array(), $sendToken = true) {
 
 		$curl = curl_init();
 
@@ -259,7 +259,7 @@ class TheKadeshi {
 
 //@todo надо отрефакторить эту фигню
 $signaturesBase = 'remote';
-define('THEKADESHI_DIR', __DIR__ . "/.thekadeshi");
+define('THEKADESHI_DIR', __DIR__ . '/.thekadeshi');
 
 //$healer = new Healer();
 
@@ -280,9 +280,9 @@ if(!isset($fileToScan)) {
 }
 //die();
 //print_r(array($theKadeshi->fileList, __DIR__));
-$result_line = "";
+$result_line = '';
 $totalFiles = count($theKadeshi->fileList);
-echo("Files to scan: " . $totalFiles . "\r\n");
+echo('Files to scan: ' . $totalFiles . "\r\n");
 $fileCounter = 1;
 $totalScanTime = 0;
 $fileScanTime = 0;
@@ -291,18 +291,18 @@ foreach ($theKadeshi->fileList as $file) {
 
 	$fileScanResults = $theKadeshi->Scanner->Scan($file, false);
 
-	if ($fileScanResults != null) {
+	if (null !== $fileScanResults) {
 
 		if(isset($fileScanResults['heuristic']) && $fileScanResults['heuristic'] > 0) {
-			echo("[" . $fileCounter . " of " . $totalFiles . " ~" . number_format(($fileScanTime * $totalFiles - $fileScanTime * $fileCounter), 2) . "s] ");
-			echo($file . " ");
+			echo('[' . $fileCounter . ' of ' . $totalFiles . ' ~' . number_format(($fileScanTime * $totalFiles - $fileScanTime * $fileCounter), 2) . 's] ');
+			echo($file . ' ');
 
 			if(isset($fileScanResults['scanner'])) {
 
-				echo(" " . $fileScanResults['scanner']['name'] . " " . $fileScanResults['scanner']['action']);
-				$result_line .= $file . " " . $fileScanResults['scanner']['name'] . " " . $fileScanResults['scanner']['action'] . "\r\n";
+				echo(' ' . $fileScanResults['scanner']['name'] . ' ' . $fileScanResults['scanner']['action']);
+				$result_line .= $file . ' ' . $fileScanResults['scanner']['name'] . ' ' . $fileScanResults['scanner']['action'] . "\r\n";
 			} else {
-				echo("(H:" . $fileScanResults['heuristic'] . ") ");
+				echo('(H:' . $fileScanResults['heuristic'] . ') ');
 			}
 			echo("\r\n");
 		}
@@ -314,7 +314,7 @@ foreach ($theKadeshi->fileList as $file) {
 	//$theKadeshi->Scanner->SendAnamnesis();
 
 	$fileMicrotimeEnd = microtime(true);
-	$totalScanTime = $totalScanTime + ($fileMicrotimeEnd - $fileMicrotimeStart);
+	$totalScanTime += $fileMicrotimeEnd - $fileMicrotimeStart;
 	$fileScanTime = $totalScanTime / $fileCounter;
 	$fileCounter++;
 	
@@ -323,9 +323,9 @@ $theKadeshi->Scanner->SaveAnamnesis();
 $theKadeshi->Scanner->SendAnamnesis(false);
 if(isset($theKadeshi->Scanner->signatureLog)) {
 	arsort($theKadeshi->Scanner->signatureLog);
-	file_put_contents($theKadeshi::$TheKadeshiDir . "/signature.log.json", json_encode($theKadeshi->Scanner->signatureLog));
+	file_put_contents($theKadeshi::$TheKadeshiDir . '/signature.log.json', json_encode($theKadeshi->Scanner->signatureLog));
 }
-if(file_exists($theKadeshi::$TheKadeshiDir . "/.thekadeshi")) {
-	unlink($theKadeshi::$TheKadeshiDir . "/.thekadeshi");
+if(file_exists($theKadeshi::$TheKadeshiDir . '/.thekadeshi')) {
+	unlink($theKadeshi::$TheKadeshiDir . '/.thekadeshi');
 }
 echo("\r\n" . $result_line . "\r\n");
