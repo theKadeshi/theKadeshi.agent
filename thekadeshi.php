@@ -12,12 +12,12 @@ class TheKadeshi {
 	/**
 	 * Содержимое страницы блокировки
 	 */
-	const ProtectedPage = "PCFkb2N0eXBlIGh0bWw+PGh0bWw+PGhlYWQ+PG1ldGEgY2hhcnNldD11dGYtOD48dGl0bGU+VGhpcyB3ZWJzaXRlIGlzIHByb3RlY3RlZCBieSBUaGVLYWRlc2hpIHN5c3RlbTwvdGl0bGU+PGxpbmsgaHJlZj0iaHR0cHM6Ly9mb250cy5nb29nbGVhcGlzLmNvbS9jc3M/ZmFtaWx5PVJvYm90bzoxMDAiIHJlbD0ic3R5bGVzaGVldCIgdHlwZT0idGV4dC9jc3MiPjxzdHlsZT5ib2R5LCBodG1sIHtoZWlnaHQ6IDEwMCU7bWFyZ2luOiAwO2JhY2tncm91bmQtY29sb3I6ICNkY2RjZGM7fWgxIHtmb250LWZhbWlseTogJ1JvYm90bycsIHNhbnMtc2VyaWYgIWltcG9ydGFudDtmb250LXdlaWdodDogMTAwICFpbXBvcnRhbnQ7bGluZS1oZWlnaHQ6IDQwcHg7fS5yZXNwb25zaXZlLWNvbnRhaW5lciB7cG9zaXRpb246IHJlbGF0aXZlO3dpZHRoOiAxMDAlO2hlaWdodDogMTAwJX0uaW1nLWNvbnRhaW5lciB7cG9zaXRpb246IGFic29sdXRlO3RvcDogMDtib3R0b206IDA7bGVmdDogMDtyaWdodDogMDt0ZXh0LWFsaWduOiBjZW50ZXI7Zm9udDogMC8wIGE7d2lkdGg6IDEwMCU7Zm9udC1zaXplOiAxNTAlO31hIHtjb2xvcjogIzRkY2VjNTt0ZXh0LWRlY29yYXRpb246IG5vbmU7fS5pbWctY29udGFpbmVyOmJlZm9yZSB7Y29udGVudDogJyAnO2Rpc3BsYXk6IGlubGluZS1ibG9jazt2ZXJ0aWNhbC1hbGlnbjogbWlkZGxlO2hlaWdodDogNjAlO30uaW1nLWNvbnRhaW5lciBpbWcge3ZlcnRpY2FsLWFsaWduOiBtaWRkbGU7ZGlzcGxheTogaW5saW5lLWJsb2NrO3dpZHRoOiAyMCU7fTwvc3R5bGU+PC9oZWFkPjxib2R5PjxkaXYgY2xhc3M9cmVzcG9uc2l2ZS1jb250YWluZXI+PGRpdiBjbGFzcz1pbWctY29udGFpbmVyPjxpbWcgc3JjPWh0dHA6Ly90aGVrYWRlc2hpLmNvbS9pbWFnZXMvdGhla2FkZXNoaS1yZW1vdGUuc3ZnPjxici8+PGgxPlRoaXMgd2Vic2l0ZSBpcyBwcm90ZWN0ZWQgYnkgPGEgaHJlZj1odHRwOi8vdGhla2FkZXNoaS5jb20gdGFyZ2V0PV9ibGFuaz5UaGVLYWRlc2hpPC9hPiBzeXN0ZW08L2gxPjwvZGl2PjwvZGl2PjwvYm9keT48L2h0bWw+";
+	const ProtectedPage = 'PCFkb2N0eXBlIGh0bWw+PGh0bWw+PGhlYWQ+PG1ldGEgY2hhcnNldD11dGYtOD48dGl0bGU+VGhpcyB3ZWJzaXRlIGlzIHByb3RlY3RlZCBieSBUaGVLYWRlc2hpIHN5c3RlbTwvdGl0bGU+PGxpbmsgaHJlZj0iaHR0cHM6Ly9mb250cy5nb29nbGVhcGlzLmNvbS9jc3M/ZmFtaWx5PVJvYm90bzoxMDAiIHJlbD0ic3R5bGVzaGVldCIgdHlwZT0idGV4dC9jc3MiPjxzdHlsZT5ib2R5LCBodG1sIHtoZWlnaHQ6IDEwMCU7bWFyZ2luOiAwO2JhY2tncm91bmQtY29sb3I6ICNkY2RjZGM7fWgxIHtmb250LWZhbWlseTogJ1JvYm90bycsIHNhbnMtc2VyaWYgIWltcG9ydGFudDtmb250LXdlaWdodDogMTAwICFpbXBvcnRhbnQ7bGluZS1oZWlnaHQ6IDQwcHg7fS5yZXNwb25zaXZlLWNvbnRhaW5lciB7cG9zaXRpb246IHJlbGF0aXZlO3dpZHRoOiAxMDAlO2hlaWdodDogMTAwJX0uaW1nLWNvbnRhaW5lciB7cG9zaXRpb246IGFic29sdXRlO3RvcDogMDtib3R0b206IDA7bGVmdDogMDtyaWdodDogMDt0ZXh0LWFsaWduOiBjZW50ZXI7Zm9udDogMC8wIGE7d2lkdGg6IDEwMCU7Zm9udC1zaXplOiAxNTAlO31hIHtjb2xvcjogIzRkY2VjNTt0ZXh0LWRlY29yYXRpb246IG5vbmU7fS5pbWctY29udGFpbmVyOmJlZm9yZSB7Y29udGVudDogJyAnO2Rpc3BsYXk6IGlubGluZS1ibG9jazt2ZXJ0aWNhbC1hbGlnbjogbWlkZGxlO2hlaWdodDogNjAlO30uaW1nLWNvbnRhaW5lciBpbWcge3ZlcnRpY2FsLWFsaWduOiBtaWRkbGU7ZGlzcGxheTogaW5saW5lLWJsb2NrO3dpZHRoOiAyMCU7fTwvc3R5bGU+PC9oZWFkPjxib2R5PjxkaXYgY2xhc3M9cmVzcG9uc2l2ZS1jb250YWluZXI+PGRpdiBjbGFzcz1pbWctY29udGFpbmVyPjxpbWcgc3JjPWh0dHA6Ly90aGVrYWRlc2hpLmNvbS9pbWFnZXMvdGhla2FkZXNoaS1yZW1vdGUuc3ZnPjxici8+PGgxPlRoaXMgd2Vic2l0ZSBpcyBwcm90ZWN0ZWQgYnkgPGEgaHJlZj1odHRwOi8vdGhla2FkZXNoaS5jb20gdGFyZ2V0PV9ibGFuaz5UaGVLYWRlc2hpPC9hPiBzeXN0ZW08L2gxPjwvZGl2PjwvZGl2PjwvYm9keT48L2h0bWw+';
 
 	/**
 	 * Адрес службы
 	 */
-	const ServiceUrl = "http://thekadeshi.com/";
+	const ServiceUrl = 'http://thekadeshi.com/';
 
 	public $fileList;
 
@@ -64,7 +64,7 @@ class TheKadeshi {
 
 	static $Logs;
 
-	static $API_Path;
+	private $API_Path;
 
 	const configCheckTimer = 3600;
 
@@ -80,19 +80,19 @@ class TheKadeshi {
 	 * База правил фаервола
 	 * @var string
 	 */
-	public static $firewallRules = '';
+	public $firewallRules = '';
 
 	function __construct() {
 
 		$this->executionMicroTimeStart = microtime(true);
 
-		self::$TheKadeshiDir = __DIR__ . "/.thekadeshi";
-		self::$OptionsFile = self::$TheKadeshiDir . "/" . ".options";
-		self::$FirewallFile = self::$TheKadeshiDir . "/" . ".firewall";
-		self::$FirewallLogFile = self::$TheKadeshiDir . "/" . ".firewall.log";
-		self::$API_Path = self::ServiceUrl . 'api/';
+		self::$TheKadeshiDir = __DIR__ . '/.thekadeshi';
+		self::$OptionsFile = self::$TheKadeshiDir . '/.options';
+		self::$FirewallFile = self::$TheKadeshiDir . '/.firewall';
+		self::$FirewallLogFile = self::$TheKadeshiDir . '/.firewall.log';
+		$this->API_Path = self::ServiceUrl . 'api/';
 
-		self::$CheckSumDir = self::$TheKadeshiDir . "/" . "checksum";
+		self::$CheckSumDir = self::$TheKadeshiDir . '/checksum';
 		if(!is_dir(self::$CheckSumDir)) {
 			$folderCreateResult = mkdir(self::$CheckSumDir, 0755, true);
 			if($folderCreateResult === false) {
@@ -102,15 +102,15 @@ class TheKadeshi {
 
 		$this->GetOptions();
 
-		self::$AnamnesisFile = self::$TheKadeshiDir . "/" . ".anamnesis";
+		self::$AnamnesisFile = self::$TheKadeshiDir . '/.anamnesis';
 
-		self::$SignatureFile = self::$TheKadeshiDir . "/" . ".signatures";
+		self::$SignatureFile = self::$TheKadeshiDir . '/.signatures';
 
-		if(!is_file(self::$TheKadeshiDir . "/.thekadeshi")) {
+		if(!is_file(self::$TheKadeshiDir . '/.thekadeshi')) {
 			$this->Update();
 		}
-		if(is_file(self::$TheKadeshiDir . "/.thekadeshi")) {
-			include_once(self::$TheKadeshiDir . "/.thekadeshi");
+		if(is_file(self::$TheKadeshiDir . '/.thekadeshi')) {
+			include_once(self::$TheKadeshiDir . '/.thekadeshi');
 
 			$this->Scanner = new Scanner();
 
@@ -139,7 +139,7 @@ class TheKadeshi {
 		/*
 		 * Обновление ядра
 		 */
-		$fileContent = file_get_contents(self::$TheKadeshiDir . "/.thekadeshi");
+		$fileContent = file_get_contents(self::$TheKadeshiDir . '/.thekadeshi');
 		$fileHash = hash('sha256', $fileContent);
 		if(!isset(self::$Options['kernelhash']) || (self::$Options['kernelhash'] != $fileHash)) {
 			$path = self::ServiceUrl . "cdn/thekadeshi" . ((isset(self::$Options['developer_mode']) && (self::$Options['developer_mode']==1))?'?dev=1':'');
@@ -148,24 +148,22 @@ class TheKadeshi {
 				file_put_contents(self::$TheKadeshiDir . "/.thekadeshi", $content);
 			}
 
-			unset($fileContent);
-			unset($fileHash);
+			unset($fileContent, $fileHash);
 		}
 
 		/*
 		 * Обновление агента
 		 */
-		$fileContent = file_get_contents(__DIR__ . "/thekadeshi.php");
+		$fileContent = file_get_contents(__DIR__ . '/thekadeshi.php');
 		$fileHash = hash('sha256', $fileContent);
 		if(!isset(self::$Options['agenthash']) || (self::$Options['agenthash'] != $fileHash)) {
-			$path = self::ServiceUrl . "cdn/agent" . ((isset(self::$Options['developer_mode']) && (self::$Options['developer_mode']==1))?'?dev=1':'');
+			$path = self::ServiceUrl . 'cdn/agent' . ((isset(self::$Options['developer_mode']) && (self::$Options['developer_mode']==1))?'?dev=1':'');
 			$content = file_get_contents($path);
 			if ($content !== false) {
-				file_put_contents(__DIR__ . "/thekadeshi.php", $content);
+				file_put_contents(__DIR__ . '/thekadeshi.php', $content);
 			}
 
-			unset($fileContent);
-			unset($fileHash);
+			unset($fileContent, $fileHash);
 		}
 	}
 
@@ -181,13 +179,13 @@ class TheKadeshi {
 
 		}
 
-		if($firewallLogContent == '') {
+		if($firewallLogContent === '') {
 			return false;
 		}
 		$sendResult = $this->ServiceRequest('sendFirewallLogs', array('data' => $firewallLogContent));
 
 		$resultData = json_decode($sendResult, true);
-		if(!empty($resultData) && $resultData['message'] == 'Ok') {
+		if((count($resultData) !== 0) && $resultData['message'] === 'Ok') {
 			unlink(self::$FirewallLogFile);
 		}
 	}
@@ -208,7 +206,7 @@ class TheKadeshi {
 		}
 		if(isset(self::$Options['firewall']) && (self::$Options['firewall'] == true)) {
 			if(file_exists(self::$FirewallFile)) {
-				self::$firewallRules = json_decode(base64_decode(file_get_contents(self::$FirewallFile)), true);
+				$this->firewallRules = json_decode(base64_decode(file_get_contents(self::$FirewallFile)), true);
 			}
 		}
 	}
@@ -221,14 +219,12 @@ class TheKadeshi {
 
 		$dirContent = scandir($dir);
 		foreach($dirContent as $directoryElement) {
-			if($directoryElement != '..' && $directoryElement != '.') {
+			if($directoryElement !== '..' && $directoryElement !== '.') {
 				$someFile = $dir . '/' . $directoryElement;
 				if (is_file($someFile)) {
 					$fileData = pathinfo($someFile);
-					if(isset($fileData['extension'])) {
-						if(in_array($fileData['extension'], $this->ValidExtensions)) {
-							$this->fileList[] = $someFile;
-						}
+					if(isset($fileData['extension']) && in_array($fileData['extension'], $this->ValidExtensions, false)) {
+						$this->fileList[] = $someFile;
 					}
 				}
 				if (is_dir($someFile)) {
@@ -288,8 +284,7 @@ class TheKadeshi {
 		/*
 		 * Чистка каталога с контрольными суммами, после получения нового списка сигнатур
 		 */
-
-		self::deleteContent(self::$CheckSumDir);
+		$this->deleteContent(self::$CheckSumDir);
 	}
 
 	/**
@@ -325,6 +320,7 @@ class TheKadeshi {
 		$arguments = array(
 			'site' => $siteUrl
 		);
+		$htaccessConfig = array();
 		$oldPrependOption = 0;
 		if(isset(self::$Options['prepend'])) {
 			$oldPrependOption = self::$Options['prepend'];
@@ -362,7 +358,7 @@ class TheKadeshi {
 					"\t</IfModule>",
 				"</Files>",
 				"\r\n# \tChange 403 document",
-				"ErrorDocument 403 /thekadeshi.php?block",
+				'ErrorDocument 403 /thekadeshi.php?block',
 				);
 		}
 
@@ -373,14 +369,14 @@ class TheKadeshi {
 				"\r\n# \tTurn on IE8-IE9 XSS prevention tools",
 				"Header set X-XSS-Protection \"1; mode=block\"",
 				"\r\n# \tRemove server signature",
-				"ServerSignature Off",
+				'ServerSignature Off',
 				"\r\n# \tBlock xmlrpc",
-				"<Files xmlrpc.php>",
+				'<Files xmlrpc.php>',
 					"\tOrder Allow,Deny",
 					"\tdeny from all",
-				"</Files>",
+				'</Files>',
 				"\r\n# \tBlocked .htaccess file",
-				"<Files .htaccess>",
+				'<Files .htaccess>',
 					"\torder allow,deny",
 					"\tdeny from all",
 				"</Files>",
@@ -400,7 +396,7 @@ class TheKadeshi {
 	public function Ping() {
 
 		$StatusContent['ping'] = array(
-			'date' => gmdate("Y-m-d H:i:s"),
+			'date' => gmdate('Y-m-d H:i:s'),
 			'status' => 'online'
 		);
 
@@ -409,7 +405,7 @@ class TheKadeshi {
 		if($pingResult) {
 			$isErrors = json_decode($pingResult, true);
 
-			if($isErrors['errors'] == false) {
+			if($isErrors['errors'] === false) {
 
 			}
 		}
@@ -421,57 +417,57 @@ class TheKadeshi {
 	}
 
 	public function htaccessModify($configArray) {
-		$htaccessFile = __DIR__ . "/.htaccess";
+		$htaccessFile = __DIR__ . '/.htaccess';
 		$this->setChmod($htaccessFile, 'write');
-		$htaccessContent = mb_convert_encoding(file_get_contents($htaccessFile), "utf-8");
-		$newContent = "";
+		$htaccessContent = mb_convert_encoding(file_get_contents($htaccessFile), 'utf-8');
+		$newContent = '';
 		$startString = "# TheKadeshi # Start #\r\n\r\n";
 		$endString = "# TheKadeshi # End #\r\n";
 
-				$startPosition = mb_strpos($htaccessContent, $startString);
-				$endPosition = (mb_strpos($htaccessContent, $endString )!=0)?(mb_strpos($htaccessContent, $endString) + mb_strlen($endString)):0;
-				$startBlock = mb_substr($htaccessContent, 0, $startPosition);
-				$endBlock = mb_substr($htaccessContent, $endPosition);
-				$oldContent = $startBlock . $endBlock;
+		$startPosition = mb_strpos($htaccessContent, $startString);
+		$endPosition = (mb_strpos($htaccessContent, $endString ) !== 0)?(mb_strpos($htaccessContent, $endString) + mb_strlen($endString)):0;
+		$startBlock = mb_substr($htaccessContent, 0, $startPosition);
+		$endBlock = mb_substr($htaccessContent, $endPosition);
+		$oldContent = $startBlock . $endBlock;
 
-		foreach ($configArray as $configElement) {
-			if(is_array($configElement)) {
-				foreach ($configElement as $subelement) {
-					$newContent .= $subelement . "\r\n";
+		if(count($configArray) !== 0) {
+			foreach ($configArray as $configElement) {
+				if (is_array($configElement) && (count($configElement) !== 0)) {
+					foreach ($configElement as $subelement) {
+						$newContent .= $subelement . "\r\n";
+					}
+				} else {
+					$newContent .= $configElement . "\r\n";
 				}
-			} else {
-				$newContent .= $configElement . "\r\n";
 			}
 		}
 		$newContent = $startString . $newContent . "\r\n" . $endString;
 		$newContent .= $oldContent;
 		file_put_contents($htaccessFile, $newContent);
 		$this->setChmod($htaccessFile, 'read');
-		unset($startString);
-		unset($endString);
-		unset($startPosition);
-		unset($endPosition);
-		if(self::$Options['prepend'] == 1) {
-			$userIniFile = __DIR__ . "/.user.ini";
+		unset($startString, $endString, $startPosition, $endPosition);
+
+		if(self::$Options['prepend'] === 1) {
+			$userIniFile = __DIR__ . '/.user.ini';
 
 			$this->setChmod($userIniFile, 'write');
-		$userIniContent = mb_convert_encoding(file_get_contents($userIniFile), "utf-8");
-		$newContent = "";
-		$startString = "; TheKadeshi # Start #\r\n\r\n";
-		$endString = "; TheKadeshi # End #\r\n";
+			$userIniContent = mb_convert_encoding(file_get_contents($userIniFile), 'utf-8');
+			$newContent = '';
+			$startString = "; TheKadeshi # Start #\r\n\r\n";
+			$endString = "; TheKadeshi # End #\r\n";
 
-		$startPosition = mb_strpos($userIniContent, $startString);
-		$endPosition = (mb_strpos($userIniContent, $endString )!=0)?(mb_strpos($userIniContent, $endString) + mb_strlen($endString)):0;
-		$startBlock = mb_substr($userIniContent, 0, $startPosition);
-		$endBlock = mb_substr($userIniContent, $endPosition);
-		$oldContent = $startBlock . $endBlock;
+			$startPosition = mb_strpos($userIniContent, $startString);
+			$endPosition = (mb_strpos($userIniContent, $endString ) !== 0)?(mb_strpos($userIniContent, $endString) + mb_strlen($endString)):0;
+			$startBlock = mb_substr($userIniContent, 0, $startPosition);
+			$endBlock = mb_substr($userIniContent, $endPosition);
+			$oldContent = $startBlock . $endBlock;
 
-		$newContent = "auto_prepend_file = \"" . __DIR__ . "/thekadeshi.php\"\r\n";
+			$newContent = "auto_prepend_file = \"" . __DIR__ . "/thekadeshi.php\"\r\n";
 
-		$newContent = $startString . $newContent . "\r\n" . $endString;
-		$newContent .= $oldContent;
-		file_put_contents($userIniFile, $newContent);
-		$this->setChmod($userIniFile, 'read');
+			$newContent = $startString . $newContent . "\r\n" . $endString;
+			$newContent .= $oldContent;
+			file_put_contents($userIniFile, $newContent);
+			$this->setChmod($userIniFile, 'read');
 		}
 	}
 
@@ -494,7 +490,7 @@ class TheKadeshi {
 		}
 		$firewallData['logs'][] = array(
 			'ip' => $ip,
-			'time' => gmdate("Y-m-d H:i:s"),
+			'time' => gmdate('Y-m-d H:i:s'),
 			'rule' => $ruleId,
 			'script' => $script,
 			'query' => $query
@@ -510,7 +506,7 @@ class TheKadeshi {
 	 * @param string $action
 	 */
 	private function setChmod($fileName, $action = 'read') {
-		if($action == 'read') {
+		if($action === 'read') {
 			if (is_file($fileName)) {
 				chmod($fileName, 0444);
 			}
@@ -532,13 +528,13 @@ class TheKadeshi {
 		$this->GetRemoteConfig($siteUrl);
 	}
 
-	public static function ServiceRequest($ApiMethod, $arguments = array(), $sendToken = true) {
+	public function ServiceRequest($ApiMethod, $arguments = array(), $sendToken = true) {
 
 		$curl = curl_init();
 
 		$curlOptions = array();
 
-		$curlOptions[CURLOPT_URL] = self::$API_Path . $ApiMethod;
+		$curlOptions[CURLOPT_URL] = $this->API_Path . $ApiMethod;
 
 		$curlOptions[CURLOPT_RETURNTRANSFER] = true;
 		$curlOptions[CURLOPT_TIMEOUT] = 300;
@@ -549,7 +545,7 @@ class TheKadeshi {
 
 
 		if(isset($arguments)) {
-			if($sendToken == true) {
+			if($sendToken === true) {
 				$arguments['token'] = self::$Options['token'];
 			}
 			$curlOptions[CURLOPT_POSTFIELDS] = http_build_query($arguments);
@@ -572,7 +568,7 @@ error_reporting(0);
 $theKadeshi = new TheKadeshi();
 
 if(php_sapi_name() !== 'cli') {
-	if(isset($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], 'thekadeshi.php')) {
+	if(array_key_exists('REQUEST_URI', $_SERVER) && strpos($_SERVER['REQUEST_URI'], 'thekadeshi.php')) {
 
 		if(isset($_POST['ping'])) {
 
@@ -581,7 +577,7 @@ if(php_sapi_name() !== 'cli') {
 		}
 
 		if(isset($_POST['scan'])) {
-			exec("php " . __DIR__ . $_SERVER['PHP_SELF'] . " --scan");
+			exec('php ' . __DIR__ . $_SERVER['PHP_SELF'] . ' --scan');
 			exit();
 		} else {
 
@@ -601,7 +597,7 @@ if(php_sapi_name() !== 'cli') {
 		$currentAction = 'prepend';
 	}
 	if(isset($_REQUEST['block'])) {
-		$currentAction = "block";
+		$currentAction = 'block';
 	}
 } else {
 	$currentAction = 'scan';
@@ -614,7 +610,7 @@ switch ($currentAction) {
 	case 'prepend':
 
 		if(isset($theKadeshi::$Options['modifyheaders']) && $theKadeshi::$Options['modifyheaders'] == true) {
-			@header("Protection: TheKadeshi");
+			@header('Protection: TheKadeshi');
 		}
 
 		if(isset($theKadeshi::$Options['firewall']) && $theKadeshi::$Options['firewall'] == true) {
@@ -628,18 +624,17 @@ switch ($currentAction) {
 			}
 			$requestArray = array_merge($_POST, $_GET, $_COOKIE);
 
-			foreach ($theKadeshi::$firewallRules as $firewallRule) {
-				if($needToBlock == true) {
+			foreach ((array)$theKadeshi->firewallRules as $firewallRule) {
+				if($needToBlock === true) {
 					continue;
 				}
 				foreach ($requestArray as $requestItem) {
-					if($needToBlock == true) {
+					if($needToBlock === true) {
 						continue;
 					}
-					$firewallResult = (bool)preg_match("~" . $firewallRule['rule'] . "~msA", $requestItem);
+					$firewallResult = (bool)preg_match('`' . $firewallRule['rule'] . '`msA', $requestItem);
 
-
-					if($firewallResult!==false) {
+					if($firewallResult !== false) {
 
 						$requestScript= $_SERVER['PHP_SELF'];
 						$requestQuery = base64_encode($requestItem);
@@ -652,7 +647,7 @@ switch ($currentAction) {
 			}
 		}
 
-		if(!empty($_FILES)) {
+		if(count($_FILES) === 0) {
 			foreach ($_FILES as $fileToScan) {
 				$fileScanResults = $theKadeshi->Scanner->Scan($fileToScan['tmp_name'], false);
 				if(!empty($fileScanResults) && isset($fileScanResults['scanner'])) {
@@ -664,7 +659,7 @@ switch ($currentAction) {
 		}
 		if(isset($_SERVER['SCRIPT_FILENAME'])) {
 			$fileToCheck = $_SERVER['SCRIPT_FILENAME'];
-			if (method_exists($theKadeshi->Scanner, "Scan")) {
+			if (method_exists($theKadeshi->Scanner, 'Scan')) {
 				$fileScanResults = $theKadeshi->Scanner->Scan($fileToCheck, true);
 
 				if(!empty($fileScanResults) && isset($fileScanResults['scanner'])) {
@@ -677,7 +672,7 @@ switch ($currentAction) {
 
 		break;
 
-	case "block":
+	case 'block':
 		$needToBlock = true;
 		break;
 	default:
@@ -697,7 +692,7 @@ switch ($currentAction) {
 }
 @header('Execute: ' . (microtime(true) - $theKadeshi->executionMicroTimeStart));
 
-if($needToBlock == true) {
+if($needToBlock === true) {
 	$blockedIp = $_SERVER['REMOTE_ADDR'];
 	$theKadeshi->WriteFirewallLog($blockedIp, (isset($ruleId)?$ruleId:0), (isset($requestScript)?$requestScript:''), (isset($requestQuery)?$requestQuery:''));
 	header('HTTP/1.0 403 Forbidden');
@@ -705,5 +700,4 @@ if($needToBlock == true) {
 	die();
 }
 error_reporting($oldErrorReporting);
-unset($theKadeshi);
-unset($scanResults);
+unset($theKadeshi, $scanResults);

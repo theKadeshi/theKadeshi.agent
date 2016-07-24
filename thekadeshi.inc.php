@@ -1,4 +1,4 @@
-<?php
+<?php /* */
 
 class Scanner {
 
@@ -31,9 +31,15 @@ class Scanner {
 	 * @var array
 	 */
 	private $dangerousFunctions = array('eval', 'assert', 'base64_decode', 'str_rot13', 'mail',
-										'move_uploaded_file', 'is_uploaded_file', 'script',
-										'fopen', 'curl_init', 'document.write', '$GLOBAL',
-										'passthru', 'system', 'exec');
+		'move_uploaded_file', 'is_uploaded_file', 'script',
+		'fopen', 'curl_init', 'document.write', '$GLOBAL',
+		'passthru', 'system', 'exec', 'header', 'preg_replace',
+		'fromCharCode', '$_COOKIE', '$_POST', 'copy', 'navigator',
+		'$_REQUEST', 'array_filter', 'str_replace');
+
+	public $signatureLog = array();
+
+	private $AnamnesisContent = array();
 
 	/**
 	 * Scanner constructor.
@@ -67,10 +73,6 @@ class Scanner {
 		$heuristicScanResult = 0;
 		$fileCheckSum = false;
 
-		//if(TheKadeshi::$WorkWithoutSelfFolder == true) {
-			//$needChecksum = false;
-		//}
-
 		if($needChecksum) {
 			$fileCheckSum = $this->CompareFileCheckSum($fileName);
 		}
@@ -82,19 +84,20 @@ class Scanner {
 			}
 
 			$heuristicScanResult = $this->Heuristic($fileName);
-			//echo($fileName . " : " . $heuristicScanResult . "; \r\n");
 
 			if ($heuristicScanResult >= 1) {
 
 				$suspicion['heuristic'] = $heuristicScanResult;
-				$suspicion['file_original'] = base64_encode(gzcompress(file_get_contents($fileName), 9));
 
-				if(!empty(TheKadeshi::$signatureDatabase)) {
+				if(count(TheKadeshi::$signatureDatabase) !== 0) {
 					$scanResults = $this->ScanContent($fileName);
-					if(!empty($scanResults)) {
+					if(count($scanResults) !== 0) {
 						$suspicion['scanner'] = $scanResults;
+						$filePermits = decoct(fileperms($fileName) & 0777);
 
-						if($suspicion['scanner']['action'] == 'cure') {
+						chmod($fileName, 0666);
+
+						if($suspicion['scanner']['action'] === 'cure') {
 							// @todo Описать этот момент тестами
 							$fileContent = file_get_contents($fileName);
 							$fileParts[0] = mb_substr($fileContent, 0, $suspicion['scanner']['positions']['start']);
@@ -102,11 +105,21 @@ class Scanner {
 							$fixedContent = $fileParts[0] . $fileParts[1];
 							$suspicion['file_fixed'] = base64_encode(gzcompress($fixedContent, 9));
 							file_put_contents($fileName, $fixedContent);
+							/*
+							chmod($fileName, $filePermits);
+							*/
 						}
-						if($suspicion['scanner']['action'] == 'delete') {
+						if($suspicion['scanner']['action'] === 'delete') {
 							unlink($fileName);
 						}
-						//print_r($suspicion);
+						if($suspicion['scanner']['action'] === 'quarantine') {
+							rename($fileName, $fileName . '.kdsh.suspected');
+							/*
+							chmod($fileName, $filePermits);
+							*/
+						}
+						//print_r($scanResults);
+						$this->AnamnesisContent[] = $scanResults;
 					}
 
 					//print_r($this->scanResults);
@@ -122,12 +135,12 @@ class Scanner {
 
 		if(!empty($suspicion)) {
 			//print_r(array($suspicion, $fileName));
-			$this->SaveAnamnesis($fileName, $suspicion);
+			//$this->SaveAnamnesis($fileName, $suspicion);
 			//print_r();
 
 		}
 
-		return (!empty($this->scanResults))?$this->scanResults:(($heuristicScanResult>1)?$heuristicScanResult:null);
+		return (!empty($suspicion))?$suspicion:(($heuristicScanResult>1)?$heuristicScanResult:null);
 	}
 
 	/**
@@ -140,10 +153,10 @@ class Scanner {
 		$currentCheckSumPath = TheKadeshi::$CheckSumDir;
 
 		$realFileName = pathinfo($fileName);
-		$subdirSplitPath = mb_split("/", str_replace("\\", "/", strtolower($realFileName['dirname'])));
+		$subdirSplitPath = mb_split('/', str_replace("\\", '/', strtolower($realFileName['dirname'])));
 		foreach($subdirSplitPath as $pathElement) {
 			$catalogCode = mb_substr(trim($pathElement, ":;.\\/|'\"?<>,"), 0, 2);
-			$currentCheckSumPath .= "/" . $catalogCode;
+			$currentCheckSumPath .= '/' . $catalogCode;
 
 		}
 		if(!is_dir($currentCheckSumPath)) {
@@ -155,7 +168,7 @@ class Scanner {
 			'checksum' => $currentFileCheckSum
 
 		);
-		$checkSumFileName = $currentCheckSumPath . "/" . $realFileName['basename'] . ".json";
+		$checkSumFileName = $currentCheckSumPath . '/' . $realFileName['basename'] . '.json';
 		if(file_exists($checkSumFileName)) {
 			unlink($checkSumFileName);
 		}
@@ -214,24 +227,55 @@ class Scanner {
 
 		if ($content !== false && strlen($content) > 0) {
 
-			$content = mb_convert_encoding($content, "utf-8");
-			foreach (TheKadeshi::$signatureDatabase as $virusSignature) {
+			if(function_exists('hash')) {
+				$contentHash = hash('sha256', $content);
 
-				preg_match($virusSignature['expression'], $content, $results);
+				foreach (TheKadeshi::$signatureDatabase['h'] as $virusSignature) {
+					if ($contentHash === $virusSignature['expression']) {
+						$scanResults = array(
+							'file' => $fileName,
+							'name' => $virusSignature['title'],
+							'id' => $virusSignature['id'],
+							'action' => $virusSignature['action']
+						);
+					}
+				}
+			}
 
-				if (isset($results) && !empty($results)) {
+			if(count($scanResults) === 0) {
+				$content = mb_convert_encoding($content, 'utf-8');
 
-					//$files[] = array('file' => '', 'action' => $virusSignature['action']);
-					$scanResults = array(
-						'file' => $this->realFileName,
-						'name' => $virusSignature['title'],
-						'id' => $virusSignature['id'],
-						'positions' => array(
-							'start' => mb_strpos($content, $results[0]),
-							'length' => mb_strlen($results[0])
-						),
-						'action' => $virusSignature['action']
-					);
+				foreach (TheKadeshi::$signatureDatabase['r'] as $virusSignature) {
+
+					$scanStartTime = microtime(true);
+
+					preg_match($virusSignature['expression'], $content, $results);
+
+					if (($results !== null) && (count($results) !== 0)) {
+
+						//$files[] = array('file' => '', 'action' => $virusSignature['action']);
+						$scanResults = array(
+							'file' => $fileName,
+							'name' => $virusSignature['title'],
+							'id' => $virusSignature['id'],
+							'date' => gmdate('Y-m-d H:i:s'),
+							'positions' => array(
+								'start' => mb_strpos($content, $results[0]),
+								'length' => mb_strlen($results[0])
+							),
+							'action' => $virusSignature['action']
+						);
+						//  Сомнительная фича
+						break;
+					}
+
+					$scanEndTime = microtime(true);
+					$timeDifference = $scanEndTime - $scanStartTime;
+					if (isset($this->signatureLog[$virusSignature['title']])) {
+						$this->signatureLog[$virusSignature['title']] = $this->signatureLog[$virusSignature['title']] + $timeDifference;
+					} else {
+						$this->signatureLog[$virusSignature['title']] = $timeDifference;
+					}
 				}
 			}
 		}
@@ -244,9 +288,10 @@ class Scanner {
 	 * @return float Результат сканирования. Чем больше значение, тем более стремным выглядит файл
 	 */
 	public function HeuristicFileContent($fileName) {
+		$wordSplitPattern = array('/\$?\w+/i', '~[\'"]([\S\s]+)?[\'"]~iuU');
 		$suspicion = 0.0;
 
-		$fileContent = mb_convert_encoding(file_get_contents($fileName), "utf-8");
+		$fileContent = mb_convert_encoding(file_get_contents($fileName), 'utf-8');
 
 		foreach ($this->dangerousFunctions as $dangerousFunction) {
 			$functionCount =  mb_substr_count($fileContent, $dangerousFunction);
@@ -258,11 +303,21 @@ class Scanner {
 
 		if ($suspicion == 0) {
 			//Проверка на длинные слова
-			$pregResult = preg_match_all('/\$?\w+/i', $fileContent, $wordMatches);
-			if ($pregResult !== false) {;
-				foreach (array_unique($wordMatches[0]) as $someWord) {
+			$wordMatches = array();
+			foreach ($wordSplitPattern as $wordPattern) {
+				$pregResult = preg_match_all($wordPattern, $fileContent, $currentWordMatches);
+				if(!empty($currentWordMatches)) {
+					$newWordMatches = array_merge($wordMatches, $currentWordMatches[0]);
+					$wordMatches = $newWordMatches;
+					unset($newWordMatches);
+					unset($currentWordMatches);
+					//print_r($wordMatches);
+				}
+			}
+			if (!empty($wordMatches)) {;
+				foreach (array_unique($wordMatches) as $someWord) {
 					if (strlen($someWord) >= 25) {
-						if (mb_substr($someWord, 0, 1) != '$') {
+						if (mb_substr($someWord, 0, 1) !== '$') {
 							//  Чем длиннее слово, тем больше подозрение
 							if ($someWord != strtoupper($someWord)) {
 								$suspicion = $suspicion + 0.01 * strlen($someWord);
@@ -272,12 +327,12 @@ class Scanner {
 					}
 
 					//  Если слово - переменная
-					if (mb_substr($someWord, 0, 1) == '$') {
+					if (mb_substr($someWord, 0, 1) === '$') {
 						//  Проверка переменных на стремные именования
 						foreach ($this->namePatterns as $namePattern) {
 							$checkResult = preg_match($namePattern, mb_substr($someWord, 1));
 							if ($checkResult == 1) {
-								$suspicion = $suspicion + 0.01;
+								$suspicion = $suspicion + 0.02;
 							}
 						}
 
@@ -289,7 +344,7 @@ class Scanner {
 
 							$variableUsages = count(array_unique($arrayPatternMatches[0]));
 							if ($variableUsages > 4) {
-								$suspicion = $suspicion + (0.2 + $variableUsages);
+								$suspicion = $suspicion + (0.3 + $variableUsages);
 							}
 						}
 					}
@@ -297,6 +352,7 @@ class Scanner {
 			}
 		}
 
+		//echo($fileName . " " . $suspicion . "\r\n");
 		return $suspicion;
 	}
 
@@ -341,38 +397,28 @@ class Scanner {
 
 	/**
 	 * Функция записи анамнеза в файл
-	 * @param $fileName
-	 * @param $suspicion
 	 */
-	public function SaveAnamnesis($fileName, $suspicion) {
-		$anamnesisContent = array();
+	public function SaveAnamnesis() {
 
-		if(is_file(TheKadeshi::$AnamnesisFile)) {
-			$anamnesisContent = json_decode(file_get_contents(TheKadeshi::$AnamnesisFile), true);
+		if(file_exists(TheKadeshi::$AnamnesisFile)) {
+			unlink(TheKadeshi::$AnamnesisFile);
 		}
-
-		$anamnesisContent[] = array(
-			'date' => date("Y-m-d H:i:s"),
-			'file' => $fileName,
-			'suspiction' => $suspicion,
-		);
-
-		file_put_contents(TheKadeshi::$AnamnesisFile, json_encode($anamnesisContent));
+		//print_r($this->AnamnesisContent);
+		if(0 !== count($this->AnamnesisContent)) {
+			file_put_contents(TheKadeshi::$AnamnesisFile, json_encode($this->AnamnesisContent));
+		}
 	}
 
-	public function SendAnamnesis() {
+	public function SendAnamnesis($sendToken = true) {
 		if(file_exists(TheKadeshi::$AnamnesisFile)) {
 
 			$anamnesisContent = json_decode(file_get_contents(TheKadeshi::$AnamnesisFile), true);
-			$sendResult = TheKadeshi::ServiceRequest('sendAnamnesis', array('anamnesis' => $anamnesisContent));
+			$sendResult = TheKadeshi::ServiceRequest('sendAnamnesis', array('anamnesis' => $anamnesisContent), $sendToken);
 
 			$jsonResult = json_decode($sendResult, true);
 			if($jsonResult['success'] == true) {
 				unlink(TheKadeshi::$AnamnesisFile);
 			}
-			//print_r($jsonResult);
-			//file_put_contents("result.html", $sendResult);
-			//print_r($sendResult);
 		}
 	}
 }
@@ -395,6 +441,8 @@ class Status {
 		$this->Action();
 	}
 
+	/*
+
 	public function FirewallEvent() {
 		$firewallLogsFile = TheKadeshi::$TheKadeshiDir . "/" . ".firewall";
 		$firewall_logs = array();
@@ -405,23 +453,7 @@ class Status {
 		file_put_contents($firewallLogsFile, json_encode($firewall_logs));
 	}
 
-	public function Ping() {
-		$this->StatusContent['ping'] = array(
-			'date' => date("Y-m-d H:i:s"),
-			'status' => 'online'
-		);
-
-		$this->writeStatus();
-
-		$pingResult = TheKadeshi::ServiceRequest('sendPing', array('data' => $this->StatusContent));
-		if($pingResult) {
-			$isErrors = json_decode($pingResult, true);
-
-			if($isErrors['errors'] == false) {
-				unlink($this->StatusFile );
-			}
-		}
-	}
+	*/
 
 	/**
 	 * Функция записи счетчика вызова скрипта
@@ -438,153 +470,4 @@ class Status {
 		file_put_contents($this->StatusFile, json_encode($this->StatusContent));
 	}
 
-}
-
-/**
- * Класс лекарь
- */
-class Healer {
-
-	/**
-	 * Анамнез
-	 * @var array
-	 */
-	public $Anamnesis;
-
-	/**
-	 * Каталог кеша
-	 * @var string
-	 */
-	//private $TheKadeshiDir = '';
-
-	private $QuarantineDir = "";
-
-	function __construct() {
-		//$this->TheKadeshiDir = __DIR__ . "/.thekadeshi";
-
-		//$this->QuarantineDir = $this->TheKadeshiDir . "/quarantine";
-/*
-		$this->Anamnesis = array();
-		if(is_file(TheKadeshi::$AnamnesisFile)) {
-			$this->GetAnamnesis();
-			if (!empty($this->Anamnesis)) {
-				$this->Cure();
-			}
-		}
-*/
-	}
-
-	public function GetAnamnesis() {
-		$anamnesisContent = file_get_contents(TheKadeshi::$AnamnesisFile);
-		$this->Anamnesis = json_decode($anamnesisContent, true);
-	}
-
-	public function Cure($infectedElement) {
-		foreach ($this->Anamnesis as $anamnesisElement) {
-			//
-		}
-		$filePath = $infectedElement['file']['dirname'] . '/' . $infectedElement['file']['basename'];
-		$cureAction = $infectedElement['action'];
-		switch(mb_strtolower($cureAction)){
-			case 'delete':
-				$unlinkResult = unlink($filePath);
-				// @todo Поставить полноценную проверку на удаление. Иначе хана :)
-				if($unlinkResult === false) {
-					chmod($filePath, 0600);
-					unlink($filePath);
-				}
-				break;
-			case 'cure':
-				// @todo Описать этот момент тестами
-				$fileContent = file_get_contents($filePath);
-				$fileParts[0] = mb_substr($fileContent, 0, $infectedElement['positions']['start']);
-				$fileParts[1] = mb_substr($fileContent, $infectedElement['positions']['start'] + $infectedElement['positions']['length']);
-				file_put_contents($filePath, $fileParts[0] . $fileParts[1]);
-				break;
-		}
-	}
-
-	/**
-	 * Функция карантина
-	 * @param $sourceFile
-	 * @param null $originalFileName
-	 */
-	public function Quarantine($sourceFile, $originalFileName = null) {
-		if(!is_dir($this->QuarantineDir)) {
-			mkdir($this->QuarantineDir, 0755, true);
-		}
-		if(!is_null($originalFileName)) {
-			$fileName = $originalFileName;
-		} else {
-			$fileInfo = pathinfo($sourceFile);
-			$fileName = $fileInfo['basename'];
-		}
-		$quarantineFileName = date("Y-m-d-H-i-s-u") . ".json";
-		//echo($quarantineFileName . "<br/>\r\n");
-		$quarantineFile = array(
-			'content' => base64_encode(file_get_contents($sourceFile)),
-			'original' => $fileName,
-			'handler' => $_SERVER['SCRIPT_FILENAME'],
-			'date' => date("Y-m-d H:i:s"),
-			'request' => array (
-				'get' => $_GET,
-				'post' => $_POST,
-				'files' => $_FILES,
-			    'request' => $_REQUEST,
-				'cookies' => $_COOKIE,
-				'session' => $_SESSION
-			)
-		);
-		$quarantineResult = file_put_contents($this->QuarantineDir . "/" . $quarantineFileName, json_encode($quarantineFile));
-
-		if($quarantineResult) {
-			unlink($sourceFile);
-		}
-
-	}
-}
-
-/**
- * Класс для работы с консолью
- */
-class Console {
-
-	/**
-	 * Цвет текста в консоли
-	 * @var array
-	 */
-	public $Color;
-
-	/**
-	 * Флаг, требуется ли вывод
-	 * @var boolean
-	 */
-	private $IsVerbose;
-
-	/**
-	 * Console constructor.
-	 * @param $Verbose boolean
-	 */
-	function __construct($Verbose) {
-
-		$this->IsVerbose = $Verbose;
-
-		$this->Color = array(
-			'grey'      =>  chr(27) . "[31;30m",
-			'blue'      =>  chr(27) . "[30;34m",
-			'green'     =>  chr(27) . "[30;32m",
-			'red'       =>  chr(27) . "[30;31m",
-			'normal'    =>  chr(27) . "[0m",
-		);
-	}
-
-	/**
-	 * Функция вывода текста в консоль
-	 * @param $Message string
-	 */
-	public function Log($Message) {
-		if($this->IsVerbose === true) {
-			echo($Message . "\r\n");
-		}
-	}
 }
