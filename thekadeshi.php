@@ -43,20 +43,20 @@ class TheKadeshi {
 	/**
 	 * @var string Каталог Кадеш
 	 */
-	static $TheKadeshiDir;
+	private static $TheKadeshiDir;
 
 	/**
 	 * @var string Каталог с контрольными суммами
 	 */
-	static $CheckSumDir = '';
+	private static $CheckSumDir = '';
 
-	static $OptionsFile = '';
+	private static $OptionsFile = '';
 
-	static $SignatureFile = '';
+	private static $SignatureFile = '';
 
-	static $FirewallFile = '';
+	private static $FirewallFile = '';
 
-	static $AnamnesisFile = '';
+	private static $AnamnesisFile = '';
 
 	static $FirewallLogFile = '';
 
@@ -74,7 +74,7 @@ class TheKadeshi {
 	 * База сигнатур
 	 * @var array
 	 */
-	public static $signatureDatabase;
+	private static $signatureDatabase;
 
 	/**
 	 * База правил фаервола
@@ -92,9 +92,10 @@ class TheKadeshi {
 		self::$FirewallLogFile = self::$TheKadeshiDir . '/.firewall.log';
 		$this->API_Path = self::ServiceUrl . 'api/';
 
-		self::$CheckSumDir = self::$TheKadeshiDir . '/checksum';
-		if(!is_dir(self::$CheckSumDir)) {
-			$folderCreateResult = mkdir(self::$CheckSumDir, 0755, true);
+		self::setCheckSumDir(self::$TheKadeshiDir . '/checksum');
+
+		if(!is_dir(self::getCheckSumDir())) {
+			$folderCreateResult = mkdir(self::getCheckSumDir(), 0755, true);
 			if($folderCreateResult === false) {
 				self::$WorkWithoutSelfFolder = true;
 			}
@@ -102,7 +103,7 @@ class TheKadeshi {
 
 		$this->GetOptions();
 
-		self::$AnamnesisFile = self::$TheKadeshiDir . '/.anamnesis';
+		self::setAnamnesisFile(self::$TheKadeshiDir . '/.anamnesis');
 
 		self::$SignatureFile = self::$TheKadeshiDir . '/.signatures';
 
@@ -202,13 +203,57 @@ class TheKadeshi {
 			}
 		}
 		if(file_exists(self::$SignatureFile)) {
-			self::$signatureDatabase = json_decode(base64_decode(file_get_contents(self::$SignatureFile)), true);
+			self::setSignatureDatabase(json_decode(base64_decode(file_get_contents(self::$SignatureFile)), true));
 		}
 		if(isset(self::$Options['firewall']) && (self::$Options['firewall'] == true)) {
 			if(file_exists(self::$FirewallFile)) {
 				$this->firewallRules = json_decode(base64_decode(file_get_contents(self::$FirewallFile)), true);
 			}
 		}
+	}
+
+	/**
+	 * Getter для $CheckSumDir
+	 * @return string
+	 */
+	public static function getCheckSumDir() {
+		return self::$CheckSumDir;
+	}
+
+	/**
+	 * Setter для $CheckSumDir
+	 * @param string $CheckSumDir
+	 */
+	private static function setCheckSumDir($CheckSumDir) {
+		self::$CheckSumDir = $CheckSumDir;
+	}
+
+	/**
+	 * @return array
+	 */
+	public static function getSignatureDatabase() {
+		return self::$signatureDatabase;
+	}
+
+	/**
+	 * @param array $signatureDatabase
+	 */
+	private static function setSignatureDatabase($signatureDatabase) {
+		self::$signatureDatabase = $signatureDatabase;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getAnamnesisFile() {
+		return self::$AnamnesisFile;
+	}
+
+	/**
+	 * @param string $AnamnesisFile
+	 */
+	private static function setAnamnesisFile($AnamnesisFile) {
+		self::$AnamnesisFile = $AnamnesisFile;
 	}
 
 	/**
@@ -236,18 +281,27 @@ class TheKadeshi {
 
 	/**
 	 * Функция чтения опций их локального файла
-	 * @return bool
+	 * @param null $OptionName
+	 * @return mixed
 	 */
-	private function GetOptions() {
-		if(file_exists(self::$OptionsFile)) {
-			$json_decode = json_decode(file_get_contents(self::$OptionsFile), true);
-			if(!$json_decode) {
+	public function GetOptions($OptionName = null) {
+		if($OptionName === null) {
+			if (file_exists(self::$OptionsFile)) {
+				$json_decode = json_decode(file_get_contents(self::$OptionsFile), true);
+				if (!$json_decode) {
+					return false;
+				}
+				self::$Options = $json_decode;
+				return true;
+			} else {
 				return false;
 			}
-			self::$Options = $json_decode;
-			return true;
 		} else {
-			return false;
+			if(key_exists($OptionName, self::$Options)) {
+				return self::$Options[$OptionName];
+			} else {
+				return false;
+			}
 		}
 	}
 
@@ -284,7 +338,7 @@ class TheKadeshi {
 		/*
 		 * Чистка каталога с контрольными суммами, после получения нового списка сигнатур
 		 */
-		$this->deleteContent(self::$CheckSumDir);
+		$this->deleteContent(self::getCheckSumDir());
 	}
 
 	/**
@@ -609,13 +663,13 @@ $needToBlock = false;
 switch ($currentAction) {
 	case 'prepend':
 
-		if(isset($theKadeshi::$Options['modifyheaders']) && $theKadeshi::$Options['modifyheaders'] == true) {
+		if($theKadeshi->GetOptions('modifyheaders') == true) {
 			@header('Protection: TheKadeshi');
 		}
 
-		if(isset($theKadeshi::$Options['firewall']) && $theKadeshi::$Options['firewall'] == true) {
+		if($theKadeshi->GetOptions('firewall') == true) {
 
-			if(isset($theKadeshi::$Options['block_empty_user_agent']) && $theKadeshi::$Options['block_empty_user_agent'] == true) {
+			if($theKadeshi->GetOptions('block_empty_user_agent') == true) {
 
 				if(!isset($_SERVER['HTTP_USER_AGENT']) || $_SERVER['HTTP_USER_AGENT'] == '') {
 					$needToBlock = true;

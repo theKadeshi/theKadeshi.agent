@@ -89,7 +89,7 @@ class Scanner {
 
 				$suspicion['heuristic'] = $heuristicScanResult;
 
-				if(count(TheKadeshi::$signatureDatabase) !== 0) {
+				if(count(TheKadeshi::getSignatureDatabase()) !== 0) {
 					$scanResults = $this->ScanContent($fileName);
 					if(count($scanResults) !== 0) {
 						$suspicion['scanner'] = $scanResults;
@@ -150,7 +150,7 @@ class Scanner {
 	 */
 	public function SetFileCheckSum($fileName) {
 		$currentFileCheckSum = md5_file($fileName);
-		$currentCheckSumPath = TheKadeshi::$CheckSumDir;
+		$currentCheckSumPath = TheKadeshi::getCheckSumDir();
 
 		$realFileName = pathinfo($fileName);
 		$subdirSplitPath = mb_split('/', str_replace("\\", '/', strtolower($realFileName['dirname'])));
@@ -178,7 +178,7 @@ class Scanner {
 
 	public function GetFileCheckSum($fileName) {
 		$checkSumContent = false;
-		$currentCheckSumPath = TheKadeshi::$CheckSumDir;
+		$currentCheckSumPath = TheKadeshi::getCheckSumDir();
 		$realFileName = pathinfo($fileName);
 		$subdirSplitPath = mb_split("/", str_replace("\\", "/", strtolower($realFileName['dirname'])));
 		foreach($subdirSplitPath as $pathElement) {
@@ -230,7 +230,7 @@ class Scanner {
 			if(function_exists('hash')) {
 				$contentHash = hash('sha256', $content);
 
-				foreach (TheKadeshi::$signatureDatabase['h'] as $virusSignature) {
+				foreach (TheKadeshi::getSignatureDatabase()['h'] as $virusSignature) {
 					if ($contentHash === $virusSignature['expression']) {
 						$scanResults = array(
 							'file' => $fileName,
@@ -245,7 +245,7 @@ class Scanner {
 			if(count($scanResults) === 0) {
 				$content = mb_convert_encoding($content, 'utf-8');
 
-				foreach (TheKadeshi::$signatureDatabase['r'] as $virusSignature) {
+				foreach (TheKadeshi::getSignatureDatabase()['r'] as $virusSignature) {
 
 					$scanStartTime = microtime(true);
 
@@ -400,24 +400,24 @@ class Scanner {
 	 */
 	public function SaveAnamnesis() {
 
-		if(file_exists(TheKadeshi::$AnamnesisFile)) {
-			unlink(TheKadeshi::$AnamnesisFile);
+		if(file_exists(TheKadeshi::getAnamnesisFile())) {
+			unlink(TheKadeshi::getAnamnesisFile());
 		}
 		//print_r($this->AnamnesisContent);
 		if(0 !== count($this->AnamnesisContent)) {
-			file_put_contents(TheKadeshi::$AnamnesisFile, json_encode($this->AnamnesisContent));
+			file_put_contents(TheKadeshi::getAnamnesisFile(), json_encode($this->AnamnesisContent));
 		}
 	}
 
 	public function SendAnamnesis($sendToken = true) {
-		if(file_exists(TheKadeshi::$AnamnesisFile)) {
+		if(file_exists(TheKadeshi::getAnamnesisFile())) {
 
-			$anamnesisContent = json_decode(file_get_contents(TheKadeshi::$AnamnesisFile), true);
+			$anamnesisContent = json_decode(file_get_contents(TheKadeshi::getAnamnesisFile()), true);
 			$sendResult = TheKadeshi::ServiceRequest('sendAnamnesis', array('anamnesis' => $anamnesisContent), $sendToken);
 
 			$jsonResult = json_decode($sendResult, true);
 			if($jsonResult['success'] == true) {
-				unlink(TheKadeshi::$AnamnesisFile);
+				unlink(TheKadeshi::getAnamnesisFile());
 			}
 		}
 	}
@@ -432,28 +432,14 @@ class Status {
 	//private $AnamnesisFile;
 
 	function __construct() {
-		$this->StatusFile = TheKadeshi::$TheKadeshiDir . '/' . '.status';
-		//$this->AnamnesisFile = TheKadeshi::$TheKadeshiDir . '/' . '.anamnesis';
+		$this->StatusFile = TheKadeshi::getCheckSumDir() . '/' . '.status';
+
 		if(file_exists($this->StatusFile)) {
 			$this->StatusContent = json_decode(file_get_contents($this->StatusFile), true);
 		}
 
 		$this->Action();
 	}
-
-	/*
-
-	public function FirewallEvent() {
-		$firewallLogsFile = TheKadeshi::$TheKadeshiDir . "/" . ".firewall";
-		$firewall_logs = array();
-		if(is_file(TheKadeshi::$TheKadeshiDir . "/" . ".firewall")) {
-			$firewall_logs = json_decode(file_get_contents($firewallLogsFile), true);
-		}
-		$firewall_logs[] = date("Y-m-d H:i:s.u");
-		file_put_contents($firewallLogsFile, json_encode($firewall_logs));
-	}
-
-	*/
 
 	/**
 	 * Функция записи счетчика вызова скрипта

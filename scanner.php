@@ -49,7 +49,7 @@ class TheKadeshi {
 	/**
 	 * @var string Каталог с контрольными суммами
 	 */
-	static $CheckSumDir = '';
+	private static $CheckSumDir = '';
 
 	/**
 	 * @var string Каталог с карантином
@@ -57,11 +57,11 @@ class TheKadeshi {
 	static $QuarantineDir = '';
 
 
-	static $OptionsFile = '';
+	private static $OptionsFile = '';
 
-	static $SignatureFile = '';
+	private static $SignatureFile = '';
 
-	static $AnamnesisFile = '';
+	private static $AnamnesisFile = '';
 
 	public static $Options;
 
@@ -81,7 +81,7 @@ class TheKadeshi {
 	 * База сигнатур
 	 * @var array
 	 */
-	public static $signatureDatabase;
+	private static $signatureDatabase;
 
 	function __construct() {
 
@@ -92,9 +92,9 @@ class TheKadeshi {
 		self::$API_Path = self::ServiceUrl . 'api/';
 		self::$CDN_Path = self::ServiceUrl . 'cdn/';
 
-		self::$CheckSumDir = self::$TheKadeshiDir . '/checksum';
-		if(!is_dir(self::$CheckSumDir)) {
-			$folderCreateResult = mkdir(self::$CheckSumDir, 0755, true);
+		self::setCheckSumDir(self::$TheKadeshiDir . '/checksum');
+		if(!is_dir(self::getCheckSumDir())) {
+			$folderCreateResult = mkdir(self::getCheckSumDir(), 0755, true);
 			if($folderCreateResult === false) {
 				self::$WorkWithoutSelfFolder = true;
 			}
@@ -134,14 +134,55 @@ class TheKadeshi {
 		$remoteSignatures = json_decode(static::ServiceRequest('getSignatures', array('notoken'=>true), false), true);
 		//print_r($remoteSignatures);
 		//die();
-		self::$signatureDatabase = $remoteSignatures;
+		self::setSignatureDatabase($remoteSignatures);
 		$totalCount = 0;
-		foreach (self::$signatureDatabase as $subSignature) {
+		foreach (self::getSignatureDatabase() as $subSignature) {
 			$totalCount = $totalCount + count($subSignature);
 		}
 		echo('Load ' . $totalCount . ' remote signatures' . "\r\n");
-		//print_r(self::$signatureDatabase);
 
+	}
+
+	/**
+	 * @return array
+	 */
+	public static function getSignatureDatabase(): array {
+		return self::$signatureDatabase;
+	}
+
+	/**
+	 * @param array $signatureDatabase
+	 */
+	public static function setSignatureDatabase(array $signatureDatabase) {
+		self::$signatureDatabase = $signatureDatabase;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getCheckSumDir(): string {
+		return self::$CheckSumDir;
+	}
+
+	/**
+	 * @param string $CheckSumDir
+	 */
+	public static function setCheckSumDir(string $CheckSumDir) {
+		self::$CheckSumDir = $CheckSumDir;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getAnamnesisFile(): string {
+		return self::$AnamnesisFile;
+	}
+
+	/**
+	 * @param string $AnamnesisFile
+	 */
+	public static function setAnamnesisFile(string $AnamnesisFile) {
+		self::$AnamnesisFile = $AnamnesisFile;
 	}
 
 	public function GetFileList($dir) {
