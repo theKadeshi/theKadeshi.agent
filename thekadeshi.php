@@ -1,7 +1,7 @@
 <?php
 /**
  * Project: antivir
- * User: Bagdad ( https://goo.gl/mRvZBa )
+ * User: Bagdad (  )
  * Date: 07.02.2016
  * Time: 16:17
  * Created by PhpStorm.
@@ -64,7 +64,7 @@ class TheKadeshi {
 
 	static $Logs;
 
-	private $API_Path;
+	private $API_Path, $CDN_Path;
 
 	const configCheckTimer = 3600;
 
@@ -91,6 +91,7 @@ class TheKadeshi {
 		self::$FirewallFile = self::$TheKadeshiDir . '/.firewall';
 		self::$FirewallLogFile = self::$TheKadeshiDir . '/.firewall.log';
 		$this->API_Path = self::ServiceUrl . 'api/';
+		$this->CDN_Path = self::ServiceUrl . 'cdn/';
 
 		self::setCheckSumDir(self::$TheKadeshiDir . '/checksum');
 
@@ -101,35 +102,34 @@ class TheKadeshi {
 			}
 		}
 
-		$this->GetOptions();
+		if($this->GetOptions() !== false) {
 
-		self::setAnamnesisFile(self::$TheKadeshiDir . '/.anamnesis');
+			self::setAnamnesisFile(self::$TheKadeshiDir . '/.anamnesis');
 
-		self::$SignatureFile = self::$TheKadeshiDir . '/.signatures';
+			self::$SignatureFile = self::$TheKadeshiDir . '/.signatures';
 
-		if(!is_file(self::$TheKadeshiDir . '/.thekadeshi')) {
-			$this->Update();
+			if (!is_file(self::$TheKadeshiDir . '/.thekadeshi')) {
+				$this->Update();
+			}
+			if (is_file(self::$TheKadeshiDir . '/.thekadeshi')) {
+				include_once(self::$TheKadeshiDir . '/.thekadeshi');
+
+				$this->Scanner = new Scanner();
+
+				self::$Status = new Status();
+
+			}
+
+			if (!isset(self::$Options['lastconfigcheck']) || (self::$Options['lastconfigcheck'] < (time() - self::configCheckTimer)) || (self::$Options['lastconfigcheck'] >= time())) {
+
+				$this->SendFirewallLogs();
+				$this->GetRemoteConfig(self::$Options['name']);
+				$this->GetRemoteSignatures();
+				$this->Update();
+			}
+
+			$this->LoadSignatures();
 		}
-		if(is_file(self::$TheKadeshiDir . '/.thekadeshi')) {
-			include_once(self::$TheKadeshiDir . '/.thekadeshi');
-
-			$this->Scanner = new Scanner();
-
-			self::$Status = new Status();
-
-		}
-
-		if(!isset(self::$Options['lastconfigcheck']) ||
-			(self::$Options['lastconfigcheck'] < (time() - self::configCheckTimer)) ||
-			(self::$Options['lastconfigcheck'] >= time())) {
-
-			$this->SendFirewallLogs();
-			$this->GetRemoteConfig(self::$Options['name']);
-			$this->GetRemoteSignatures();
-			$this->Update();
-		}
-
-		$this->LoadSignatures();
 	}
 
 	/**
@@ -140,16 +140,23 @@ class TheKadeshi {
 		/*
 		 * Обновление ядра
 		 */
-		$fileContent = file_get_contents(self::$TheKadeshiDir . '/.thekadeshi');
-		$fileHash = hash('sha256', $fileContent);
+		$fileHash = null;
+		if(file_exists(self::$TheKadeshiDir . '/.thekadeshi')) {
+			$fileContent = file_get_contents(self::$TheKadeshiDir . '/.thekadeshi');
+			$fileHash = hash('sha256', $fileContent);
+		}
 		if(!isset(self::$Options['kernelhash']) || (self::$Options['kernelhash'] != $fileHash)) {
-			$path = self::ServiceUrl . "cdn/thekadeshi" . ((isset(self::$Options['developer_mode']) && (self::$Options['developer_mode']==1))?'?dev=1':'');
-			$content = file_get_contents($path);
+
+			$arguments = array();
+			if(is_array(self::$Options) && array_key_exists('developer_mode', self::$Options) && (int)self::$Options['developer_mode'] === 1) {
+				$arguments['dev'] = 1;
+			}
+			$content = $this->ServiceRequest('thekadeshi', $arguments, false, 'cdn');
 			if ($content !== false) {
 				file_put_contents(self::$TheKadeshiDir . "/.thekadeshi", $content);
 			}
 
-			unset($fileContent, $fileHash);
+			unset($fileContent, $fileHash, $arguments);
 		}
 
 		/*
@@ -158,13 +165,16 @@ class TheKadeshi {
 		$fileContent = file_get_contents(__DIR__ . '/thekadeshi.php');
 		$fileHash = hash('sha256', $fileContent);
 		if(!isset(self::$Options['agenthash']) || (self::$Options['agenthash'] != $fileHash)) {
-			$path = self::ServiceUrl . 'cdn/agent' . ((isset(self::$Options['developer_mode']) && (self::$Options['developer_mode']==1))?'?dev=1':'');
-			$content = file_get_contents($path);
+			$arguments = array();
+			if(is_array(self::$Options) && array_key_exists('developer_mode', self::$Options) && (int)self::$Options['developer_mode'] === 1) {
+				$arguments['dev'] = 1;
+			}
+			$content = $this->ServiceRequest('agent', $arguments, false, 'cdn');
 			if ($content !== false) {
 				file_put_contents(__DIR__ . '/thekadeshi.php', $content);
 			}
 
-			unset($fileContent, $fileHash);
+			unset($fileContent, $fileHash, $arguments);
 		}
 	}
 
@@ -381,7 +391,7 @@ class TheKadeshi {
 		}
 		$ConfigData = $this->ServiceRequest('getConfig', $arguments, false);
 
-		if($ConfigData) {
+		if($ConfigData !== '') {
 			self::$Options = json_decode($ConfigData, true);
 			self::$Options['lastconfigcheck'] = time();
 			file_put_contents(self::$OptionsFile, json_encode(self::$Options));
@@ -479,7 +489,7 @@ class TheKadeshi {
 		$endString = "# TheKadeshi # End #\r\n";
 
 		$startPosition = mb_strpos($htaccessContent, $startString);
-		$endPosition = (mb_strpos($htaccessContent, $endString ) !== 0)?(mb_strpos($htaccessContent, $endString) + mb_strlen($endString)):0;
+		$endPosition = (mb_strpos($htaccessContent, $endString ) !== 0 && mb_strpos($htaccessContent, $endString ) !== false)?(mb_strpos($htaccessContent, $endString) + mb_strlen($endString)):0;
 		$startBlock = mb_substr($htaccessContent, 0, $startPosition);
 		$endBlock = mb_substr($htaccessContent, $endPosition);
 		$oldContent = $startBlock . $endBlock;
@@ -582,38 +592,70 @@ class TheKadeshi {
 		$this->GetRemoteConfig($siteUrl);
 	}
 
-	public function ServiceRequest($ApiMethod, $arguments = array(), $sendToken = true) {
+	public function ServiceRequest($ApiMethod, $arguments = null, $sendToken = true, $source = 'api') {
 
-		$curl = curl_init();
+		if(function_exists('curl_exec') && function_exists('curl_init') && function_exists('curl_close')) {
 
-		$curlOptions = array();
+			$curl = curl_init();
 
-		$curlOptions[CURLOPT_URL] = $this->API_Path . $ApiMethod;
+			$curlOptions = array();
 
-		$curlOptions[CURLOPT_RETURNTRANSFER] = true;
-		$curlOptions[CURLOPT_TIMEOUT] = 300;
-		$curlOptions[CURLOPT_FOLLOWLOCATION] = false;
-		$curlOptions[CURLOPT_USERAGENT] = 'TheKadeshi';
+			if ($source === 'api') {
+				$curlOptions[CURLOPT_URL] = $this->API_Path . $ApiMethod;
+			} elseif ($source === 'cdn') {
+				$curlOptions[CURLOPT_URL] = $this->CDN_Path . $ApiMethod;
+			}
+			if(array_key_exists('SERVER_NAME', $_SERVER)) {
+				$arguments['site'] = $_SERVER['SERVER_NAME'];
+			}
 
-		$curlOptions[CURLOPT_POST] = true;
+			$curlOptions[CURLOPT_RETURNTRANSFER] = true;
+			$curlOptions[CURLOPT_TIMEOUT] = 300;
+			$curlOptions[CURLOPT_FOLLOWLOCATION] = false;
+			$curlOptions[CURLOPT_USERAGENT] = 'TheKadeshi';
+
+			$curlOptions[CURLOPT_POST] = true;
 
 
-		if(isset($arguments)) {
-			if($sendToken === true) {
+			if (isset($arguments)) {
+				if ($sendToken === true) {
+					$arguments['token'] = self::$Options['token'];
+				}
+				$curlOptions[CURLOPT_POSTFIELDS] = http_build_query($arguments);
+			}
+			$curlOptions[CURLOPT_HTTPHEADER] = array(
+				'Content-Type: application/x-www-form-urlencoded', 'Sender: TheKadeshi'
+			);
+
+			curl_setopt_array($curl, $curlOptions);
+			$pageContent = curl_exec($curl);
+
+			curl_close($curl);
+
+			return $pageContent;
+		} else {
+
+			$context = stream_context_create(array(
+				'http' => array(
+					'method' => 'POST', 'header' => 'Content-Type: application/x-www-form-urlencoded', 'Sender: TheKadeshi',
+				),
+			));
+
+			if ($source === 'api') {
+				$url = $this->API_Path . $ApiMethod;
+			} elseif ($source === 'cdn') {
+				$url = $this->CDN_Path . $ApiMethod;
+			}
+
+			if ($sendToken === true) {
 				$arguments['token'] = self::$Options['token'];
 			}
-			$curlOptions[CURLOPT_POSTFIELDS] = http_build_query($arguments);
+
+			$pageContent = file_get_contents($file = $url . '?' . http_build_query($arguments), $use_include_path = false, $context);
+
+			return $pageContent;
 		}
-		$curlOptions[CURLOPT_HTTPHEADER] = array(
-			'Content-Type: application/x-www-form-urlencoded',
-		    'Sender: TheKadeshi');
 
-		curl_setopt_array($curl, $curlOptions);
-		$pageContent = curl_exec($curl);
-
-		curl_close($curl);
-
-		return $pageContent;
 	}
 }
 $oldErrorReporting = error_reporting();
@@ -682,21 +724,33 @@ switch ($currentAction) {
 				if($needToBlock === true) {
 					continue;
 				}
-				foreach ($requestArray as $requestItem) {
-					if($needToBlock === true) {
+
+				foreach ($requestArray as $requestKey => $requestItem) {
+
+					if ($needToBlock === true) {
 						continue;
 					}
-					$firewallResult = (bool)preg_match('`' . $firewallRule['rule'] . '`msA', $requestItem);
+					/*
+					  Woocomerce использует кривые куки, что срабатывают как SQL инъекция
+					*/
+					if(mb_strpos($requestKey, 'wp_woocommerce_session') === false) {
 
-					if($firewallResult !== false) {
+						$firewallResult = (bool)preg_match('`' . $firewallRule['rule'] . '`msA', $requestItem);
 
-						$requestScript= $_SERVER['PHP_SELF'];
-						$requestQuery = base64_encode($requestItem);
-						$ruleId = $firewallRule['id'];
-						$needToBlock = true;
-						break;
+						if ($firewallResult !== false) {
 
+							$requestScript = $_SERVER['PHP_SELF'];
+							$requestQuery = base64_encode($requestItem);
+							$ruleId = $firewallRule['id'];
+							$needToBlock = true;
+							break;
+
+						}
 					}
+				}
+
+				foreach ($cookieArray as $requestItem) {
+
 				}
 			}
 		}

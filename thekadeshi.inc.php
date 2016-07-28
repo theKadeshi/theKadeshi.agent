@@ -227,17 +227,17 @@ class Scanner {
 
 		if ($content !== false && strlen($content) > 0) {
 
+			$signatureArray = TheKadeshi::getSignatureDatabase();
 			if(function_exists('hash')) {
 				$contentHash = hash('sha256', $content);
 
-				foreach (TheKadeshi::getSignatureDatabase()['h'] as $virusSignature) {
-					if ($contentHash === $virusSignature['expression']) {
-						$scanResults = array(
-							'file' => $fileName,
-							'name' => $virusSignature['title'],
-							'id' => $virusSignature['id'],
-							'action' => $virusSignature['action']
-						);
+				if(array_key_exists('h', $signatureArray)) {
+					foreach ($signatureArray['h'] as $virusSignature) {
+						if ($contentHash === $virusSignature['expression']) {
+							$scanResults = array(
+								'file' => $fileName, 'name' => $virusSignature['title'], 'id' => $virusSignature['id'], 'action' => $virusSignature['action']
+							);
+						}
 					}
 				}
 			}
@@ -245,36 +245,32 @@ class Scanner {
 			if(count($scanResults) === 0) {
 				$content = mb_convert_encoding($content, 'utf-8');
 
-				foreach (TheKadeshi::getSignatureDatabase()['r'] as $virusSignature) {
+				if(array_key_exists('r', $signatureArray)) {
+					foreach ($signatureArray['r'] as $virusSignature) {
 
-					$scanStartTime = microtime(true);
+						$scanStartTime = microtime(true);
 
-					preg_match($virusSignature['expression'], $content, $results);
+						preg_match($virusSignature['expression'], $content, $results);
 
-					if (($results !== null) && (count($results) !== 0)) {
+						if (($results !== null) && (count($results) !== 0)) {
 
-						//$files[] = array('file' => '', 'action' => $virusSignature['action']);
-						$scanResults = array(
-							'file' => $fileName,
-							'name' => $virusSignature['title'],
-							'id' => $virusSignature['id'],
-							'date' => gmdate('Y-m-d H:i:s'),
-							'positions' => array(
-								'start' => mb_strpos($content, $results[0]),
-								'length' => mb_strlen($results[0])
-							),
-							'action' => $virusSignature['action']
-						);
-						//  Сомнительная фича
-						break;
-					}
+							//$files[] = array('file' => '', 'action' => $virusSignature['action']);
+							$scanResults = array(
+								'file' => $fileName, 'name' => $virusSignature['title'], 'id' => $virusSignature['id'], 'date' => gmdate('Y-m-d H:i:s'), 'positions' => array(
+									'start' => mb_strpos($content, $results[0]), 'length' => mb_strlen($results[0])
+								), 'action' => $virusSignature['action']
+							);
+							//  Сомнительная фича
+							break;
+						}
 
-					$scanEndTime = microtime(true);
-					$timeDifference = $scanEndTime - $scanStartTime;
-					if (isset($this->signatureLog[$virusSignature['title']])) {
-						$this->signatureLog[$virusSignature['title']] = $this->signatureLog[$virusSignature['title']] + $timeDifference;
-					} else {
-						$this->signatureLog[$virusSignature['title']] = $timeDifference;
+						$scanEndTime = microtime(true);
+						$timeDifference = $scanEndTime - $scanStartTime;
+						if (isset($this->signatureLog[$virusSignature['title']])) {
+							$this->signatureLog[$virusSignature['title']] = $this->signatureLog[$virusSignature['title']] + $timeDifference;
+						} else {
+							$this->signatureLog[$virusSignature['title']] = $timeDifference;
+						}
 					}
 				}
 			}

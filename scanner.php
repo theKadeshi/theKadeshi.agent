@@ -146,7 +146,7 @@ class TheKadeshi {
 	/**
 	 * @return array
 	 */
-	public static function getSignatureDatabase(): array {
+	public static function getSignatureDatabase() {
 		return self::$signatureDatabase;
 	}
 
@@ -160,28 +160,28 @@ class TheKadeshi {
 	/**
 	 * @return string
 	 */
-	public static function getCheckSumDir(): string {
+	public static function getCheckSumDir() {
 		return self::$CheckSumDir;
 	}
 
 	/**
 	 * @param string $CheckSumDir
 	 */
-	public static function setCheckSumDir(string $CheckSumDir) {
+	public static function setCheckSumDir($CheckSumDir) {
 		self::$CheckSumDir = $CheckSumDir;
 	}
 
 	/**
 	 * @return string
 	 */
-	public static function getAnamnesisFile(): string {
+	public static function getAnamnesisFile() {
 		return self::$AnamnesisFile;
 	}
 
 	/**
 	 * @param string $AnamnesisFile
 	 */
-	public static function setAnamnesisFile(string $AnamnesisFile) {
+	public static function setAnamnesisFile($AnamnesisFile) {
 		self::$AnamnesisFile = $AnamnesisFile;
 	}
 

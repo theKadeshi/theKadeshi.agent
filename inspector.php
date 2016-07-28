@@ -79,43 +79,91 @@ if ($result !== false) {
 	PrintResult('File write', false, $mode);
 }
 
+if( ini_get('allow_url_fopen') ) {
+	PrintResult('allow_url_fopen enabled', true, $mode);
+} else {
+	PrintResult('allow_url_fopen enabled', false, $mode);
+}
+
 if ($mode === 'web') {
 	echo '<h4>Checking curl operations</h4>' . "\r\n";
 }
 
 try {
+	//$_SERVER['SERVER_NAME']
 	$curl = curl_init();
 
 	$curlOptions = array();
 
-	$curlOptions[CURLOPT_URL] = 'http://thekadeshi.com/';
+	$arguments = array(
+		'site' => $_SERVER['SERVER_NAME']
+	);
+
+	$curlOptions[CURLOPT_URL] = 'http://thekadeshi.com/api/getConfig';
+	//$curlOptions[CURLOPT_URL] = 'http://thekadeshi.com/cdn/agent';
 
 	$curlOptions[CURLOPT_RETURNTRANSFER] = true;
 	$curlOptions[CURLOPT_TIMEOUT] = 300;
 	$curlOptions[CURLOPT_FOLLOWLOCATION] = false;
 	$curlOptions[CURLOPT_USERAGENT] = 'TheKadeshi';
-
+	//$curlOptions[CURLOPT_VERBOSE] =  1;
+	$curlOptions[CURLOPT_HEADER] =  false;
 	$curlOptions[CURLOPT_POST] = true;
-/*
+
+	$curlOptions[CURLOPT_HTTPHEADER] = array(
+		'Content-Type: application/x-www-form-urlencoded', 'Sender: TheKadeshi' //, 'Accept: text/html, application/json'
+	);
+
 	if (isset($arguments)) {
-		if ($sendToken === true) {
-			$arguments['token'] = self::$Options['token'];
-		}
 		$curlOptions[CURLOPT_POSTFIELDS] = http_build_query($arguments);
 	}
-*/
-	$curlOptions[CURLOPT_HTTPHEADER] = array(
-		'Content-Type: application/x-www-form-urlencoded', 'Sender: TheKadeshi'
-	);
 
 	curl_setopt_array($curl, $curlOptions);
 	$pageContent = curl_exec($curl);
 
+	//$information = curl_getinfo($curl);
+/*
+	$header_size = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
+$header = substr($pageContent, 0, $header_size);
+$body = substr($pageContent, $header_size);
+*/
 	curl_close($curl);
+	echo("-=");
+	//print_r($information);
+	print_r($pageContent);
+	echo("=-");
 	if($pageContent !== '') {
 		PrintResult('Curl read', true, $mode);
 	}
 
 } catch (Exception $e) {
 	PrintResult('Curl read', false, $mode);
+}
+
+if ($mode === 'web') {
+	echo '<h4>Checking file_get_content operations</h4>' . "\r\n";
+}
+
+try {
+	$context = stream_context_create(array(
+		'http' => array(
+			'method' => 'POST', 'header' => 'Content-Type: application/x-www-form-urlencoded', 'Sender: TheKadeshi',
+		),
+	));
+
+	$pageContent = file_get_contents(
+        $file = "http://thekadeshi.com/api/getConfig?site=".$_SERVER['SERVER_NAME'],
+        $use_include_path = false,
+        $context);
+
+	echo("-=");
+	print_r($pageContent);
+	echo("=-");
+
+	if($pageContent !== '') {
+		PrintResult('file_get_contents read', true, $mode);
+	}
+
+} catch (Exception $e) {
+	PrintResult('file_get_contents read', false, $mode);
 }
