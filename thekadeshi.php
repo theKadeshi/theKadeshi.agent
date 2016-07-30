@@ -64,7 +64,7 @@ class TheKadeshi {
 
 	static $Logs;
 
-	private $API_Path, $CDN_Path;
+	private static $API_Path, $CDN_Path;
 
 	const configCheckTimer = 3600;
 
@@ -90,8 +90,8 @@ class TheKadeshi {
 		self::$OptionsFile = self::$TheKadeshiDir . '/.options';
 		self::$FirewallFile = self::$TheKadeshiDir . '/.firewall';
 		self::$FirewallLogFile = self::$TheKadeshiDir . '/.firewall.log';
-		$this->API_Path = self::ServiceUrl . 'api/';
-		$this->CDN_Path = self::ServiceUrl . 'cdn/';
+		self::$API_Path = self::ServiceUrl . 'api/';
+		self::$CDN_Path = self::ServiceUrl . 'cdn/';
 
 		self::setCheckSumDir(self::$TheKadeshiDir . '/checksum');
 
@@ -642,9 +642,9 @@ class TheKadeshi {
 			));
 
 			if ($source === 'api') {
-				$url = $this->API_Path . $ApiMethod;
+				$url = self::$API_Path . $ApiMethod;
 			} elseif ($source === 'cdn') {
-				$url = $this->CDN_Path . $ApiMethod;
+				$url = self::$CDN_Path . $ApiMethod;
 			}
 
 			if ($sendToken === true) {

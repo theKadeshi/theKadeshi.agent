@@ -66,10 +66,8 @@ class TheKadeshi {
 	public static $Options;
 
 	static $Logs;
-	
-	static $API_Path;
 
-	static $CDN_Path;
+	private static $API_Path, $CDN_Path;
 
 	const configCheckTimer = 3600;
 
@@ -130,10 +128,8 @@ class TheKadeshi {
 	}
 
 	private function LoadSignatures() {
+		$remoteSignatures = json_decode($this->ServiceRequest('getSignatures', array('notoken'=>true), false), true);
 
-		$remoteSignatures = json_decode(static::ServiceRequest('getSignatures', array('notoken'=>true), false), true);
-		//print_r($remoteSignatures);
-		//die();
 		self::setSignatureDatabase($remoteSignatures);
 		$totalCount = 0;
 		foreach (self::getSignatureDatabase() as $subSignature) {
@@ -254,47 +250,70 @@ class TheKadeshi {
 		//unset($iterator);
 	}
 
-	public static function ServiceRequest($ApiMethod, array $arguments = array(), $sendToken = true) {
+	public function ServiceRequest($ApiMethod, $arguments = null, $sendToken = true, $source = 'api') {
 
-		$curl = curl_init();
+		if(function_exists('curl_exec') && function_exists('curl_init') && function_exists('curl_close')) {
 
-		$curlOptions = array();
+			$curl = curl_init();
 
-		//if($isApi === true) {
-			$curlOptions[CURLOPT_URL] = self::$API_Path . $ApiMethod;
-		//} else {
-		//	$curlOptions[CURLOPT_URL] = self::$CDN_Path . $ApiMethod;
-		//}
+			$curlOptions = array();
 
-		$curlOptions[CURLOPT_RETURNTRANSFER] = true;
-		$curlOptions[CURLOPT_TIMEOUT] = 300;
-		$curlOptions[CURLOPT_FOLLOWLOCATION] = false;
-		$curlOptions[CURLOPT_USERAGENT] = 'TheKadeshi';
+			if ($source === 'api') {
+				$curlOptions[CURLOPT_URL] = self::$API_Path . $ApiMethod;
+			} elseif ($source === 'cdn') {
+				$curlOptions[CURLOPT_URL] = $this->CDN_Path . $ApiMethod;
+			}
+			if(array_key_exists('SERVER_NAME', $_SERVER)) {
+				$arguments['site'] = $_SERVER['SERVER_NAME'];
+			}
 
-		//if($isPost == true) {
+			$curlOptions[CURLOPT_RETURNTRANSFER] = true;
+			$curlOptions[CURLOPT_TIMEOUT] = 300;
+			$curlOptions[CURLOPT_FOLLOWLOCATION] = false;
+			$curlOptions[CURLOPT_USERAGENT] = 'TheKadeshi';
+
 			$curlOptions[CURLOPT_POST] = true;
-		//} else {
-		//	$curlOptions[CURLOPT_POST] = false;
-		//}
 
-		
-		if(isset($arguments)) {
-			if($sendToken == true) {
+
+			if (isset($arguments)) {
+				if ($sendToken === true) {
+					$arguments['token'] = self::$Options['token'];
+				}
+				$curlOptions[CURLOPT_POSTFIELDS] = http_build_query($arguments);
+			}
+			$curlOptions[CURLOPT_HTTPHEADER] = array(
+				'Content-Type: application/x-www-form-urlencoded', 'Sender: TheKadeshi'
+			);
+
+			curl_setopt_array($curl, $curlOptions);
+			$pageContent = curl_exec($curl);
+
+			curl_close($curl);
+
+			return $pageContent;
+		} else {
+
+			$context = stream_context_create(array(
+				'http' => array(
+					'method' => 'POST', 'header' => 'Content-Type: application/x-www-form-urlencoded', 'Sender: TheKadeshi',
+				),
+			));
+
+			if ($source === 'api') {
+				$url = self::$API_Path . $ApiMethod;
+			} elseif ($source === 'cdn') {
+				$url = self::$CDN_Path . $ApiMethod;
+			}
+
+			if ($sendToken === true) {
 				$arguments['token'] = self::$Options['token'];
 			}
-			$curlOptions[CURLOPT_POSTFIELDS] = http_build_query($arguments);
+
+			$pageContent = file_get_contents($file = $url . '?' . http_build_query($arguments), $use_include_path = false, $context);
+
+			return $pageContent;
 		}
-		$curlOptions[CURLOPT_HTTPHEADER] = array(
-			'Content-Type: application/x-www-form-urlencoded',
-			'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-		    'Sender: TheKadeshi');
 
-		curl_setopt_array($curl, $curlOptions);
-		$pageContent = curl_exec($curl);
-
-		curl_close($curl);
-
-		return $pageContent;
 	}
 }
 
@@ -362,7 +381,9 @@ foreach ($theKadeshi->fileList as $file) {
 }
 $theKadeshi->Scanner->SaveAnamnesis();
 $theKadeshi->Scanner->SendAnamnesis(false);
+
 if(isset($theKadeshi->Scanner->signatureLog)) {
+
 	arsort($theKadeshi->Scanner->signatureLog);
 	file_put_contents($theKadeshi::$TheKadeshiDir . '/signature.log.json', json_encode($theKadeshi->Scanner->signatureLog));
 }
