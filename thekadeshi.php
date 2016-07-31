@@ -592,7 +592,7 @@ class TheKadeshi {
 		$this->GetRemoteConfig($siteUrl);
 	}
 
-	public function ServiceRequest($ApiMethod, $arguments = null, $sendToken = true, $source = 'api') {
+	public static function ServiceRequest($ApiMethod, $arguments = null, $sendToken = true, $source = 'api') {
 
 		if(function_exists('curl_exec') && function_exists('curl_init') && function_exists('curl_close')) {
 
@@ -601,9 +601,9 @@ class TheKadeshi {
 			$curlOptions = array();
 
 			if ($source === 'api') {
-				$curlOptions[CURLOPT_URL] = $this->API_Path . $ApiMethod;
+				$curlOptions[CURLOPT_URL] = self::$API_Path . $ApiMethod;
 			} elseif ($source === 'cdn') {
-				$curlOptions[CURLOPT_URL] = $this->CDN_Path . $ApiMethod;
+				$curlOptions[CURLOPT_URL] = self::$CDN_Path . $ApiMethod;
 			}
 			if(array_key_exists('SERVER_NAME', $_SERVER)) {
 				$arguments['site'] = $_SERVER['SERVER_NAME'];
@@ -784,6 +784,9 @@ switch ($currentAction) {
 		$needToBlock = true;
 		break;
 	default:
+
+		set_time_limit(0);
+		@ini_set('max_execution_time', 0);
 
 		$theKadeshi->GetFileList(__DIR__);
 
