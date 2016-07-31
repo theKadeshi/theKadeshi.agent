@@ -134,7 +134,7 @@ class TheKadeshi {
 		self::setSignatureDatabase($remoteSignatures);
 		$totalCount = 0;
 		foreach (self::getSignatureDatabase() as $subSignature) {
-			$totalCount = $totalCount + count($subSignature);
+			$totalCount += count($subSignature);
 		}
 		echo('Load ' . $totalCount . ' remote signatures' . "\r\n");
 
