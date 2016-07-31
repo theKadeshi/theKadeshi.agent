@@ -34,7 +34,7 @@ class Scanner {
 		'move_uploaded_file', 'is_uploaded_file', 'script',
 		'fopen', 'curl_init', 'document.write', '$GLOBAL',
 		'passthru', 'system', 'exec', 'header', 'preg_replace',
-		'fromCharCode', '$_COOKIE', '$_POST', 'copy', 'navigator',
+		'fromCharCode', '$_COOKIE', '$_POST', '$_GET', 'copy', 'navigator',
 		'$_REQUEST', 'array_filter', 'str_replace');
 
 	public $signatureLog = array();
