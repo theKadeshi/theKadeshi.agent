@@ -8,8 +8,6 @@ class Scanner {
 	 */
 	public $SignatureFile = 'remote';
 
-	private $realFileName = null;
-
 	private $scanResults = array();
 
 	private $namePatterns = array();
@@ -18,19 +16,19 @@ class Scanner {
 	 * Гласные буквы
 	 * @var array
 	 */
-	private $vowelsLetters = array('a', 'e', 'i', 'o', 'u', 'y');
+	private static $vowelsLetters = array('a', 'e', 'i', 'o', 'u', 'y');
 
 	/**
 	 * Согласные буквы
 	 * @var array
 	 */
-	private $consonantsLetters = array('q', 'w', 'r', 't', 'p', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z', 'x', 'c', 'v', 'b', 'n', 'm');
+	private static $consonantsLetters = array('q', 'w', 'r', 't', 'p', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z', 'x', 'c', 'v', 'b', 'n', 'm');
 
 	/**
 	 * Список подозрительных функций
 	 * @var array
 	 */
-	private $dangerousFunctions = array('eval', 'assert', 'base64_decode', 'str_rot13', 'mail',
+	private static $dangerousFunctions = array('eval', 'assert', 'base64_decode', 'str_rot13', 'mail',
 		'move_uploaded_file', 'is_uploaded_file', 'script',
 		'fopen', 'curl_init', 'document.write', '$GLOBAL',
 		'passthru', 'system', 'exec', 'header', 'preg_replace',
@@ -44,17 +42,17 @@ class Scanner {
 	/**
 	 * Scanner constructor.
 	 */
-	function __construct() {
+	public function __construct() {
 		$this->scanResults = array();
 
 		$this->namePatterns = array(
-			"/^[" . implode($this->consonantsLetters) . strtoupper(implode($this->consonantsLetters)) . "]{5}/i",
-			"/^[a-zA-Z]{3,8}\d{1,8}/i",
-			"/^\d{1,}[a-zA-Z]{1,3}\d{1,}/i",
-			"/^[a-zA-Z]\d{4,}/i",
-			"/^\d[a-zA-Z0-9]{1.}/i",
-			"/^[a-zA-Z]\d{3,}[a-zA-Z]$/i",
-			"/^\S+\d+\S+\d+\S+?/i"
+			'/^[' . implode(self::$consonantsLetters) . ']{5}/i',
+			'/^[a-z]{3,8}\d{1,8}/i',
+			'/^\d{1,}[a-z]{1,3}\d{1,}/i',
+			'/^[a-z]\d{4,}/i',
+			'/^\d[a-z0-9]{1.}/i',
+			'/^[a-z]\d{3,}[a-z]$/i',
+			'/^\S+\d+\S+\d+\S+?/i'
 		);
 
 	}
@@ -93,8 +91,9 @@ class Scanner {
 					$scanResults = $this->ScanContent($fileName);
 					if(count($scanResults) !== 0) {
 						$suspicion['scanner'] = $scanResults;
+						/*
 						$filePermits = decoct(fileperms($fileName) & 0777);
-
+						*/
 						chmod($fileName, 0666);
 
 						if($suspicion['scanner']['action'] === 'cure') {
@@ -118,26 +117,16 @@ class Scanner {
 							chmod($fileName, $filePermits);
 							*/
 						}
-						//print_r($scanResults);
+
 						$this->AnamnesisContent[] = $scanResults;
 					}
-
-					//print_r($this->scanResults);
 				}
-
 
 			} else {
 				if($needChecksum) {
 					$this->SetFileCheckSum($fileName);
 				}
 			}
-		}
-
-		if(!empty($suspicion)) {
-			//print_r(array($suspicion, $fileName));
-			//$this->SaveAnamnesis($fileName, $suspicion);
-			//print_r();
-
 		}
 
 		return (!empty($suspicion))?$suspicion:(($heuristicScanResult>1)?$heuristicScanResult:null);
@@ -153,8 +142,8 @@ class Scanner {
 		$currentCheckSumPath = TheKadeshi::getCheckSumDir();
 
 		$realFileName = pathinfo($fileName);
-		$subdirSplitPath = mb_split('/', str_replace("\\", '/', strtolower($realFileName['dirname'])));
-		foreach($subdirSplitPath as $pathElement) {
+		$subDirSplitPath = mb_split('/', str_replace("\\", '/', strtolower($realFileName['dirname'])));
+		foreach($subDirSplitPath as $pathElement) {
 			$catalogCode = mb_substr(trim($pathElement, ":;.\\/|'\"?<>,"), 0, 2);
 			$currentCheckSumPath .= '/' . $catalogCode;
 
@@ -180,13 +169,13 @@ class Scanner {
 		$checkSumContent = false;
 		$currentCheckSumPath = TheKadeshi::getCheckSumDir();
 		$realFileName = pathinfo($fileName);
-		$subdirSplitPath = mb_split("/", str_replace("\\", "/", strtolower($realFileName['dirname'])));
-		foreach($subdirSplitPath as $pathElement) {
+		$subDirSplitPath = mb_split('/', str_replace("\\", '/', strtolower($realFileName['dirname'])));
+		foreach($subDirSplitPath as $pathElement) {
 			$catalogCode = mb_substr(trim($pathElement, ":;.\\/|'\"?<>,"), 0, 2);
-			$currentCheckSumPath .= "/" . $catalogCode;
+			$currentCheckSumPath .= '/' . $catalogCode;
 		}
 
-		$checkSumFileName = $currentCheckSumPath . "/" . $realFileName['basename'] . ".json";
+		$checkSumFileName = sprintf('%s/%s.json', $currentCheckSumPath, $realFileName['basename']);
 		if(file_exists($checkSumFileName)) {
 			$checkSumContent  = json_decode(file_get_contents($checkSumFileName), true);
 		}
@@ -197,7 +186,7 @@ class Scanner {
 	/**
 	 * Функция сравнения контрольных сумм
 	 * @param $fileName
-	 * @return bool
+	 * @return mixed
 	 */
 	public function CompareFileCheckSum($fileName) {
 		$savedCheckSum = $this->GetFileCheckSum($fileName);
@@ -207,7 +196,7 @@ class Scanner {
 
 		$currentFileCheckSum = md5_file($fileName);
 
-		if($savedCheckSum['checksum'] == $currentFileCheckSum) {
+		if($savedCheckSum['checksum'] === $currentFileCheckSum) {
 			return true;
 		}
 		return array(
@@ -231,8 +220,8 @@ class Scanner {
 			if(function_exists('hash')) {
 				$contentHash = hash('sha256', $content);
 
-				if(array_key_exists('h', $signatureArray)) {
-					foreach ($signatureArray['h'] as $virusSignature) {
+				if(array_key_exists('h', $signatureArray) === true) {
+					foreach ((array)$signatureArray['h'] as $virusSignature) {
 						if ($contentHash === $virusSignature['expression']) {
 							$scanResults = array(
 								'file' => $fileName, 'name' => $virusSignature['title'], 'id' => $virusSignature['id'], 'action' => $virusSignature['action']
@@ -245,8 +234,8 @@ class Scanner {
 			if(count($scanResults) === 0) {
 				$content = mb_convert_encoding($content, 'utf-8');
 
-				if(array_key_exists('r', $signatureArray)) {
-					foreach ($signatureArray['r'] as $virusSignature) {
+				if(array_key_exists('r', $signatureArray) === true) {
+					foreach ((array)$signatureArray['r'] as $virusSignature) {
 
 						$scanStartTime = microtime(true);
 
@@ -254,7 +243,7 @@ class Scanner {
 
 						if (($results !== null) && (count($results) !== 0)) {
 
-							//$files[] = array('file' => '', 'action' => $virusSignature['action']);
+
 							$scanResults = array(
 								'file' => $fileName, 'name' => $virusSignature['title'], 'id' => $virusSignature['id'], 'date' => gmdate('Y-m-d H:i:s'), 'positions' => array(
 									'start' => mb_strpos($content, $results[0]), 'length' => mb_strlen($results[0])
@@ -266,8 +255,8 @@ class Scanner {
 
 						$scanEndTime = microtime(true);
 						$timeDifference = $scanEndTime - $scanStartTime;
-						if (isset($this->signatureLog[$virusSignature['title']])) {
-							$this->signatureLog[$virusSignature['title']] = $this->signatureLog[$virusSignature['title']] + $timeDifference;
+						if (array_key_exists($virusSignature['title'], $this->signatureLog) === true) {
+							$this->signatureLog[$virusSignature['title']] += $timeDifference;
 						} else {
 							$this->signatureLog[$virusSignature['title']] = $timeDifference;
 						}
@@ -285,40 +274,34 @@ class Scanner {
 	 */
 	public function HeuristicFileContent($fileName) {
 		$wordSplitPattern = array('/\$?\w+/i', '~[\'"]([\S\s]+)?[\'"]~iuU');
-		$suspicion = 0.0;
+		(float)$suspicion = 0.0;
 
 		$fileContent = mb_convert_encoding(file_get_contents($fileName), 'utf-8');
 
-		foreach ($this->dangerousFunctions as $dangerousFunction) {
+		foreach (self::$dangerousFunctions as $dangerousFunction) {
 			$functionCount =  mb_substr_count($fileContent, $dangerousFunction);
-			$suspicion = $suspicion + (1 * $functionCount);
+			$suspicion += (1 * $functionCount);
 			if($suspicion > 1) {
 				return $suspicion;
 			}
 		}
 
-		if ($suspicion == 0) {
+		if ($suspicion === 0.0) {
 			//Проверка на длинные слова
 			$wordMatches = array();
 			foreach ($wordSplitPattern as $wordPattern) {
 				$pregResult = preg_match_all($wordPattern, $fileContent, $currentWordMatches);
-				if(!empty($currentWordMatches)) {
+				if(count($currentWordMatches) !== 0) {
 					$newWordMatches = array_merge($wordMatches, $currentWordMatches[0]);
 					$wordMatches = $newWordMatches;
-					unset($newWordMatches);
-					unset($currentWordMatches);
-					//print_r($wordMatches);
+					unset($newWordMatches, $currentWordMatches);
 				}
 			}
-			if (!empty($wordMatches)) {;
+			if (count($wordMatches) !== 0) {;
 				foreach (array_unique($wordMatches) as $someWord) {
-					if (strlen($someWord) >= 25) {
-						if (mb_substr($someWord, 0, 1) !== '$') {
-							//  Чем длиннее слово, тем больше подозрение
-							if ($someWord != strtoupper($someWord)) {
-								$suspicion = $suspicion + 0.01 * strlen($someWord);
-								//echo($someWord . " " . $suspicion . "\r\n");
-							}
+					if (strlen($someWord) >= 25 && mb_substr($someWord, 0, 1) !== '$') {
+						if ($someWord !== strtoupper($someWord)) {
+							$suspicion +=  0.01 * strlen($someWord);
 						}
 					}
 
@@ -327,14 +310,14 @@ class Scanner {
 						//  Проверка переменных на стремные именования
 						foreach ($this->namePatterns as $namePattern) {
 							$checkResult = preg_match($namePattern, mb_substr($someWord, 1));
-							if ($checkResult == 1) {
-								$suspicion = $suspicion + 0.02;
+							if ($checkResult === 1) {
+								$suspicion +=  0.02;
 							}
 						}
 
 						//  Проверка переменных на частые использования в виде массивов
 						$arrayPattern = '/\\' . $someWord . '\[[\'"]?[\d\S]+[\'"]?\](\[\d+\])?/i';
-						//echo($arrayPattern . "\r\n");
+
 						$arrayCheckResult = preg_match_all($arrayPattern, $fileContent, $arrayPatternMatches);
 						if ($arrayCheckResult !== false) {
 
@@ -348,7 +331,6 @@ class Scanner {
 			}
 		}
 
-		//echo($fileName . " " . $suspicion . "\r\n");
 		return $suspicion;
 	}
 
@@ -366,13 +348,10 @@ class Scanner {
 		//  Проверка имени файла, не выглядит ли оно стремным
 		foreach ($this->namePatterns as $filenamePattern) {
 			$checkResult = preg_match($filenamePattern, $fileData['basename']);
-			if ($checkResult == 1) {
-				$suspicion = $suspicion + 0.5;
-				//echo $fileData['basename'] . " - " . $filenamePattern . "\r\n";
+			if ($checkResult === 1) {
+				$suspicion += 0.5;
 			}
 		}
-
-		//print_r($suspicion);
 
 		return $suspicion;
 	}
@@ -425,9 +404,7 @@ class Status {
 
 	private $StatusContent;
 
-	//private $AnamnesisFile;
-
-	function __construct() {
+	public function __construct() {
 		$this->StatusFile = TheKadeshi::getCheckSumDir() . '/' . '.status';
 
 		if(file_exists($this->StatusFile)) {
