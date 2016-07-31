@@ -181,21 +181,22 @@ class TheKadeshi {
 		self::$AnamnesisFile = $AnamnesisFile;
 	}
 
+	/**
+	 * Функция получения содержимого каталога
+	 * @param $dir
+	 */
 	public function GetFileList($dir) {
 
 		$dirContent = scandir($dir);
 		foreach($dirContent as $directoryElement) {
-			if($directoryElement != '..' && $directoryElement != '.') {
+			if($directoryElement !== '..' && $directoryElement !== '.') {
 				$someFile = $dir . '/' . $directoryElement;
 				if (is_file($someFile)) {
 					$fileData = pathinfo($someFile);
-					if(isset($fileData['extension'])) {
-						if(in_array($fileData['extension'], $this->ValidExtensions)) {
-							$this->fileList[] = $someFile;
-						}
+					if (array_key_exists('extension',$fileData) && in_array($fileData['extension'], $this->ValidExtensions, true) === true) {
+						$this->fileList[] = $someFile;
 					}
-				}
-				if (is_dir($someFile)) {
+				} else {
 					$this->GetFileList($someFile);
 				}
 			}
@@ -318,6 +319,8 @@ class TheKadeshi {
 }
 
 //@todo надо отрефакторить эту фигню
+set_time_limit(0);
+@ini_set('max_execution_time', 0);
 $signaturesBase = 'remote';
 define('THEKADESHI_DIR', __DIR__ . '/.thekadeshi');
 

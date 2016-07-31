@@ -267,7 +267,7 @@ class TheKadeshi {
 	}
 
 	/**
-	 * Функция получения списка файлов
+	 * Функция получения содержимого каталога
 	 * @param $dir
 	 */
 	public function GetFileList($dir) {
@@ -278,11 +278,10 @@ class TheKadeshi {
 				$someFile = $dir . '/' . $directoryElement;
 				if (is_file($someFile)) {
 					$fileData = pathinfo($someFile);
-					if(isset($fileData['extension']) && in_array($fileData['extension'], $this->ValidExtensions, false)) {
+					if (array_key_exists('extension',$fileData) && in_array($fileData['extension'], $this->ValidExtensions, true) === true) {
 						$this->fileList[] = $someFile;
 					}
-				}
-				if (is_dir($someFile)) {
+				} else {
 					$this->GetFileList($someFile);
 				}
 			}
