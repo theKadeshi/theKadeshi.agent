@@ -34,7 +34,7 @@ class TheKadeshi {
 	/**
 	 * @var array Допустимые расширения для сканера
 	 */
-	private $ValidExtensions = array ('php', 'php4', 'php5', 'php7', 'js', 'css', 'phtml', 'html', 'htm', 'tpl', 'inc');
+	private static $ValidExtensions = array ('php', 'php4', 'php5', 'php7', 'js', 'css', 'phtml', 'html', 'htm', 'tpl', 'inc');
 
 	/**
 	 * Каталоги
@@ -82,7 +82,7 @@ class TheKadeshi {
 	 */
 	public $firewallRules = '';
 
-	function __construct() {
+	public function __construct() {
 
 		$this->executionMicroTimeStart = microtime(true);
 
@@ -111,8 +111,8 @@ class TheKadeshi {
 			if (!is_file(self::$TheKadeshiDir . '/.thekadeshi')) {
 				$this->Update();
 			}
-			if (is_file(self::$TheKadeshiDir . '/.thekadeshi')) {
-				include_once(self::$TheKadeshiDir . '/.thekadeshi');
+			if (file_exists(self::$TheKadeshiDir . '/.thekadeshi')) {
+				include_once self::$TheKadeshiDir . '/.thekadeshi';
 
 				$this->Scanner = new Scanner();
 
@@ -151,7 +151,7 @@ class TheKadeshi {
 			if(is_array(self::$Options) && array_key_exists('developer_mode', self::$Options) && (int)self::$Options['developer_mode'] === 1) {
 				$arguments['dev'] = 1;
 			}
-			$content = $this->ServiceRequest('thekadeshi', $arguments, false, 'cdn');
+			$content = self::ServiceRequest('thekadeshi', $arguments, false, 'cdn');
 			if ($content !== false) {
 				file_put_contents(self::$TheKadeshiDir . "/.thekadeshi", $content);
 			}
@@ -169,7 +169,7 @@ class TheKadeshi {
 			if(is_array(self::$Options) && array_key_exists('developer_mode', self::$Options) && (int)self::$Options['developer_mode'] === 1) {
 				$arguments['dev'] = 1;
 			}
-			$content = $this->ServiceRequest('agent', $arguments, false, 'cdn');
+			$content = self::ServiceRequest('agent', $arguments, false, 'cdn');
 			if ($content !== false) {
 				file_put_contents(__DIR__ . '/thekadeshi.php', $content);
 			}
@@ -193,7 +193,7 @@ class TheKadeshi {
 		if($firewallLogContent === '') {
 			return false;
 		}
-		$sendResult = $this->ServiceRequest('sendFirewallLogs', array('data' => $firewallLogContent));
+		$sendResult = self::ServiceRequest('sendFirewallLogs', array('data' => $firewallLogContent));
 
 		$resultData = json_decode($sendResult, true);
 		if((count($resultData) !== 0) && $resultData['message'] === 'Ok') {
@@ -278,7 +278,7 @@ class TheKadeshi {
 				$someFile = $dir . '/' . $directoryElement;
 				if (is_file($someFile)) {
 					$fileData = pathinfo($someFile);
-					if (array_key_exists('extension',$fileData) && in_array($fileData['extension'], $this->ValidExtensions, true) === true) {
+					if (array_key_exists('extension',$fileData) && in_array($fileData['extension'], self::$ValidExtensions, true) === true) {
 						$this->fileList[] = $someFile;
 					}
 				} else {
@@ -322,7 +322,7 @@ class TheKadeshi {
 		/*
 		 * Получение массива сигнатур
 		 */
-		$signatureData = $this->ServiceRequest('getSignatures');
+		$signatureData = self::ServiceRequest('getSignatures');
 		$receivedSignatures = json_decode($signatureData, true);
 		if($receivedSignatures !== false) {
 			if(!isset($receivedSignatures['error'])) {
@@ -335,7 +335,7 @@ class TheKadeshi {
 		/*
 		 * Получение массива правил для фаервола
 		 */
-		$firewallData = $this->ServiceRequest('getFirewallRules');
+		$firewallData = self::ServiceRequest('getFirewallRules');
 
 		$receivedRules = json_decode($firewallData, true);
 		if($receivedRules !== false) {
@@ -388,7 +388,7 @@ class TheKadeshi {
 		if(isset(self::$Options['prepend'])) {
 			$oldPrependOption = self::$Options['prepend'];
 		}
-		$ConfigData = $this->ServiceRequest('getConfig', $arguments, false);
+		$ConfigData = self::ServiceRequest('getConfig', $arguments, false);
 
 		if($ConfigData !== '') {
 			self::$Options = json_decode($ConfigData, true);
@@ -463,7 +463,7 @@ class TheKadeshi {
 			'status' => 'online'
 		);
 
-		$pingResult = $this->ServiceRequest('sendPing', array('data' => json_encode($StatusContent)));
+		$pingResult = self::ServiceRequest('sendPing', array('data' => json_encode($StatusContent)));
 
 		if($pingResult) {
 			$isErrors = json_decode($pingResult, true);
