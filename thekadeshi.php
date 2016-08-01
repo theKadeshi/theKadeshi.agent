@@ -141,8 +141,9 @@ class TheKadeshi {
 		 * Обновление ядра
 		 */
 		$fileHash = null;
-		if(file_exists(self::$TheKadeshiDir . '/.thekadeshi')) {
-			$fileContent = file_get_contents(self::$TheKadeshiDir . '/.thekadeshi');
+		$kernelFile = self::$TheKadeshiDir . '/.thekadeshi';
+		if(file_exists($kernelFile)) {
+			$fileContent = file_get_contents($kernelFile);
 			$fileHash = hash('sha256', $fileContent);
 		}
 		if(!isset(self::$Options['kernelhash']) || (self::$Options['kernelhash'] != $fileHash)) {
@@ -153,7 +154,9 @@ class TheKadeshi {
 			}
 			$content = self::ServiceRequest('thekadeshi', $arguments, false, 'cdn');
 			if ($content !== false) {
-				file_put_contents(self::$TheKadeshiDir . "/.thekadeshi", $content);
+				$this->setChmod($kernelFile, 'write');
+				file_put_contents($kernelFile, $content);
+				$this->setChmod($kernelFile, 'read');
 			}
 
 			unset($fileContent, $fileHash, $arguments);
@@ -162,7 +165,8 @@ class TheKadeshi {
 		/*
 		 * Обновление агента
 		 */
-		$fileContent = file_get_contents(__DIR__ . '/thekadeshi.php');
+		$agentFile = __DIR__ . '/thekadeshi.php';
+		$fileContent = file_get_contents($agentFile);
 		$fileHash = hash('sha256', $fileContent);
 		if(!isset(self::$Options['agenthash']) || (self::$Options['agenthash'] != $fileHash)) {
 			$arguments = array();
@@ -171,7 +175,9 @@ class TheKadeshi {
 			}
 			$content = self::ServiceRequest('agent', $arguments, false, 'cdn');
 			if ($content !== false) {
-				file_put_contents(__DIR__ . '/thekadeshi.php', $content);
+				$this->setChmod($agentFile, 'write');
+				file_put_contents($agentFile, $content);
+				$this->setChmod($agentFile, 'read');
 			}
 
 			unset($fileContent, $fileHash, $arguments);
