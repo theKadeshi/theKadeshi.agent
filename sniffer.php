@@ -22,10 +22,9 @@ class TheKadeshiSniffer {
 		    $currentIp = $_SERVER['REMOTE_ADDR'];
 	    }
 	    $currentMinuteMin = str_pad(floor(gmdate('i') / 10) * 10, '0', STR_PAD_LEFT);
-	    $currentMinuteMax = str_pad(ceil(((gmdate('i') / 10)<1)?1:(gmdate('i') / 10)) * 10, '0', STR_PAD_LEFT);
+	    $currentMinuteMax = str_pad(ceil(((gmdate('i') / 10) < 1) ? 1 : (gmdate('i') / 10)) * 10, '0', STR_PAD_LEFT);
 	    $currentLogFile = gmdate('H') . '-' . $currentMinuteMin . '-' . $currentMinuteMax . '~' . $currentIp . '.log.json';
 
-	    //echo($currentLogFile . "\r\n");
         self::$currentLogDir = __DIR__ . '/' . $date;
 
 	    self::$snifferLogFile = self::$currentLogDir . '/' . $currentLogFile;
