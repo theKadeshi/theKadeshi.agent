@@ -29,8 +29,6 @@ class TheKadeshiSniffer {
         self::$currentLogDir = __DIR__ . '/' . $date;
 
 	    self::$snifferLogFile = self::$currentLogDir . '/' . $currentLogFile;
-
-        echo self::$snifferLogFile;
     }
 
     private function GenerateLogData() {
