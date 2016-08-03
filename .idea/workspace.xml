@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="SCOPE_TYPE" value="3" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="340d8aa7-8099-46bc-b63d-0a81d6f7d953" name="Default" comment="">
+    <list default="true" id="340d8aa7-8099-46bc-b63d-0a81d6f7d953" name="Default" comment="KDSH-21 #time 1h 20m #comment Тестовая версия">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dictionaries/Bagdad.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/Bagdad.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/SomeFunctionsTest.php" afterPath="$PROJECT_DIR$/Tests/SomeFunctionsTest.php" />
     </list>
+    <list id="eb39d041-89a3-4396-9ac7-53aa9859cef5" name="Failed commit: Default" comment="Попытка слияния" />
+    <list id="4f730f25-c8b1-469c-b3b6-8b84827644d9" name="Failed commit: Default (2)" comment="Попытка слияния" />
     <ignored path="antivir.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/infected/" />
@@ -16,11 +21,10 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/antivir$ScannerTest.coverage" NAME="ScannerTest Coverage Results" MODIFIED="1459499880265" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="PhpCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/antivir$ScannerTest__1_.coverage" NAME="ScannerTest (1) Coverage Results" MODIFIED="1464063092364" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="PhpCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/antivir$FunctionsTest.coverage" NAME="FunctionsTest Coverage Results" MODIFIED="1465492282696" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="PhpCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/antivir$ScannerTest__1_.coverage" NAME="ScannerTest (1) Coverage Results" MODIFIED="1464063092364" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="PhpCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/antivir$ScannerTest.coverage" NAME="ScannerTest Coverage Results" MODIFIED="1459499880265" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="PhpCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -31,23 +35,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="scanner.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/scanner.php">
+      <file leaf-file-name="ScannerTest.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Tests/ScannerTest.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1717">
-              <caret line="107" column="56" selection-start-line="107" selection-start-column="56" selection-end-line="107" selection-end-column="56" />
-              <folding>
-                <element signature="n#ServiceRequest#0;n#TheKadeshi#0;n#!!top" expanded="false" />
-              </folding>
+            <state relative-caret-position="323">
+              <caret line="19" column="39" selection-start-line="19" selection-start-column="39" selection-end-line="19" selection-end-column="39" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SomeFunctionsTest.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Tests/SomeFunctionsTest.php">
+      <file leaf-file-name="sniffer.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sniffer.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" column="34" selection-start-line="12" selection-start-column="34" selection-end-line="12" selection-end-column="34" />
+            <state relative-caret-position="1122">
+              <caret line="66" column="9" selection-start-line="51" selection-start-column="8" selection-end-line="66" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -56,10 +58,10 @@
       <file leaf-file-name="thekadeshi.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/thekadeshi.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4723">
-              <caret line="609" column="23" selection-start-line="609" selection-start-column="23" selection-end-line="609" selection-end-column="23" />
+            <state relative-caret-position="204">
+              <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
               <folding>
-                <element signature="e#6#134#0#PHP" expanded="true" />
+                <element signature="e#6#111#0#PHP" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -68,28 +70,18 @@
       <file leaf-file-name="thekadeshi.inc.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/thekadeshi.inc.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="289" column="64" selection-start-line="289" selection-start-column="52" selection-end-line="289" selection-end-column="64" />
+            <state relative-caret-position="-2147">
+              <caret line="253" column="25" selection-start-line="253" selection-start-column="25" selection-end-line="253" selection-end-column="25" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FileListTest.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Tests/FileListTest.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="20" column="5" selection-start-line="20" selection-start-column="5" selection-end-line="20" selection-end-column="5" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="signature.log.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.thekadeshi/signature.log.json">
+      <file leaf-file-name=".options" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.thekadeshi/.options">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
-              <caret line="0" column="86" selection-start-line="0" selection-start-column="86" selection-end-line="0" selection-end-column="86" />
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -105,22 +97,33 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="ntorgov &lt;ntorgov@gmail.com&gt;" />
+      </list>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="PUSH_TAGS">
+      <GitPushTagMode />
+    </option>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/scanner.php" root0="SKIP_INSPECTION" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/thekadeshi.php" root0="SKIP_INSPECTION" root1="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/forTest/config.js" />
-        <option value="$PROJECT_DIR$/forTest/calendar-ru_win_.js" />
-        <option value="$PROJECT_DIR$/forTest/xfields.upload.php" />
-        <option value="$PROJECT_DIR$/forExamine/test01.php" />
-        <option value="$PROJECT_DIR$/forTest/virus0136.php" />
         <option value="$PROJECT_DIR$/forExamine/gallery.php" />
         <option value="$PROJECT_DIR$/forExamine/uiplugin.php" />
         <option value="$PROJECT_DIR$/scanner.js" />
         <option value="$PROJECT_DIR$/forTest/virus0143.php" />
         <option value="$PROJECT_DIR$/forTest/virus0001.php" />
-        <option value="$PROJECT_DIR$/forTest/test01.php" />
         <option value="$PROJECT_DIR$/forTest/404.php" />
         <option value="$PROJECT_DIR$/forTest/tset01.php" />
         <option value="$PROJECT_DIR$/forTest/com_contact_info.php" />
@@ -147,20 +150,26 @@
         <option value="&lt;e3eed138-7306-489b-8da1-738a8c3c03fb&gt;/.user.ini" />
         <option value="&lt;e3eed138-7306-489b-8da1-738a8c3c03fb&gt;/.htaccess" />
         <option value="$PROJECT_DIR$/forExamine/log.json" />
-        <option value="$PROJECT_DIR$/scanner.php" />
         <option value="$PROJECT_DIR$/forTest/functions.js" />
         <option value="$PROJECT_DIR$/forTest/AsynGoogleAnalytics.php" />
         <option value="$PROJECT_DIR$/forExamine/index.php" />
-        <option value="$PROJECT_DIR$/.thekadeshi/signature.log.json" />
         <option value="$PROJECT_DIR$/forExamine/tset.php" />
-        <option value="$PROJECT_DIR$/forTest/test.php" />
         <option value="$PROJECT_DIR$/forTest/include.php" />
         <option value="$PROJECT_DIR$/forTest/virus0036.php" />
         <option value="&lt;037391e8-ce91-4fea-b633-1a51970969fd&gt;/.thekadeshi/.options" />
         <option value="$PROJECT_DIR$/Tests/FileListTest.php" />
-        <option value="$PROJECT_DIR$/thekadeshi.inc.php" />
-        <option value="$PROJECT_DIR$/thekadeshi.php" />
         <option value="$PROJECT_DIR$/Tests/SomeFunctionsTest.php" />
+        <option value="$PROJECT_DIR$/inspector.php" />
+        <option value="$PROJECT_DIR$/forTest/test.php" />
+        <option value="$PROJECT_DIR$/test01.php" />
+        <option value="$PROJECT_DIR$/.thekadeshi/signature.log.json" />
+        <option value="$PROJECT_DIR$/forExamine/client.php" />
+        <option value="$PROJECT_DIR$/forTest/test01.php" />
+        <option value="$PROJECT_DIR$/forTest/test02.php" />
+        <option value="$PROJECT_DIR$/scanner.php" />
+        <option value="$PROJECT_DIR$/thekadeshi.inc.php" />
+        <option value="$PROJECT_DIR$/sniffer.php" />
+        <option value="$PROJECT_DIR$/thekadeshi.php" />
       </list>
     </option>
   </component>
@@ -173,12 +182,62 @@
   <component name="PhpServers">
     <servers />
   </component>
-  <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" interpreter_name="PHP 7" />
+  <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" interpreter_name="PHP 5.6" />
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
-    <option name="width" value="1444" />
+    <option name="width" value="1456" />
     <option name="height" value="876" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+          <State>
+            <id>Code SmellPHP</id>
+          </State>
+          <State>
+            <id>Code StylePHP</id>
+          </State>
+          <State>
+            <id>Control FlowPHP</id>
+          </State>
+          <State>
+            <id>DocBlocksJoomla!</id>
+          </State>
+          <State>
+            <id>GeneralPHP</id>
+          </State>
+          <State>
+            <id>Joomla!</id>
+          </State>
+          <State>
+            <id>PHP</id>
+          </State>
+          <State>
+            <id>PHPDocPHP</id>
+          </State>
+          <State>
+            <id>Phing</id>
+          </State>
+          <State>
+            <id>Probable bugsPHP</id>
+          </State>
+          <State>
+            <id>Type compatibilityPHP</id>
+          </State>
+          <State>
+            <id>UndefinedPHP</id>
+          </State>
+          <State>
+            <id>UnusedPHP</id>
+          </State>
+        </expanded-state>
+      </profile-state>
+    </entry>
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -249,34 +308,6 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="forTest" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="antivir" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="antivir" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="forExamine" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="antivir" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="antivir" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value=".thekadeshi" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
@@ -293,11 +324,19 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.highlight.symlinks" value="true" />
     <property name="WebServerToolWindowPanel.toolwindow.highlight.mappings" value="true" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
-    <property name="last_opened_file_path" value="C:/temp/russia/stivenson10" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../kadeshi/resources/scripts/development/thekadeshi.php" />
+    <property name="nodejs_interpreter_path" value="C:/Program Files/nodejs/node" />
+    <property name="js.eslint.eslintPackage" value="" />
+    <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/../kadeshi/resources/scripts/development/thekadeshi.php" />
+    <property name="javascript.nodejs.core.library.configured.version" value="4.4.5" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Bagdad\Documents\web\project\antivir" />
+      <recent name="C:\Users\Bagdad\Documents\web\project\antivir\forExamine" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Bagdad\Documents\web\project\antivir\forExamine" />
       <recent name="C:\Users\Bagdad\Documents\web\project\antivir\forTest" />
@@ -305,30 +344,34 @@
       <recent name="C:\Users\Bagdad\Documents\web\project\antivir" />
       <recent name="C:\Users\Bagdad\Documents\web\project\antivir\virusdie" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Bagdad\Documents\web\project\antivir\forExamine" />
-    </key>
   </component>
-  <component name="RunManager" selected="PHPUnit.FunctionsTest">
-    <configuration default="false" name="scan local" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/thekadeshi.php">
+  <component name="RunManager" selected="PHP Script.thekadeshi.php">
+    <configuration default="false" name="test01.php" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" nameIsGenerated="true" uri="http://thekadeshi.bagdad.tmweb.ru/test01.php">
       <method />
     </configuration>
     <configuration default="false" name="scanner.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/scanner.php">
+      <CommandLine>
+        <envs>
+          <env name="xdebug.profiler_output_dir" value="&quot;C:\Users\Bagdad\Documents\web\project\antivir\forProfile&quot;" />
+          <env name="xdebug.profiler_output_name" value="&quot;cachegrind.out.%t-%s&quot;" />
+          <env name="xdebug.trace_output_dir" value="&quot;C:\Users\Bagdad\Documents\web\project\antivir\forProfile&quot;" />
+        </envs>
+      </CommandLine>
       <method />
     </configuration>
-    <configuration default="false" name="ScannerTest (1)" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
-      <TestRunner class="ScannerTest" file="$PROJECT_DIR$/Tests/SomeFunctionsTest.php" scope="Class" />
+    <configuration default="false" name="inspector.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/inspector.php">
       <method />
     </configuration>
-    <configuration default="false" name="FunctionsTest" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
-      <TestRunner class="FunctionsTest" file="$PROJECT_DIR$/Tests/SomeFunctionsTest.php" scope="Class" />
+    <configuration default="false" name="thekadeshi.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/thekadeshi.php">
       <method />
     </configuration>
-    <configuration default="false" name="FileListTest" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
-      <TestRunner class="FileListTest" file="$PROJECT_DIR$/Tests/FileListTest.php" scope="Class" />
+    <configuration default="false" name="sniffer.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/sniffer.php">
       <method />
     </configuration>
     <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
+      <method />
+    </configuration>
+    <configuration default="true" type="NodeJSConfigurationType" factoryName="Node.js" path-to-node="project" working-dir="">
       <method />
     </configuration>
     <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
@@ -358,20 +401,33 @@
       <envs />
       <method />
     </configuration>
+    <configuration default="true" type="mocha-javascript-test-runner" factoryName="Mocha">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <working-directory />
+      <pass-parent-env>true</pass-parent-env>
+      <envs />
+      <ui />
+      <extra-mocha-options />
+      <test-kind>DIRECTORY</test-kind>
+      <test-directory />
+      <recursive>false</recursive>
+      <method />
+    </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="PHP Script.scan local" />
+      <item index="0" class="java.lang.String" itemvalue="JavaScript Debug.test01.php" />
       <item index="1" class="java.lang.String" itemvalue="PHP Script.scanner.php" />
-      <item index="2" class="java.lang.String" itemvalue="PHPUnit.ScannerTest (1)" />
-      <item index="3" class="java.lang.String" itemvalue="PHPUnit.FunctionsTest" />
-      <item index="4" class="java.lang.String" itemvalue="PHPUnit.FileListTest" />
+      <item index="2" class="java.lang.String" itemvalue="PHP Script.inspector.php" />
+      <item index="3" class="java.lang.String" itemvalue="PHP Script.thekadeshi.php" />
+      <item index="4" class="java.lang.String" itemvalue="PHP Script.sniffer.php" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="PHPUnit.FunctionsTest" />
-        <item index="1" class="java.lang.String" itemvalue="PHP Script.scanner.php" />
-        <item index="2" class="java.lang.String" itemvalue="PHPUnit.FileListTest" />
-        <item index="3" class="java.lang.String" itemvalue="PHP Script.scan local" />
-        <item index="4" class="java.lang.String" itemvalue="PHPUnit.ScannerTest (1)" />
+        <item index="0" class="java.lang.String" itemvalue="PHP Script.thekadeshi.php" />
+        <item index="1" class="java.lang.String" itemvalue="PHP Script.sniffer.php" />
+        <item index="2" class="java.lang.String" itemvalue="PHP Script.scanner.php" />
+        <item index="3" class="java.lang.String" itemvalue="JavaScript Debug.test01.php" />
+        <item index="4" class="java.lang.String" itemvalue="PHP Script.inspector.php" />
       </list>
     </recent_temporary>
   </component>
@@ -379,7 +435,7 @@
     <option name="remove_strategy" value="false" />
   </component>
   <component name="StructureViewFactory">
-    <option name="ACTIVE_ACTIONS" value=",SHOW_INHERITED" />
+    <option name="ACTIVE_ACTIONS" value=",SHOW_INHERITED,ALPHA_COMPARATOR" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -466,70 +522,23 @@
       <workItem from="1467190004631" duration="1688000" />
       <workItem from="1467200613180" duration="1295000" />
       <workItem from="1467277224224" duration="4764000" />
-      <workItem from="1467370209895" duration="2197000" />
-    </task>
-    <task id="LOCAL-00001" summary="KDSH-45 #time 4h 30m #comment Альфа версия эвристического алгоритма">
-      <created>1457514082672</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1457514082672</updated>
-    </task>
-    <task id="LOCAL-00002" summary="KDSH-47 #time 20m #done #comment Правки сканера и новые вирусы">
-      <created>1457589205459</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1457589205459</updated>
-    </task>
-    <task id="LOCAL-00003" summary="KDSH-25 #time 10m #comment Попытка не дать сканеру сканировать себя">
-      <created>1457590484721</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1457590484721</updated>
-    </task>
-    <task id="LOCAL-00004" summary="KDSH-24 #time 2m #comment aibolit больше не нужен">
-      <created>1457590575314</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1457590575314</updated>
-    </task>
-    <task id="LOCAL-00005" summary="KDSH-12 #time 30m #comment Препенд режим">
-      <created>1457675313226</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1457675313226</updated>
-    </task>
-    <task id="LOCAL-00006" summary="KDSH-49 #time 10m #done #comment Вирусы отделены от основого кода">
-      <created>1457676564025</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1457676564025</updated>
-    </task>
-    <task id="LOCAL-00007" summary="KDSH-4 #time 10m  #comment Альфа версия лекаря">
-      <created>1457676922286</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1457676922286</updated>
-    </task>
-    <task id="LOCAL-00008" summary="KDSH-51 #time 2h #done  #comment Контрольные суммы">
-      <created>1457852018854</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1457852018854</updated>
-    </task>
-    <task id="LOCAL-00009" summary="KDSH-12 #time 4h #progress  #comment Базовый функционал фаервола">
-      <created>1458633619184</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1458633619185</updated>
+      <workItem from="1467370209895" duration="2462000" />
+      <workItem from="1469419947953" duration="383000" />
+      <workItem from="1469420478759" duration="619000" />
+      <workItem from="1469421142984" duration="221000" />
+      <workItem from="1469421400288" duration="30857000" />
+      <workItem from="1469604004191" duration="5024000" />
+      <workItem from="1469682094288" duration="15000" />
+      <workItem from="1469690525290" duration="668000" />
+      <workItem from="1469704554359" duration="3058000" />
+      <workItem from="1469795442573" duration="6074000" />
+      <workItem from="1469868069972" duration="9214000" />
+      <workItem from="1469959447212" duration="4586000" />
+      <workItem from="1469969892274" duration="8054000" />
+      <workItem from="1470053076125" duration="1281000" />
+      <workItem from="1470114755247" duration="603000" />
+      <workItem from="1470155670728" duration="4100000" />
+      <workItem from="1470210814638" duration="13435000" />
     </task>
     <task id="LOCAL-00010" summary="KDSH-12 #time 1h #progress  #comment Некоторые исправления">
       <created>1458636887168</created>
@@ -713,7 +722,168 @@
       <option name="project" value="LOCAL" />
       <updated>1466883930073</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="Мелочи всякие">
+      <created>1467386921467</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1467386921467</updated>
+    </task>
+    <task id="LOCAL-00037" summary="Попытка исправить &quot;Paamayim Nekudotayim&quot;">
+      <created>1469431852087</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1469431852087</updated>
+    </task>
+    <task id="LOCAL-00038" summary="Вроде стабильная версия :)">
+      <created>1469718130970</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1469718130970</updated>
+    </task>
+    <task id="LOCAL-00039" summary="Class fix">
+      <created>1469872655952</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1469872655952</updated>
+    </task>
+    <task id="LOCAL-00040" summary="Class fix">
+      <created>1469959670135</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1469959670135</updated>
+    </task>
+    <task id="LOCAL-00041" summary="Static var fix">
+      <created>1469959696083</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1469959696083</updated>
+    </task>
+    <task id="LOCAL-00042" summary="Static var and time_limit fix">
+      <created>1469959724094</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1469959724094</updated>
+    </task>
+    <task id="LOCAL-00043" summary="Оптимизация GetFileList">
+      <created>1469970682956</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1469970682956</updated>
+    </task>
+    <task id="LOCAL-00044" summary="Оптимизация ServiceRequest">
+      <created>1469974781543</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1469974781543</updated>
+    </task>
+    <task id="LOCAL-00045" summary="Оптимизация и наведение красоты">
+      <created>1469985193391</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1469985193391</updated>
+    </task>
+    <task id="LOCAL-00046" summary="Оптимизация и наведение красоты">
+      <created>1469985217725</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1469985217725</updated>
+    </task>
+    <task id="LOCAL-00047" summary="Небольшая заплатка в обновлении">
+      <created>1470074817521</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1470074817521</updated>
+    </task>
+    <task id="LOCAL-00048" summary="Прототип снифера">
+      <created>1470158826621</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1470158826621</updated>
+    </task>
+    <task id="LOCAL-00049" summary="Прототип снифера">
+      <created>1470159119887</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1470159119887</updated>
+    </task>
+    <task id="LOCAL-00050" summary="Прототип снифера">
+      <created>1470159171683</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1470159171684</updated>
+    </task>
+    <task id="LOCAL-00051" summary="KDSH-20 #time 23m #comment Основной функционал">
+      <created>1470159766333</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1470159766333</updated>
+    </task>
+    <task id="LOCAL-00052" summary="KDSH-21 #time 1h 20m #comment Тестовая версия">
+      <created>1470220341293</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1470220341293</updated>
+    </task>
+    <task id="LOCAL-00053" summary="KDSH-21 #time 3m #comment Мелкие правки в комментах">
+      <created>1470220644414</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1470220644414</updated>
+    </task>
+    <task id="LOCAL-00054" summary="KDSH-21 #time 10m #comment Обновленные заголовки">
+      <created>1470221109877</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1470221109877</updated>
+    </task>
+    <task id="LOCAL-00055" summary="KDSH-20, KDSH-21  #done #Comment Сниффер">
+      <created>1470225098382</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1470225098383</updated>
+    </task>
+    <task id="LOCAL-00056" summary="Type fix">
+      <created>1470231851087</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1470231851087</updated>
+    </task>
+    <task id="LOCAL-00057" summary="firewall fix">
+      <created>1470235525300</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1470235525300</updated>
+    </task>
+    <task id="LOCAL-00058" summary="Попытка слияния">
+      <created>1470240840741</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1470240840742</updated>
+    </task>
+    <option name="localTasksCounter" value="59" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -749,35 +919,81 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="556919000" />
+    <option name="totallyTimeSpent" value="645376000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1444" height="876" extended-state="0" />
+    <frame x="-8" y="-8" width="1456" height="876" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18553008" sideWeight="0.47834274" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25289017" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24355301" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32974428" sideWeight="0.5028653" order="11" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32974428" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2422611" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32974428" sideWeight="0.49713466" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2422611" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.247851" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32839838" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32839838" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2974428" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2974428" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Command Line Tools Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32839838" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="File Transfer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19380888" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Command Line Tools Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32839838" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="REST Client" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34320322" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="File Transfer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19380888" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32902297" sideWeight="0.5216572" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32839838" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32974428" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32839838" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
+    <layout-to-restore>
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Command Line Tools Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32839838" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="REST Client" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34320322" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="File Transfer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19380888" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32974428" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2422611" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32902297" sideWeight="0.5216572" order="4" side_tool="true" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32839838" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18553008" sideWeight="0.47834274" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22922637" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32974428" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32839838" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.247851" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2974428" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+    </layout-to-restore>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
@@ -791,59 +1007,44 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="KDSH-12 #time 4h #progress  #comment Базовый функционал фаервола" />
-    <MESSAGE value="KDSH-12 #time 1h #progress  #comment Некоторые исправления" />
-    <MESSAGE value="KDSH-54 #time 45m #progress  #comment Рефакторинг" />
-    <MESSAGE value="KDSH-59 #time 2h #done  #comment Верстка добавлена в скрипт" />
-    <MESSAGE value="KDSH-59 #time 5m #done  #comment Правки шрифта" />
-    <MESSAGE value="KDSH-5 #time 4h  #comment Обновление настроек" />
-    <MESSAGE value="KDSH-8 #time 3h  #comment Правки в API" />
-    <MESSAGE value="KDSH-62 #time 3h #done #comment Настройки и быстродействие" />
-    <MESSAGE value="KDSH-63 #time 10m #done #comment Оптимизация эвристического алгоритма" />
-    <MESSAGE value="Прсто заливка, чтоб не просрать" />
-    <MESSAGE value="KDSH-4 KDSH-3 KDSH-23 #time 8h #done #comment Более-менее стабильная альфа" />
-    <MESSAGE value="Правки и костыли по результатам тестирования" />
-    <MESSAGE value="KDSH-114 #done" />
-    <MESSAGE value="Чуть все не просрали" />
-    <MESSAGE value="KDSH-123 #done #time 15m #comment Чистка кода и небольшая оптимизация в функции эвристического поиска" />
-    <MESSAGE value="Чистка кода и небольшая оптимизация" />
-    <MESSAGE value="Начало переноса сканирующего ядра на внешний сервер" />
-    <MESSAGE value="Мелкие правки и тюнинг" />
-    <MESSAGE value="Чтоб не просрать" />
     <MESSAGE value="Чистка" />
     <MESSAGE value="Функционал фаервола" />
     <MESSAGE value="Правки с выводом текста" />
     <MESSAGE value="Множество правок в функционале сканера и фаервола" />
     <MESSAGE value="Удаление контрольных сумм, при обновлении базы сигнатур" />
     <MESSAGE value="Более-менее стабильная версия" />
-    <option name="LAST_COMMIT_MESSAGE" value="Более-менее стабильная версия" />
+    <MESSAGE value="Мелочи всякие" />
+    <MESSAGE value="Попытка исправить &quot;Paamayim Nekudotayim&quot;" />
+    <MESSAGE value="Вроде стабильная версия :)" />
+    <MESSAGE value="Class fix" />
+    <MESSAGE value="Static var fix" />
+    <MESSAGE value="Static var and time_limit fix" />
+    <MESSAGE value="Оптимизация GetFileList" />
+    <MESSAGE value="Оптимизация ServiceRequest" />
+    <MESSAGE value="Оптимизация и наведение красоты" />
+    <MESSAGE value="Небольшая заплатка в обновлении" />
+    <MESSAGE value="Прототип снифера" />
+    <MESSAGE value="KDSH-20 #time 23m #comment Основной функционал" />
+    <MESSAGE value="KDSH-21 #time 1h 20m #comment Тестовая версия" />
+    <MESSAGE value="KDSH-21 #time 3m #comment Мелкие правки в комментах" />
+    <MESSAGE value="KDSH-21 #time 10m #comment Обновленные заголовки" />
+    <MESSAGE value="KDSH-20, KDSH-21  #done #Comment Сниффер" />
+    <MESSAGE value="Type fix" />
+    <MESSAGE value="firewall fix" />
+    <MESSAGE value="Попытка слияния" />
+    <option name="LAST_COMMIT_MESSAGE" value="Попытка слияния" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="6" />
+      <option name="time" value="15" />
     </breakpoint-manager>
-    <watches-manager />
+    <watches-manager>
+      <configuration name="PhpLocalRunConfigurationType">
+        <watch expression="$fileData" />
+      </configuration>
+    </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/forTest/wpconf.php" />
-    <entry file="file://$PROJECT_DIR$/forExamine/gemb.php" />
-    <entry file="file://$PROJECT_DIR$/forExamine/hirec.php" />
-    <entry file="file://$PROJECT_DIR$/forExamine/z_heima.php" />
-    <entry file="file://$PROJECT_DIR$/forExamine/gallery.php" />
-    <entry file="file://$PROJECT_DIR$/forTest/virus0007.js" />
-    <entry file="file://$PROJECT_DIR$/forTest/virus0184.php" />
-    <entry file="file://$PROJECT_DIR$/forExamine/header.php" />
-    <entry file="file://$PROJECT_DIR$/forExamine/v_v.php" />
-    <entry file="file://$PROJECT_DIR$/forTest/js.php" />
-    <entry file="file://$PROJECT_DIR$/forExamine/ars.php" />
-    <entry file="file://$PROJECT_DIR$/forExamine/kickstart_.php" />
-    <entry file="file://$PROJECT_DIR$/forExamine/coarsest.php" />
-    <entry file="file://$PROJECT_DIR$/forExamine/sehtlocale.php" />
-    <entry file="file://$PROJECT_DIR$/forExamine/sfx.php" />
-    <entry file="file://$PROJECT_DIR$/forTest/sfx.php" />
-    <entry file="file://$PROJECT_DIR$/forExamine/privacy.php" />
-    <entry file="file://$PROJECT_DIR$/forExamine/go.php" />
-    <entry file="file://$PROJECT_DIR$/forTest/3upezx.php" />
     <entry file="file://$PROJECT_DIR$/forTest/page42.php" />
     <entry file="file://$PROJECT_DIR$/forExamine/language.php" />
     <entry file="file://$PROJECT_DIR$/forExamine/footer.php" />
@@ -864,16 +1065,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/scanner.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1717">
-          <caret line="107" column="56" selection-start-line="107" selection-start-column="56" selection-end-line="107" selection-end-column="56" />
-          <folding>
-            <element signature="n#ServiceRequest#0;n#TheKadeshi#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/forTest/functions.js" />
     <entry file="file://$PROJECT_DIR$/forExamine/config.php" />
     <entry file="file://$PROJECT_DIR$/forExamine/b374k-2.8.php" />
@@ -883,48 +1074,18 @@
     <entry file="file://$PROJECT_DIR$/forExamine/tset.php" />
     <entry file="file://$PROJECT_DIR$/forExamine/templates.php" />
     <entry file="file://$PROJECT_DIR$/forExamine/configuration.php" />
-    <entry file="file://$PROJECT_DIR$/forTest/test.php" />
     <entry file="file://$PROJECT_DIR$/forExamine/firewall.log" />
     <entry file="file://$PROJECT_DIR$/forExamine/error.php" />
     <entry file="file://$PROJECT_DIR$/forTest/menus.php" />
-    <entry file="file://$PROJECT_DIR$/forExamine/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1020">
-          <caret line="60" column="16" selection-start-line="60" selection-start-column="16" selection-end-line="60" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/forExamine/index.php" />
     <entry file="file://$PROJECT_DIR$/forExamine/tryagain.php" />
     <entry file="file://$PROJECT_DIR$/forTest/virus0036.php" />
     <entry file="file://$PROJECT_DIR$/forTest/include.php" />
-    <entry file="file://$PROJECT_DIR$/forTest/jquery.fancybox-1.3.1.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-17">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.thekadeshi/signature.log.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="86" selection-start-line="0" selection-start-column="86" selection-end-line="0" selection-end-column="86" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/forTest/jquery.fancybox-1.3.1.js" />
     <entry file="file://$PROJECT_DIR$/Tests/FileListTest.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
           <caret line="20" column="5" selection-start-line="20" selection-start-column="5" selection-end-line="20" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/thekadeshi.inc.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="289" column="64" selection-start-line="289" selection-start-column="52" selection-end-line="289" selection-end-column="64" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -932,16 +1093,96 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="12" column="34" selection-start-line="12" selection-start-column="34" selection-end-line="12" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/forTest/class-wp-customize-background-image-setting_.php" />
+    <entry file="file://$PROJECT_DIR$/forTest/test.php" />
+    <entry file="file://$PROJECT_DIR$/test01.php" />
+    <entry file="file://$PROJECT_DIR$/test.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="223">
+          <caret line="77" column="10" selection-start-line="77" selection-start-column="10" selection-end-line="77" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/inspector.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="475">
+          <caret line="102" column="6" selection-start-line="102" selection-start-column="6" selection-end-line="102" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.thekadeshi/.signatures" />
+    <entry file="file://$PROJECT_DIR$/.thekadeshi/.thekadeshi" />
+    <entry file="file://$PROJECT_DIR$/forExamine/client2.php" />
+    <entry file="file://$PROJECT_DIR$/forExamine/client.php" />
+    <entry file="file://$PROJECT_DIR$/forExamine/mctabs.php" />
+    <entry file="file://$PROJECT_DIR$/forTest/test01.php" />
+    <entry file="file://$PROJECT_DIR$/forTest/test02.php" />
+    <entry file="file://$PROJECT_DIR$/forProfile/cachegrind.out.1469966959-C__Users_Bagdad_Documents_web_project_antivir_scanner_php" />
+    <entry file="file://$PROJECT_DIR$/.thekadeshi/signature.log.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="33" selection-start-line="0" selection-start-column="33" selection-end-line="0" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scanner.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="655">
+          <caret line="132" column="0" selection-start-line="132" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
+          <folding>
+            <element signature="e#5943#6028#0#PHP" expanded="false" />
+            <element signature="n#deleteContent#0;n#TheKadeshi#0;n#!!top" expanded="false" />
+            <element signature="e#6499#6599#0#PHP" expanded="false" />
+            <element signature="n#ServiceRequest#0;n#TheKadeshi#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/2016/08/02/16/16-50-60~127.0.0.1.log.json" />
+    <entry file="file://$PROJECT_DIR$/2016/08/02/17/17-0-0~127.0.0.1.log.json" />
+    <entry file="file://$PROJECT_DIR$/2016/08/02/17/17-10-20~127.0.0.1.log.json" />
+    <entry file="file://$PROJECT_DIR$/2016/08/02/17/17-20-30~127.0.0.1.log.json" />
+    <entry file="file://$PROJECT_DIR$/.thekadeshi/.options">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Tests/ScannerTest.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="19" column="39" selection-start-line="19" selection-start-column="39" selection-end-line="19" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thekadeshi.inc.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2147">
+          <caret line="253" column="25" selection-start-line="253" selection-start-column="25" selection-end-line="253" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sniffer.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1122">
+          <caret line="66" column="9" selection-start-line="51" selection-start-column="8" selection-end-line="66" selection-end-column="9" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/thekadeshi.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4723">
-          <caret line="609" column="23" selection-start-line="609" selection-start-column="23" selection-end-line="609" selection-end-column="23" />
+        <state relative-caret-position="204">
+          <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
           <folding>
-            <element signature="e#6#134#0#PHP" expanded="true" />
+            <element signature="e#6#111#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
