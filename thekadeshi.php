@@ -1,7 +1,7 @@
 <?php
 /**
- * Project: antivir
- * User: Bagdad (  )
+ * Project: theKadeshi
+ * User: Bagdad
  * Date: 07.02.2016
  * Time: 16:17
  * Created by PhpStorm.
