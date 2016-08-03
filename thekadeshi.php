@@ -87,7 +87,7 @@ class TheKadeshi {
 	 * База правил фаервола
 	 * @var array
 	 */
-	public $firewallRules = array();
+	private static $firewallRules;
 
 	public function __construct() {
 
@@ -147,6 +147,13 @@ class TheKadeshi {
 
 			$this->LoadSignatures();
 		}
+	}
+
+	/**
+	 * @return array
+	 */
+	public static function getFirewallRules() {
+		return self::$firewallRules;
 	}
 
 	/**
@@ -212,7 +219,7 @@ class TheKadeshi {
 		if(array_key_exists('kernelhash', self::$Options) === false || (self::$Options['kernelhash'] !== $fileHash)) {
 
 			$arguments = array();
-			if(is_array(self::$Options) && array_key_exists('developer_mode', self::$Options) && (int)self::$Options['developer_mode'] === 1) {
+			if(is_array(self::$Options) && array_key_exists('developer_mode', self::$Options) && (bool)self::$Options['developer_mode'] === true) {
 				$arguments['dev'] = 1;
 			}
 			$content = self::ServiceRequest('thekadeshi', $arguments, false, 'cdn');
@@ -230,7 +237,7 @@ class TheKadeshi {
 		$fileHash = hash('sha256', $fileContent);
 		if(array_key_exists('agenthash', self::$Options) === false || (self::$Options['agenthash'] !== $fileHash)) {
 			$arguments = array();
-			if(is_array(self::$Options) && array_key_exists('developer_mode', self::$Options) && (int)self::$Options['developer_mode'] === 1) {
+			if(is_array(self::$Options) && array_key_exists('developer_mode', self::$Options) && (bool)self::$Options['developer_mode'] === true) {
 				$arguments['dev'] = 1;
 			}
 			$content = self::ServiceRequest('agent', $arguments, false, 'cdn');
@@ -279,9 +286,9 @@ class TheKadeshi {
 		if(file_exists(self::$SignatureFile)) {
 			self::setSignatureDatabase(json_decode(base64_decode(file_get_contents(self::$SignatureFile)), true));
 		}
-		if(array_key_exists('firewall', self::$Options) === true && (self::$Options['firewall'] === 1)) {
+		if(array_key_exists('firewall', self::$Options) === true && ((bool)self::$Options['firewall'] === true)) {
 			if(file_exists(self::$FirewallFile)) {
-				$this->firewallRules = json_decode(base64_decode(file_get_contents(self::$FirewallFile)), true);
+				self::$firewallRules = json_decode(base64_decode(file_get_contents(self::$FirewallFile)), true);
 			}
 		}
 	}
@@ -763,17 +770,17 @@ $needToBlock = false;
 switch ($currentAction) {
 	case 'prepend':
 
-		if($theKadeshi->GetOptions('modifyheaders') === '1') {
+		if((bool)$theKadeshi->GetOptions('modifyheaders') === true) {
 			@header('Protection: TheKadeshi');
 		}
 
-		if($theKadeshi->GetOptions('sniffer') === '1') {
+		if((bool)$theKadeshi->GetOptions('sniffer') === true) {
 			$theKadeshi->WriteSnifferLog();
 		}
 
-		if($theKadeshi->GetOptions('firewall') === '1') {
+		if((bool)$theKadeshi->GetOptions('firewall') === true) {
 
-			if($theKadeshi->GetOptions('block_empty_user_agent') === '1') {
+			if((bool)$theKadeshi->GetOptions('block_empty_user_agent') === true) {
 
 				if(array_key_exists('HTTP_USER_AGENT', $_SERVER) === false || $_SERVER['HTTP_USER_AGENT'] === '') {
 					$needToBlock = true;
@@ -782,7 +789,7 @@ switch ($currentAction) {
 			}
 			$requestArray = array_merge($_POST, $_GET, $_COOKIE);
 
-			foreach ($theKadeshi->firewallRules as $firewallRule) {
+			foreach ($theKadeshi::getFirewallRules() as $firewallRule) {
 				if($needToBlock === true) {
 					continue;
 				}
@@ -797,9 +804,9 @@ switch ($currentAction) {
 					*/
 					if(mb_strpos($requestKey, 'wp_woocommerce_session') === false) {
 
-						$firewallResult = preg_match('`' . $firewallRule['rule'] . '`msA', $requestItem);
+						$firewallResult = (bool)preg_match('`' . $firewallRule['rule'] . '`msA', $requestItem);
 
-						if ($firewallResult === 1) {
+						if ($firewallResult !== true) {
 
 							$requestScript = $_SERVER['PHP_SELF'];
 							$requestQuery = base64_encode($requestItem);
