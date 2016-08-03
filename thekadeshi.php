@@ -85,9 +85,9 @@ class TheKadeshi {
 
 	/**
 	 * База правил фаервола
-	 * @var string
+	 * @var array
 	 */
-	public $firewallRules = '';
+	public $firewallRules = array();
 
 	public function __construct() {
 
@@ -456,7 +456,8 @@ class TheKadeshi {
 			self::$Options['lastconfigcheck'] = time();
 			file_put_contents(self::$OptionsFile, json_encode(self::$Options));
 		}
-		if(array_key_exists('prepend', self::$Options) === true && self::$Options['prepend'] === 1) {
+
+		if(array_key_exists('prepend', self::$Options) === true && self::$Options['prepend'] === '1') {
 			$htaccessConfig[] = array(
 				"\r\n<IfModule mod_suphp.c>",
 				"\tsuPHP_ConfigPath \"" . __DIR__ . "\"",
@@ -486,7 +487,7 @@ class TheKadeshi {
 				);
 		}
 
-		if(array_key_exists('firewall', self::$Options) === true && self::$Options['firewall'] === 1) {
+		if(array_key_exists('firewall', self::$Options) === true && self::$Options['firewall'] === '1') {
 			$htaccessConfig[] = array(
 				"\r\n# \tPrevent mime based attacks",
 				"Header set X-Content-Type-Options \"nosniff\"",
@@ -568,7 +569,7 @@ class TheKadeshi {
 		$this->setChmod($htaccessFile, 'read');
 		unset($startString, $endString, $startPosition, $endPosition);
 
-		if(self::$Options['prepend'] === 1) {
+		if(self::$Options['prepend'] === '1') {
 			$userIniFile = __DIR__ . '/.user.ini';
 
 			$this->setChmod($userIniFile, 'write');
@@ -749,7 +750,7 @@ if(php_sapi_name() !== 'cli') {
 		}
 		$currentAction = 'prepend';
 	}
-	if(array_key_exists('block', $_REQUEST)) {
+	if(array_key_exists('block', $_REQUEST) === true) {
 		$currentAction = 'block';
 	}
 } else {
@@ -762,17 +763,17 @@ $needToBlock = false;
 switch ($currentAction) {
 	case 'prepend':
 
-		if($theKadeshi->GetOptions('modifyheaders') === 1) {
+		if($theKadeshi->GetOptions('modifyheaders') === '1') {
 			@header('Protection: TheKadeshi');
 		}
 
-		if($theKadeshi->GetOptions('sniffer') === 1) {
+		if($theKadeshi->GetOptions('sniffer') === '1') {
 			$theKadeshi->WriteSnifferLog();
 		}
 
-		if($theKadeshi->GetOptions('firewall') === 1) {
+		if($theKadeshi->GetOptions('firewall') === '1') {
 
-			if($theKadeshi->GetOptions('block_empty_user_agent') === 1) {
+			if($theKadeshi->GetOptions('block_empty_user_agent') === '1') {
 
 				if(array_key_exists('HTTP_USER_AGENT', $_SERVER) === false || $_SERVER['HTTP_USER_AGENT'] === '') {
 					$needToBlock = true;
@@ -781,7 +782,7 @@ switch ($currentAction) {
 			}
 			$requestArray = array_merge($_POST, $_GET, $_COOKIE);
 
-			foreach ((array)$theKadeshi->firewallRules as $firewallRule) {
+			foreach ($theKadeshi->firewallRules as $firewallRule) {
 				if($needToBlock === true) {
 					continue;
 				}
@@ -796,9 +797,9 @@ switch ($currentAction) {
 					*/
 					if(mb_strpos($requestKey, 'wp_woocommerce_session') === false) {
 
-						$firewallResult = (bool)preg_match('`' . $firewallRule['rule'] . '`msA', $requestItem);
+						$firewallResult = preg_match('`' . $firewallRule['rule'] . '`msA', $requestItem);
 
-						if ($firewallResult !== false) {
+						if ($firewallResult === 1) {
 
 							$requestScript = $_SERVER['PHP_SELF'];
 							$requestQuery = base64_encode($requestItem);
