@@ -19,6 +19,9 @@ class TheKadeshi {
 	 */
 	const ServiceUrl = 'http://thekadeshi.com/';
 
+	/**
+	 * @var array Список файлов для сканирования
+	 */
 	public $fileList;
 
 	/**
@@ -58,7 +61,11 @@ class TheKadeshi {
 
 	private static $AnamnesisFile = '';
 
-	static $FirewallLogFile = '';
+	private static $FirewallLogFile = '';
+
+	private static $SnifferLogDir;
+
+	private static $snifferLogFile;
 
 	public static $Options;
 
@@ -86,10 +93,20 @@ class TheKadeshi {
 
 		$this->executionMicroTimeStart = microtime(true);
 
+	    $currentIp = '127.0.0.1';
+	    if(array_key_exists('REMOTE_ADDR', $_SERVER)) {
+		    $currentIp = $_SERVER['REMOTE_ADDR'];
+	    }
+	    $currentMinuteMin = str_pad(floor(gmdate('i') / 10) * 10, '0', STR_PAD_LEFT);
+	    $currentMinuteMax = str_pad(ceil(((gmdate('i') / 10) < 1) ? 1 : (gmdate('i') / 10)) * 10, '0', STR_PAD_LEFT);
+	    $currentSnifferLogFile = gmdate('H') . '-' . $currentMinuteMin . '-' . $currentMinuteMax . '~' . $currentIp . '.log.json';
+
 		self::$TheKadeshiDir = __DIR__ . '/.thekadeshi';
 		self::$OptionsFile = self::$TheKadeshiDir . '/.options';
 		self::$FirewallFile = self::$TheKadeshiDir . '/.firewall';
+		self::$SnifferLogDir = self::$TheKadeshiDir . '/.sniffer/' . gmdate('Y/m/d/H');
 		self::$FirewallLogFile = self::$TheKadeshiDir . '/.firewall.log';
+		self::$snifferLogFile =  self::$SnifferLogDir . '/' . $currentSnifferLogFile;
 		self::$API_Path = self::ServiceUrl . 'api/';
 		self::$CDN_Path = self::ServiceUrl . 'cdn/';
 
@@ -133,6 +150,53 @@ class TheKadeshi {
 	}
 
 	/**
+	 * Функция создания лога траффика
+	 * @return null
+	 */
+	private function GenerateSnifferLog() {
+		$log = null;
+    	if(count($_POST) > 0) {
+		    $log['post'] = $_POST;
+	    }
+
+	    if(count($_GET) > 0) {
+		    $log['get'] = $_GET;
+	    }
+
+	    if(count($_COOKIE) > 0) {
+		    $log['cookie'] = $_COOKIE;
+	    }
+
+	    return $log;
+	}
+
+	/**
+	 * Функция записи в лог перехваченного трафика
+	 * @return bool
+	 */
+	public function WriteSnifferLog() {
+		$data = $this->GenerateSnifferLog();
+    	if($data !== null) {
+
+    		if(!@mkdir(self::$SnifferLogDir, 0755, true)  && !is_dir(self::$SnifferLogDir )){
+                return false;
+	        } else {
+
+			    if (file_exists(self::$snifferLogFile)) {
+				    $currentFileContent = file_get_contents(self::$snifferLogFile);
+				    if (!($currentjsonContent = json_decode($currentFileContent, true))) {
+					    $currentjsonContent = array();
+				    }
+			    }
+			    $currentJsonContent[gmdate('Y-m-d H:i:s')][] = $data;
+			    file_put_contents(self::$snifferLogFile, json_encode($currentJsonContent));
+
+			    return true;
+		    }
+	    }
+	}
+
+	/**
 	 * Фунция обновления
 	 * @todo необходимо добавить проверку на наличие этого самого обновления
 	 */
@@ -145,7 +209,7 @@ class TheKadeshi {
 			$fileContent = file_get_contents(self::$TheKadeshiDir . '/.thekadeshi');
 			$fileHash = hash('sha256', $fileContent);
 		}
-		if(!isset(self::$Options['kernelhash']) || (self::$Options['kernelhash'] != $fileHash)) {
+		if(array_key_exists('kernelhash', self::$Options) === false || (self::$Options['kernelhash'] !== $fileHash)) {
 
 			$arguments = array();
 			if(is_array(self::$Options) && array_key_exists('developer_mode', self::$Options) && (int)self::$Options['developer_mode'] === 1) {
@@ -153,7 +217,7 @@ class TheKadeshi {
 			}
 			$content = self::ServiceRequest('thekadeshi', $arguments, false, 'cdn');
 			if ($content !== false) {
-				file_put_contents(self::$TheKadeshiDir . "/.thekadeshi", $content);
+				file_put_contents(self::$TheKadeshiDir . '/.thekadeshi', $content);
 			}
 
 			unset($fileContent, $fileHash, $arguments);
@@ -164,7 +228,7 @@ class TheKadeshi {
 		 */
 		$fileContent = file_get_contents(__DIR__ . '/thekadeshi.php');
 		$fileHash = hash('sha256', $fileContent);
-		if(!isset(self::$Options['agenthash']) || (self::$Options['agenthash'] != $fileHash)) {
+		if(array_key_exists('agenthash', self::$Options) === false || (self::$Options['agenthash'] !== $fileHash)) {
 			$arguments = array();
 			if(is_array(self::$Options) && array_key_exists('developer_mode', self::$Options) && (int)self::$Options['developer_mode'] === 1) {
 				$arguments['dev'] = 1;
@@ -208,14 +272,14 @@ class TheKadeshi {
 		if(!file_exists(self::$SignatureFile)) {
 			$this->GetRemoteSignatures();
 		} else {
-			if (isset(self::$Options['lastsignaturecheck']) && (self::$Options['lastsignaturecheck'] < (time() - self::configCheckTimer))) {
+			if(array_key_exists('lastsignaturecheck', self::$Options) === true && (self::$Options['lastsignaturecheck'] < (time() - self::configCheckTimer))) {
 				$this->GetRemoteSignatures();
 			}
 		}
 		if(file_exists(self::$SignatureFile)) {
 			self::setSignatureDatabase(json_decode(base64_decode(file_get_contents(self::$SignatureFile)), true));
 		}
-		if(isset(self::$Options['firewall']) && (self::$Options['firewall'] == true)) {
+		if(array_key_exists('firewall', self::$Options) === true && (self::$Options['firewall'] === 1)) {
 			if(file_exists(self::$FirewallFile)) {
 				$this->firewallRules = json_decode(base64_decode(file_get_contents(self::$FirewallFile)), true);
 			}
@@ -306,7 +370,7 @@ class TheKadeshi {
 				return false;
 			}
 		} else {
-			if(key_exists($OptionName, self::$Options)) {
+			if(array_key_exists($OptionName, self::$Options)) {
 				return self::$Options[$OptionName];
 			} else {
 				return false;
@@ -384,10 +448,7 @@ class TheKadeshi {
 			'site' => $siteUrl
 		);
 		$htaccessConfig = array();
-		$oldPrependOption = 0;
-		if(isset(self::$Options['prepend'])) {
-			$oldPrependOption = self::$Options['prepend'];
-		}
+
 		$ConfigData = self::ServiceRequest('getConfig', $arguments, false);
 
 		if($ConfigData !== '') {
@@ -395,37 +456,37 @@ class TheKadeshi {
 			self::$Options['lastconfigcheck'] = time();
 			file_put_contents(self::$OptionsFile, json_encode(self::$Options));
 		}
-		if(self::$Options['prepend'] == 1) {
+		if(array_key_exists('prepend', self::$Options) === true && self::$Options['prepend'] === 1) {
 			$htaccessConfig[] = array(
 				"\r\n<IfModule mod_suphp.c>",
-					"\tsuPHP_ConfigPath \"" . __DIR__ . "\"",
-				"</IfModule>",
+				"\tsuPHP_ConfigPath \"" . __DIR__ . "\"",
+				'</IfModule>',
 				"\r\n<IfModule mod_php5.c>",
-					"\tphp_value auto_prepend_file \"" . __DIR__ . "/thekadeshi.php\"",
-				"</IfModule>",
+				"\tphp_value auto_prepend_file \"" . __DIR__ . "/thekadeshi.php\"",
+				'</IfModule>',
 				"\r\n<IfModule lsapi_module>",
-					"\tphp_value auto_prepend_file \"" . __DIR__ . "/thekadeshi.php\"",
-				"</IfModule>",
+				"\tphp_value auto_prepend_file \"" . __DIR__ . "/thekadeshi.php\"",
+				'</IfModule>',
 				"\r\n# \tLightSpeed",
-				"<IfModule LiteSpeed>",
-					"\tphp_value auto_prepend_file \"" . __DIR__ . "/thekadeshi.php\"",
-				"</IfModule>",
+				'<IfModule LiteSpeed>',
+				"\tphp_value auto_prepend_file \"" . __DIR__ . "/thekadeshi.php\"",
+				'</IfModule>',
 
 				"\r\n<Files \".user.ini\">",
-					"\t<IfModule mod_authz_core.c>",
-						"\t\tRequire all denied",
-					"\t</IfModule>",
-					"\t<IfModule !mod_authz_core.c>",
-						"\t\tOrder deny,allow",
-						"\t\tDeny from all",
-					"\t</IfModule>",
-				"</Files>",
+				"\t<IfModule mod_authz_core.c>",
+				"\t\tRequire all denied",
+				"\t</IfModule>",
+				"\t<IfModule !mod_authz_core.c>",
+				"\t\tOrder deny,allow",
+				"\t\tDeny from all",
+				"\t</IfModule>",
+				'</Files>',
 				"\r\n# \tChange 403 document",
 				'ErrorDocument 403 /thekadeshi.php?block',
 				);
 		}
 
-		if(self::$Options['firewall'] == 1) {
+		if(array_key_exists('firewall', self::$Options) === true && self::$Options['firewall'] === 1) {
 			$htaccessConfig[] = array(
 				"\r\n# \tPrevent mime based attacks",
 				"Header set X-Content-Type-Options \"nosniff\"",
@@ -435,20 +496,17 @@ class TheKadeshi {
 				'ServerSignature Off',
 				"\r\n# \tBlock xmlrpc",
 				'<Files xmlrpc.php>',
-					"\tOrder Allow,Deny",
-					"\tdeny from all",
+				"\tOrder Allow,Deny",
+				"\tdeny from all",
 				'</Files>',
 				"\r\n# \tBlocked .htaccess file",
 				'<Files .htaccess>',
-					"\torder allow,deny",
-					"\tdeny from all",
-				"</Files>",
+				"\torder allow,deny",
+				"\tdeny from all",
+				'</Files>',
 			);
 		}
 		$this->htaccessModify($htaccessConfig);
-		/*
-		$this->Ping();
-		*/
 	}
 
 	/**
@@ -548,7 +606,7 @@ class TheKadeshi {
 			$firewallLogContent = file_get_contents(self::$FirewallLogFile);
 			$firewallData = json_decode($firewallLogContent, true);
 		}
-		if(!isset($firewallData['hash'])) {
+		if(array_key_exists('hash', $firewallData) === false) {
 			$firewallData['hash'] = self::$Options['hash'];
 		}
 		$firewallData['logs'][] = array(
@@ -665,13 +723,13 @@ $theKadeshi = new TheKadeshi();
 if(php_sapi_name() !== 'cli') {
 	if(array_key_exists('REQUEST_URI', $_SERVER) && strpos($_SERVER['REQUEST_URI'], 'thekadeshi.php')) {
 
-		if(isset($_POST['ping'])) {
+		if(array_key_exists('ping', $_POST)) {
 
 			$theKadeshi->Ping();
 			exit();
 		}
 
-		if(isset($_POST['scan'])) {
+		if(array_key_exists('scan', $_POST)) {
 			exec('php ' . __DIR__ . $_SERVER['PHP_SELF'] . ' --scan');
 			exit();
 		} else {
@@ -691,7 +749,7 @@ if(php_sapi_name() !== 'cli') {
 		}
 		$currentAction = 'prepend';
 	}
-	if(isset($_REQUEST['block'])) {
+	if(array_key_exists('block', $_REQUEST)) {
 		$currentAction = 'block';
 	}
 } else {
@@ -704,15 +762,19 @@ $needToBlock = false;
 switch ($currentAction) {
 	case 'prepend':
 
-		if($theKadeshi->GetOptions('modifyheaders') == true) {
+		if($theKadeshi->GetOptions('modifyheaders') === 1) {
 			@header('Protection: TheKadeshi');
 		}
 
-		if($theKadeshi->GetOptions('firewall') == true) {
+		if($theKadeshi->GetOptions('sniffer') === 1) {
+			$theKadeshi->WriteSnifferLog();
+		}
 
-			if($theKadeshi->GetOptions('block_empty_user_agent') == true) {
+		if($theKadeshi->GetOptions('firewall') === 1) {
 
-				if(!isset($_SERVER['HTTP_USER_AGENT']) || $_SERVER['HTTP_USER_AGENT'] == '') {
+			if($theKadeshi->GetOptions('block_empty_user_agent') === 1) {
+
+				if(array_key_exists('HTTP_USER_AGENT', $_SERVER) === false || $_SERVER['HTTP_USER_AGENT'] === '') {
 					$needToBlock = true;
 					break;
 				}
@@ -747,29 +809,25 @@ switch ($currentAction) {
 						}
 					}
 				}
-
-				foreach ($cookieArray as $requestItem) {
-
-				}
 			}
 		}
 
 		if(count($_FILES) === 0) {
 			foreach ($_FILES as $fileToScan) {
 				$fileScanResults = $theKadeshi->Scanner->Scan($fileToScan['tmp_name'], false);
-				if(!empty($fileScanResults) && isset($fileScanResults['scanner'])) {
+				if(array_key_exists('scanner', $fileScanResults) === true) {
 					$needToBlock = true;
 					$theKadeshi->Scanner->SaveAnamnesis();
 					$theKadeshi->Scanner->SendAnamnesis();
 				}
 			}
 		}
-		if(isset($_SERVER['SCRIPT_FILENAME'])) {
+		if(array_key_exists('SCRIPT_FILENAME' , $_SERVER) === true) {
 			$fileToCheck = $_SERVER['SCRIPT_FILENAME'];
 			if (method_exists($theKadeshi->Scanner, 'Scan')) {
 				$fileScanResults = $theKadeshi->Scanner->Scan($fileToCheck, true);
 
-				if(!empty($fileScanResults) && isset($fileScanResults['scanner'])) {
+				if(array_key_exists('scanner', $fileScanResults) === true) {
 					$needToBlock = true;
 					$theKadeshi->Scanner->SaveAnamnesis();
 					$theKadeshi->Scanner->SendAnamnesis();
