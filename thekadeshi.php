@@ -806,7 +806,7 @@ switch ($currentAction) {
 
 						$firewallResult = (bool)preg_match('`' . $firewallRule['rule'] . '`msA', $requestItem);
 
-						if ($firewallResult !== true) {
+						if ($firewallResult !== false) {
 
 							$requestScript = $_SERVER['PHP_SELF'];
 							$requestQuery = base64_encode($requestItem);
