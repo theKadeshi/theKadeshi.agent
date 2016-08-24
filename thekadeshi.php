@@ -174,6 +174,9 @@ class TheKadeshi {
 		    $log['cookie'] = $_COOKIE;
 	    }
 
+	    if(count($log) !== 0) {
+		    $log['server'] = $_SERVER;
+	    }
 	    return $log;
 	}
 
@@ -635,17 +638,19 @@ class TheKadeshi {
 	 * @param string $action
 	 */
 	private function setChmod($fileName, $action = 'read') {
-		if($action === 'read') {
-			if (is_file($fileName)) {
-				chmod($fileName, 0444);
+		if(function_exists('chmod')) {
+			if ($action === 'read') {
+				if (is_file($fileName)) {
+					@chmod($fileName, 0444);
+				}
+			} else {
+				if (is_file($fileName)) {
+					@chmod($fileName, 0644);
+				}
 			}
-		} else {
-			if (is_file($fileName)) {
-				chmod($fileName, 0644);
+			if (is_dir($fileName)) {
+				@chmod($fileName, 0755);
 			}
-		}
-		if (is_dir($fileName)) {
-			chmod($fileName, 0755);
 		}
 	}
 
