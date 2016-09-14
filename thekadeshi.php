@@ -119,6 +119,11 @@ class TheKadeshi {
 			}
 		}
 
+		if($this->GetOptions() === false) {
+			$this->GetRemoteConfig(self::$Options['name']);
+			$this->GetRemoteSignatures();
+		}
+
 		if($this->GetOptions() !== false) {
 
 			self::setAnamnesisFile(self::$TheKadeshiDir . '/.anamnesis');
@@ -199,7 +204,7 @@ class TheKadeshi {
 				    }
 			    }
 			    $currentJsonContent[gmdate('Y-m-d H:i:s')][] = $data;
-			    file_put_contents(self::$snifferLogFile, json_encode($currentJsonContent));
+			    @file_put_contents(self::$snifferLogFile, json_encode($currentJsonContent));
 
 			    return true;
 		    }
@@ -227,7 +232,7 @@ class TheKadeshi {
 			}
 			$content = self::ServiceRequest('thekadeshi', $arguments, false, 'cdn');
 			if ($content !== false) {
-				file_put_contents(self::$TheKadeshiDir . '/.thekadeshi', $content);
+				@file_put_contents(self::$TheKadeshiDir . '/.thekadeshi', $content);
 			}
 
 			unset($fileContent, $fileHash, $arguments);
@@ -245,7 +250,7 @@ class TheKadeshi {
 			}
 			$content = self::ServiceRequest('agent', $arguments, false, 'cdn');
 			if ($content !== false) {
-				file_put_contents(__DIR__ . '/thekadeshi.php', $content);
+				@file_put_contents(__DIR__ . '/thekadeshi.php', $content);
 			}
 
 			unset($fileContent, $fileHash, $arguments);
@@ -400,7 +405,7 @@ class TheKadeshi {
 		$receivedSignatures = json_decode($signatureData, true);
 		if($receivedSignatures !== false) {
 			if(!isset($receivedSignatures['error'])) {
-				file_put_contents(self::$SignatureFile, base64_encode(json_encode($receivedSignatures)));
+				@file_put_contents(self::$SignatureFile, base64_encode(json_encode($receivedSignatures)));
 				self::$Options['lastsignaturecheck'] = time();
 				file_put_contents(self::$OptionsFile, json_encode(self::$Options));
 			}
@@ -414,7 +419,7 @@ class TheKadeshi {
 		$receivedRules = json_decode($firewallData, true);
 		if($receivedRules !== false) {
 			if(!isset($receivedRules['error'])) {
-				file_put_contents(self::$FirewallFile, base64_encode(json_encode($receivedRules)));
+				@file_put_contents(self::$FirewallFile, base64_encode(json_encode($receivedRules)));
 			}
 		}
 
