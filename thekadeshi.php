@@ -517,7 +517,7 @@ class TheKadeshi
 				"\t</IfModule>",
 				'</Files>',
 				PHP_EOL . "# \tChange 403 document",
-				'ErrorDocument 403 /thekadeshi.php?block',
+				'ErrorDocument 403 /thekadeshi.php?' . md5('This request must be blocked')
 			);
 		}
 
@@ -538,7 +538,7 @@ class TheKadeshi
 				'<Files .htaccess>',
 				"\torder allow,deny",
 				"\tdeny from all",
-				'</Files>',
+				'</Files>'
 			);
 		}
 		$this->htaccessModify($htaccessConfig);
@@ -818,7 +818,7 @@ switch ($currentAction) {
 
 			if ((bool)$theKadeshi->GetOptions('block_empty_user_agent') === true) {
 
-				if (array_key_exists('HTTP_USER_AGENT', $_SERVER) === false || $_SERVER['HTTP_USER_AGENT'] === '') {
+				if (array_key_exists('HTTP_USER_AGENT', $_SERVER) === false || strlen($_SERVER['HTTP_USER_AGENT']) < 4) {
 					$needToBlock = true;
 					break;
 				}
@@ -881,7 +881,7 @@ switch ($currentAction) {
 
 		break;
 
-	case 'block':
+	case md5('This request must be blocked'):
 		$needToBlock = true;
 		break;
 	default:
