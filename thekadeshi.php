@@ -562,7 +562,7 @@ class TheKadeshi {
 		$endString = "# TheKadeshi # End #";
 
 		$startPosition = mb_strpos($htaccessContent, $startString);
-		$endPosition = (mb_strpos($htaccessContent, $endString) !== 0 && mb_strpos($htaccessContent, $endString) !== false) ? (mb_strpos($htaccessContent, $endString) + mb_strlen($endString)) : 0;
+		$endPosition = (mb_strpos($htaccessContent, $endString) !== 0 && mb_strpos($htaccessContent, $endString) !== false) ? (mb_strpos($htaccessContent, $endString -1) + mb_strlen($endString)) : 0;
 		$startBlock = mb_substr($htaccessContent, 0, $startPosition);
 		$endBlock = mb_substr($htaccessContent, $endPosition);
 		$oldContent = $startBlock . $endBlock;
@@ -594,7 +594,7 @@ class TheKadeshi {
 			$endString = "; TheKadeshi # End #";
 
 			$startPosition = mb_strpos($userIniContent, $startString);
-			$endPosition = (mb_strpos($userIniContent, $endString) !== 0) ? (mb_strpos($userIniContent, $endString) + mb_strlen($endString)) : 0;
+			$endPosition = (mb_strpos($userIniContent, $endString) !== 0) ? (mb_strpos($userIniContent, $endString, -1) + mb_strlen($endString)) : 0;
 			$startBlock = mb_substr($userIniContent, 0, $startPosition);
 			$endBlock = mb_substr($userIniContent, $endPosition);
 			$oldContent = $startBlock . $endBlock;
