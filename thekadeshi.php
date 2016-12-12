@@ -558,8 +558,8 @@ class TheKadeshi {
 		$this->setChmod($htaccessFile, 'write');
 		$htaccessContent = mb_convert_encoding(file_get_contents($htaccessFile), 'utf-8');
 		$newContent = '';
-		$startString = "# TheKadeshi # Start #" . PHP_EOL . PHP_EOL;
-		$endString = "# TheKadeshi # End #" . PHP_EOL . PHP_EOL;
+		$startString = "# TheKadeshi # Start #";
+		$endString = "# TheKadeshi # End #";
 
 		$startPosition = mb_strpos($htaccessContent, $startString);
 		$endPosition = (mb_strpos($htaccessContent, $endString) !== 0 && mb_strpos($htaccessContent, $endString) !== false) ? (mb_strpos($htaccessContent, $endString) + mb_strlen($endString)) : 0;
@@ -590,8 +590,8 @@ class TheKadeshi {
 			$this->setChmod($userIniFile, 'write');
 			$userIniContent = mb_convert_encoding(file_get_contents($userIniFile), 'utf-8');
 			$newContent = '';
-			$startString = "; TheKadeshi # Start #" . PHP_EOL . PHP_EOL;
-			$endString = "; TheKadeshi # End #" . PHP_EOL;
+			$startString = "; TheKadeshi # Start #";
+			$endString = "; TheKadeshi # End #";
 
 			$startPosition = mb_strpos($userIniContent, $startString);
 			$endPosition = (mb_strpos($userIniContent, $endString) !== 0) ? (mb_strpos($userIniContent, $endString) + mb_strlen($endString)) : 0;
