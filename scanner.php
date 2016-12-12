@@ -10,11 +10,6 @@
 class TheKadeshi {
 
 	/**
-	 * Содержимое страницы блокировки
-	 */
-	const PROTECTED_PAGE = 'PCFkb2N0eXBlIGh0bWw+PGh0bWw+PGhlYWQ+PG1ldGEgY2hhcnNldD11dGYtOD48dGl0bGU+VGhpcyB3ZWJzaXRlIGlzIHByb3RlY3RlZCBieSBUaGVLYWRlc2hpIHN5c3RlbTwvdGl0bGU+PGxpbmsgaHJlZj0iaHR0cHM6Ly9mb250cy5nb29nbGVhcGlzLmNvbS9jc3M/ZmFtaWx5PVJvYm90bzoxMDAiIHJlbD0ic3R5bGVzaGVldCIgdHlwZT0idGV4dC9jc3MiPjxzdHlsZT5ib2R5LCBodG1sIHtoZWlnaHQ6IDEwMCU7bWFyZ2luOiAwO2JhY2tncm91bmQtY29sb3I6ICNkY2RjZGM7fWgxIHtmb250LWZhbWlseTogJ1JvYm90bycsIHNhbnMtc2VyaWYgIWltcG9ydGFudDtmb250LXdlaWdodDogMTAwICFpbXBvcnRhbnQ7bGluZS1oZWlnaHQ6IDQwcHg7fS5yZXNwb25zaXZlLWNvbnRhaW5lciB7cG9zaXRpb246IHJlbGF0aXZlO3dpZHRoOiAxMDAlO2hlaWdodDogMTAwJX0uaW1nLWNvbnRhaW5lciB7cG9zaXRpb246IGFic29sdXRlO3RvcDogMDtib3R0b206IDA7bGVmdDogMDtyaWdodDogMDt0ZXh0LWFsaWduOiBjZW50ZXI7Zm9udDogMC8wIGE7d2lkdGg6IDEwMCU7Zm9udC1zaXplOiAxNTAlO31hIHtjb2xvcjogIzRkY2VjNTt0ZXh0LWRlY29yYXRpb246IG5vbmU7fS5pbWctY29udGFpbmVyOmJlZm9yZSB7Y29udGVudDogJyAnO2Rpc3BsYXk6IGlubGluZS1ibG9jazt2ZXJ0aWNhbC1hbGlnbjogbWlkZGxlO2hlaWdodDogNjAlO30uaW1nLWNvbnRhaW5lciBpbWcge3ZlcnRpY2FsLWFsaWduOiBtaWRkbGU7ZGlzcGxheTogaW5saW5lLWJsb2NrO3dpZHRoOiAyMCU7fTwvc3R5bGU+PC9oZWFkPjxib2R5PjxkaXYgY2xhc3M9cmVzcG9uc2l2ZS1jb250YWluZXI+PGRpdiBjbGFzcz1pbWctY29udGFpbmVyPjxpbWcgc3JjPWh0dHA6Ly90aGVrYWRlc2hpLmNvbS9pbWFnZXMvdGhla2FkZXNoaS1yZW1vdGUuc3ZnPjxici8+PGgxPlRoaXMgd2Vic2l0ZSBpcyBwcm90ZWN0ZWQgYnkgPGEgaHJlZj1odHRwOi8vdGhla2FkZXNoaS5jb20gdGFyZ2V0PV9ibGFuaz5UaGVLYWRlc2hpPC9hPiBzeXN0ZW08L2gxPjwvZGl2PjwvZGl2PjwvYm9keT48L2h0bWw+';
-
-	/**
 	 * Адрес службы
 	 */
 	const ServiceUrl = 'http://thekadeshi.com/';
@@ -110,7 +105,7 @@ class TheKadeshi {
 			}
 			file_put_contents(self::$TheKadeshiDir . '/.thekadeshi', $content);
 			include_once self::$TheKadeshiDir . '/.thekadeshi';
-			echo(" received\r\n");
+			echo(" received" . PHP_EOL);
 			//echo(strlen($content));
 			//die();
 		}
@@ -136,7 +131,7 @@ class TheKadeshi {
 		foreach (self::getSignatureDatabase() as $subSignature) {
 			$totalCount += count($subSignature);
 		}
-		echo('Load ' . $totalCount . ' remote signatures' . "\r\n");
+		echo('Load ' . $totalCount . ' remote signatures' . PHP_EOL);
 
 	}
 
@@ -351,7 +346,7 @@ if(!isset($fileToScan)) {
 //print_r(array($theKadeshi->fileList, __DIR__));
 $result_line = '';
 $totalFiles = count($theKadeshi->fileList);
-echo('Files to scan: ' . $totalFiles . "\r\n");
+echo('Files to scan: ' . $totalFiles . PHP_EOL);
 $fileCounter = 1;
 $totalScanTime = 0;
 $fileScanTime = 0;
@@ -369,11 +364,11 @@ foreach ($theKadeshi->fileList as $file) {
 			if(isset($fileScanResults['scanner'])) {
 
 				echo(' ' . $fileScanResults['scanner']['name'] . ' ' . $fileScanResults['scanner']['action']);
-				$result_line .= $file . ' ' . $fileScanResults['scanner']['name'] . ' ' . $fileScanResults['scanner']['action'] . "\r\n";
+				$result_line .= $file . ' ' . $fileScanResults['scanner']['name'] . ' ' . $fileScanResults['scanner']['action'] . PHP_EOL;
 			} else {
 				echo('(H:' . $fileScanResults['heuristic'] . ') ');
 			}
-			echo("\r\n");
+			echo(PHP_EOL);
 		}
 		//print_r($fileScanResults);
 		//die();
@@ -399,4 +394,4 @@ if(isset($theKadeshi->Scanner->signatureLog)) {
 if(file_exists($theKadeshi::getTheKadeshiDir() . '/.thekadeshi')) {
 	unlink($theKadeshi::getTheKadeshiDir() . '/.thekadeshi');
 }
-echo("\r\n" . $result_line . "\r\n");
+echo(PHP_EOL . $result_line . PHP_EOL);
