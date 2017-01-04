@@ -83,7 +83,7 @@ class Scanner {
 
 			$heuristicScanResult = $this->Heuristic($fileName);
 
-			if ($heuristicScanResult >= 1) {
+			if($heuristicScanResult >= 1) {
 
 				$suspicion['heuristic'] = $heuristicScanResult;
 
@@ -129,7 +129,7 @@ class Scanner {
 			}
 		}
 
-		return (!empty($suspicion))?$suspicion:(($heuristicScanResult>1)?$heuristicScanResult:null);
+		return (!empty($suspicion)) ? $suspicion : (($heuristicScanResult > 1) ? $heuristicScanResult : null);
 	}
 
 	/**
@@ -152,8 +152,8 @@ class Scanner {
 			mkdir($currentCheckSumPath, 0755, true);
 		}
 		$checkSumContent = array(
-			'folder'=>$realFileName['dirname'],
-			'filename'=>$realFileName['basename'],
+			'folder' => $realFileName['dirname'],
+			'filename' => $realFileName['basename'],
 			'checksum' => $currentFileCheckSum
 
 		);
@@ -177,7 +177,7 @@ class Scanner {
 
 		$checkSumFileName = sprintf('%s/%s.json', $currentCheckSumPath, $realFileName['basename']);
 		if(file_exists($checkSumFileName)) {
-			$checkSumContent  = json_decode(file_get_contents($checkSumFileName), true);
+			$checkSumContent = json_decode(file_get_contents($checkSumFileName), true);
 		}
 
 		return $checkSumContent;
@@ -214,15 +214,15 @@ class Scanner {
 		$scanResults = null;
 		$content = file_get_contents($fileName);
 
-		if ($content !== false && strlen($content) > 0) {
+		if($content !== false && strlen($content) > 0) {
 
 			$signatureArray = TheKadeshi::getSignatureDatabase();
 			if(function_exists('hash')) {
 				$contentHash = hash('sha256', $content);
 
 				if(array_key_exists('h', $signatureArray) === true) {
-					foreach ((array)$signatureArray['h'] as $virusSignature) {
-						if ($contentHash === $virusSignature['expression']) {
+					foreach((array)$signatureArray['h'] as $virusSignature) {
+						if($contentHash === $virusSignature['expression']) {
 							$scanResults = array(
 								'file' => $fileName, 'name' => $virusSignature['title'], 'id' => $virusSignature['id'], 'action' => $virusSignature['action']
 							);
@@ -235,13 +235,13 @@ class Scanner {
 				$content = mb_convert_encoding($content, 'utf-8');
 
 				if(array_key_exists('r', $signatureArray) === true) {
-					foreach ((array)$signatureArray['r'] as $virusSignature) {
+					foreach((array)$signatureArray['r'] as $virusSignature) {
 
 						$scanStartTime = microtime(true);
 
 						preg_match($virusSignature['expression'], $content, $results);
 
-						if (($results !== null) && (count($results) !== 0)) {
+						if(($results !== null) && (count($results) !== 0)) {
 
 
 							$scanResults = array(
@@ -255,7 +255,7 @@ class Scanner {
 
 						$scanEndTime = microtime(true);
 						$timeDifference = $scanEndTime - $scanStartTime;
-						if (array_key_exists($virusSignature['title'], $this->signatureLog) === true) {
+						if(array_key_exists($virusSignature['title'], $this->signatureLog) === true) {
 							$this->signatureLog[$virusSignature['title']] += $timeDifference;
 						} else {
 							$this->signatureLog[$virusSignature['title']] = $timeDifference;
@@ -278,18 +278,18 @@ class Scanner {
 
 		$fileContent = mb_convert_encoding(file_get_contents($fileName), 'utf-8');
 
-		foreach (self::$dangerousFunctions as $dangerousFunction) {
-			$functionCount =  mb_substr_count($fileContent, $dangerousFunction);
+		foreach(self::$dangerousFunctions as $dangerousFunction) {
+			$functionCount = mb_substr_count($fileContent, $dangerousFunction);
 			$suspicion += (1 * $functionCount);
 			if($suspicion > 1) {
 				return $suspicion;
 			}
 		}
 
-		if ($suspicion === 0.0) {
+		if($suspicion === 0.0) {
 			//Проверка на длинные слова
 			$wordMatches = array();
-			foreach ($wordSplitPattern as $wordPattern) {
+			foreach($wordSplitPattern as $wordPattern) {
 				$pregResult = preg_match_all($wordPattern, $fileContent, $currentWordMatches);
 				if(count($currentWordMatches) !== 0) {
 					$newWordMatches = array_merge($wordMatches, $currentWordMatches[0]);
@@ -297,21 +297,22 @@ class Scanner {
 					unset($newWordMatches, $currentWordMatches);
 				}
 			}
-			if (count($wordMatches) !== 0) {;
-				foreach (array_unique($wordMatches) as $someWord) {
-					if (strlen($someWord) >= 25 && mb_substr($someWord, 0, 1) !== '$') {
-						if ($someWord !== strtoupper($someWord)) {
-							$suspicion +=  0.01 * strlen($someWord);
+			if(count($wordMatches) !== 0) {
+				;
+				foreach(array_unique($wordMatches) as $someWord) {
+					if(strlen($someWord) >= 25 && mb_substr($someWord, 0, 1) !== '$') {
+						if($someWord !== strtoupper($someWord)) {
+							$suspicion += 0.01 * strlen($someWord);
 						}
 					}
 
 					//  Если слово - переменная
-					if (mb_substr($someWord, 0, 1) === '$') {
+					if(mb_substr($someWord, 0, 1) === '$') {
 						//  Проверка переменных на стремные именования
-						foreach ($this->namePatterns as $namePattern) {
+						foreach($this->namePatterns as $namePattern) {
 							$checkResult = preg_match($namePattern, mb_substr($someWord, 1));
-							if ($checkResult === 1) {
-								$suspicion +=  0.02;
+							if($checkResult === 1) {
+								$suspicion += 0.02;
 							}
 						}
 
@@ -319,10 +320,10 @@ class Scanner {
 						$arrayPattern = '/\\' . $someWord . '\[[\'"]?[\d\S]+[\'"]?\](\[\d+\])?/i';
 
 						$arrayCheckResult = preg_match_all($arrayPattern, $fileContent, $arrayPatternMatches);
-						if ($arrayCheckResult !== false) {
+						if($arrayCheckResult !== false) {
 
 							$variableUsages = count(array_unique($arrayPatternMatches[0]));
-							if ($variableUsages > 4) {
+							if($variableUsages > 4) {
 								$suspicion = $suspicion + (0.3 + $variableUsages);
 							}
 						}
@@ -346,9 +347,9 @@ class Scanner {
 		$fileData = pathinfo($fileName);
 
 		//  Проверка имени файла, не выглядит ли оно стремным
-		foreach ($this->namePatterns as $filenamePattern) {
+		foreach($this->namePatterns as $filenamePattern) {
 			$checkResult = preg_match($filenamePattern, $fileData['basename']);
-			if ($checkResult === 1) {
+			if($checkResult === 1) {
 				$suspicion += 0.5;
 			}
 		}
@@ -419,7 +420,7 @@ class Status {
 	 *
 	 */
 	private function Action() {
-		$currentHit = isset($this->StatusContent['action']['hit'])?$this->StatusContent['action']['hit']:0;
+		$currentHit = isset($this->StatusContent['action']['hit']) ? $this->StatusContent['action']['hit'] : 0;
 		$currentHit++;
 		$this->StatusContent['action'] = array('date' => date("Y-m-d H:i:s"), 'hit' => $currentHit);
 		$this->writeStatus();

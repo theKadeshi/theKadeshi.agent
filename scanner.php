@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Project: antivir
  * User: Bagdad ( https://goo.gl/mRvZBa )
@@ -6,7 +7,6 @@
  * Time: 16:17
  * Created by PhpStorm.
  */
-
 class TheKadeshi {
 
 	/**
@@ -30,7 +30,7 @@ class TheKadeshi {
 	 *
 	 * @var array Допустимые расширения для сканера
 	 */
-	private static $ValidExtensions = array ('php', 'php4', 'php5', 'php7', 'js', 'css', 'phtml', 'html', 'htm', 'tpl', 'inc');
+	private static $ValidExtensions = array('php', 'php4', 'php5', 'php7', 'js', 'css', 'phtml', 'html', 'htm', 'tpl', 'inc');
 
 	/**
 	 * Каталоги
@@ -87,16 +87,21 @@ class TheKadeshi {
 
 		self::setCheckSumDir(self::$TheKadeshiDir . '/checksum');
 		if(!is_dir(self::getCheckSumDir())) {
+
 			$folderCreateResult = mkdir(self::getCheckSumDir(), 0755, true);
+
 			if($folderCreateResult === false) {
+
 				self::$WorkWithoutSelfFolder = true;
 			}
 		}
 
 		if(is_file('/thekadeshi.inc.php')) {
+
 			echo('Engine file: local');
 			include_once __DIR__ . '/thekadeshi.inc.php';
 		} else {
+
 			echo('Engine file: ');
 			$path = self::ServiceUrl . 'cdn/thekadeshi';
 			$content = file_get_contents($path . '?dev=1');
@@ -124,11 +129,12 @@ class TheKadeshi {
 	}
 
 	private function LoadSignatures() {
-		$remoteSignatures = json_decode(self::ServiceRequest('getSignatures', array('notoken'=>true), false), true);
+
+		$remoteSignatures = json_decode(self::ServiceRequest('getSignatures', array('notoken' => true), false), true);
 
 		self::setSignatureDatabase($remoteSignatures);
 		$totalCount = 0;
-		foreach (self::getSignatureDatabase() as $subSignature) {
+		foreach(self::getSignatureDatabase() as $subSignature) {
 			$totalCount += count($subSignature);
 		}
 		echo('Load ' . $totalCount . ' remote signatures' . PHP_EOL);
@@ -139,6 +145,7 @@ class TheKadeshi {
 	 * @return array
 	 */
 	public static function getSignatureDatabase() {
+
 		return self::$signatureDatabase;
 	}
 
@@ -146,6 +153,7 @@ class TheKadeshi {
 	 * @param array $signatureDatabase
 	 */
 	public static function setSignatureDatabase(array $signatureDatabase) {
+
 		self::$signatureDatabase = $signatureDatabase;
 	}
 
@@ -153,6 +161,7 @@ class TheKadeshi {
 	 * @return string
 	 */
 	public static function getCheckSumDir() {
+
 		return self::$CheckSumDir;
 	}
 
@@ -160,6 +169,7 @@ class TheKadeshi {
 	 * @param string $CheckSumDir
 	 */
 	public static function setCheckSumDir($CheckSumDir) {
+
 		self::$CheckSumDir = $CheckSumDir;
 	}
 
@@ -167,6 +177,7 @@ class TheKadeshi {
 	 * @return string
 	 */
 	public static function getAnamnesisFile() {
+
 		return self::$AnamnesisFile;
 	}
 
@@ -174,6 +185,7 @@ class TheKadeshi {
 	 * @param string $AnamnesisFile
 	 */
 	public static function setAnamnesisFile($AnamnesisFile) {
+
 		self::$AnamnesisFile = $AnamnesisFile;
 	}
 
@@ -181,6 +193,7 @@ class TheKadeshi {
 	 * @return string
 	 */
 	public static function getTheKadeshiDir() {
+
 		return self::$TheKadeshiDir;
 	}
 
@@ -191,15 +204,21 @@ class TheKadeshi {
 	public function GetFileList($dir) {
 
 		$dirContent = scandir($dir);
+
 		foreach($dirContent as $directoryElement) {
+
 			if($directoryElement !== '..' && $directoryElement !== '.') {
+
 				$someFile = $dir . '/' . $directoryElement;
-				if (is_file($someFile)) {
+				if(is_file($someFile)) {
+
 					$fileData = pathinfo($someFile);
-					if (array_key_exists('extension',$fileData) && in_array($fileData['extension'], self::$ValidExtensions, true) === true) {
+					if(array_key_exists('extension', $fileData) && in_array($fileData['extension'], self::$ValidExtensions, true) === true) {
+
 						$this->fileList[] = $someFile;
 					}
 				} else {
+
 					$this->GetFileList($someFile);
 				}
 			}
@@ -212,20 +231,23 @@ class TheKadeshi {
 	 * @return bool
 	 */
 	public function deleteContent($path) {
+
 		try {
+
 			$iterator = new DirectoryIterator($path);
-			foreach ($iterator as $fileinfo) {
-				if ($fileinfo->isDot() === true)
+			foreach($iterator as $fileinfo) {
+
+				if($fileinfo->isDot() === true)
 					continue;
-					if ($fileinfo->isDir()) {
-						if ($this->deleteContent($fileinfo->getPathname()))
-							@rmdir($fileinfo->getPathname());
-					}
-				if ($fileinfo->isFile()) {
+				if($fileinfo->isDir()) {
+					if($this->deleteContent($fileinfo->getPathname()))
+						@rmdir($fileinfo->getPathname());
+				}
+				if($fileinfo->isFile()) {
 					@unlink($fileinfo->getPathname());
 				}
 			}
-		} catch (Exception $e) {
+		} catch(Exception $e) {
 			return false;
 		}
 		return true;
@@ -238,13 +260,15 @@ class TheKadeshi {
 	 * @param $dir
 	 */
 	public function GetIteratorFileList($dir) {
+
 		$directory = new \RecursiveDirectoryIterator($dir);
 		$iterator = new \RecursiveIteratorIterator($directory);
 
-		foreach ($iterator as $info) {
+		foreach($iterator as $info) {
 
 			$fileData = pathinfo($info);
-			if ((array_key_exists('extension', $fileData) === true) && (in_array($fileData['extension'], self::$ValidExtensions, true) === true)) {
+			if((array_key_exists('extension', $fileData) === true) && (in_array($fileData['extension'], self::$ValidExtensions, true) === true)) {
+
 				$this->fileList[] = $info;
 			}
 		}
@@ -260,9 +284,9 @@ class TheKadeshi {
 
 			$curlOptions = array();
 
-			if ($source === 'api') {
+			if($source === 'api') {
 				$curlOptions[CURLOPT_URL] = self::$API_Path . $ApiMethod;
-			} elseif ($source === 'cdn') {
+			} elseif($source === 'cdn') {
 				$curlOptions[CURLOPT_URL] = self::$CDN_Path . $ApiMethod;
 			}
 			if(array_key_exists('SERVER_NAME', $_SERVER)) {
@@ -277,8 +301,8 @@ class TheKadeshi {
 			$curlOptions[CURLOPT_POST] = true;
 
 
-			if (isset($arguments)) {
-				if ($sendToken === true) {
+			if(isset($arguments)) {
+				if($sendToken === true) {
 					$arguments['token'] = self::$Options['token'];
 				}
 				$curlOptions[CURLOPT_POSTFIELDS] = http_build_query($arguments);
@@ -301,13 +325,13 @@ class TheKadeshi {
 				),
 			));
 
-			if ($source === 'api') {
+			if($source === 'api') {
 				$url = self::$API_Path . $ApiMethod;
-			} elseif ($source === 'cdn') {
+			} elseif($source === 'cdn') {
 				$url = self::$CDN_Path . $ApiMethod;
 			}
 
-			if ($sendToken === true) {
+			if($sendToken === true) {
 				$arguments['token'] = self::$Options['token'];
 			}
 
@@ -350,12 +374,12 @@ echo('Files to scan: ' . $totalFiles . PHP_EOL);
 $fileCounter = 1;
 $totalScanTime = 0;
 $fileScanTime = 0;
-foreach ($theKadeshi->fileList as $file) {
+foreach($theKadeshi->fileList as $file) {
 	$fileMicrotimeStart = microtime(true);
 
 	$fileScanResults = $theKadeshi->Scanner->Scan($file, false);
 
-	if ($fileScanResults !== null) {
+	if($fileScanResults !== null) {
 
 		if(isset($fileScanResults['heuristic']) && $fileScanResults['heuristic'] > 0) {
 			echo('[' . $fileCounter . ' of ' . $totalFiles . ' ~' . number_format(($fileScanTime * $totalFiles - $fileScanTime * $fileCounter), 2) . 's] ');
@@ -381,7 +405,7 @@ foreach ($theKadeshi->fileList as $file) {
 	$totalScanTime += $fileMicrotimeEnd - $fileMicrotimeStart;
 	$fileScanTime = $totalScanTime / $fileCounter;
 	$fileCounter++;
-	
+
 }
 $theKadeshi->Scanner->SaveAnamnesis();
 $theKadeshi->Scanner->SendAnamnesis(false);

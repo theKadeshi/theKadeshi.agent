@@ -1,5 +1,4 @@
-https://web-solution.atlassian.net/projects/KDSH/summary
-# README #
+# Сканнер и агент для [theKadeshi](http://thekadeshi.com/) #
 
 This README would normally document whatever steps are necessary to get your application up and running.
 
