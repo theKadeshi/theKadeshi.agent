@@ -1,29 +1,10 @@
-# Сканнер и агент для [theKadeshi](http://thekadeshi.com/) #
+# Malware scanner theKadeshi #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+theKadeshi is simple malware-detector for your PHP website. It based on public theKadeshi.com virus signatures.
 
-### What is this repository for? ###
+### Usage ###
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+1. Make backup of your site. It's important.
+2. Copy `scanner.php` into website root folder and run `php ./scanner.php`.
 
-### How do I get set up? ###
-
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+That's all. :)
