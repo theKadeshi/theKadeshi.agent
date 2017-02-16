@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Project: antivir
- * User: Bagdad ( https://goo.gl/mRvZBa )
+ * Project: theKadeshi
+ * User: ntorgov ( https://github.com/ntorgov/ )
  * Date: 07.02.2016
  * Time: 16:17
  * Created by PhpStorm.

@@ -2,7 +2,7 @@
 
 /**
  * Project: theKadeshi
- * User: Bagdad
+ * User: ntorgov (https://github.com/ntorgov/)
  * Date: 03.08.2016
  * Time: 19:34
  * Created by PhpStorm.

@@ -1,8 +1,8 @@
 <?php
 /**
- * Скрипт проверки сервера на возможность использования защиты
- * Project: antivir
- * User: Bagdad
+ * Скрипт проверки сервера на возможность использования защиты. Предварительная альфа-версия.
+ * Project: theKadeshi
+ * User: ntorgov (https://github.com/ntorgov/)
  * Date: 25.07.2016
  * Time: 7:35
  * Created by PhpStorm.
