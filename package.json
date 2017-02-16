@@ -1,0 +1,17 @@
+{
+  "name": "theKadeshi.agent",
+  "version": "0.0.1",
+  "license": "MIT",
+  "author": {
+    "name": "ntorgov",
+    "email": "ntorgov@gmail.com",
+    "url": "https://github.com/ntorgov"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ntorgov/theKadeshi.agent.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ntorgov/theKadeshi.agent/issues"
+  }
+}
