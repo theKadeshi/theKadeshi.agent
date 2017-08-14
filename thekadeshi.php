@@ -7,7 +7,7 @@
  * Time: 19:34
  * Created by PhpStorm.
  */
-class TheKadeshi
+class TheKadeshiAgent
 {
 
 	/**
@@ -236,7 +236,7 @@ class TheKadeshi
 			if (is_array(self::$Options) && array_key_exists('developer_mode', self::$Options) && (bool)self::$Options['developer_mode'] === true) {
 				$arguments['dev'] = 1;
 			}
-			$content = self::ServiceRequest('thekadeshi', $arguments, false, 'cdn');
+			$content = self::ServiceRequest('TheKadeshiAgent', $arguments, false, 'cdn');
 			if ($content !== false) {
 				@file_put_contents(self::$TheKadeshiDir . '/.thekadeshi', $content);
 			}
@@ -721,7 +721,7 @@ class TheKadeshi
 			$curlOptions[CURLOPT_RETURNTRANSFER] = true;
 			$curlOptions[CURLOPT_TIMEOUT] = 300;
 			$curlOptions[CURLOPT_FOLLOWLOCATION] = false;
-			$curlOptions[CURLOPT_USERAGENT] = 'TheKadeshi';
+			$curlOptions[CURLOPT_USERAGENT] = 'TheKadeshiAgent';
 
 			$curlOptions[CURLOPT_POST] = true;
 
@@ -796,7 +796,7 @@ if (php_sapi_name() !== 'cli') {
 		}
 	}
 
-	if (!strpos($_SERVER['PHP_SELF'], 'thekadeshi')) {
+	if (!strpos($_SERVER['PHP_SELF'], 'TheKadeshiAgent')) {
 		if (!defined('PREPEND')) {
 			define('PREPEND', true);
 		}
@@ -868,7 +868,7 @@ switch ($currentAction) {
 		if (count($_FILES) === 0) {
 			foreach ($_FILES as $fileToScan) {
 				$fileScanResults = $theKadeshi->Scanner->Scan($fileToScan['tmp_name'], false);
-				if (array_key_exists('TheKadeshi', $fileScanResults) === true) {
+				if (array_key_exists('TheKadeshiAgent', $fileScanResults) === true) {
 					$needToBlock = true;
 					$theKadeshi->Scanner->SaveAnamnesis();
 					$theKadeshi->Scanner->SendAnamnesis();
@@ -880,7 +880,7 @@ switch ($currentAction) {
 			if (method_exists($theKadeshi->Scanner, 'Scan')) {
 				$fileScanResults = $theKadeshi->Scanner->Scan($fileToCheck, true);
 
-				if (array_key_exists('TheKadeshi', $fileScanResults) === true) {
+				if (array_key_exists('TheKadeshiAgent', $fileScanResults) === true) {
 					$needToBlock = true;
 					$theKadeshi->Scanner->SaveAnamnesis();
 					$theKadeshi->Scanner->SendAnamnesis();

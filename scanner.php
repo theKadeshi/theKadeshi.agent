@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/.thekadeshi/thekadeshi.php';
 
 /**
  * Project: theKadeshi
@@ -61,7 +62,7 @@ class Scanner
 
 	public static $Options;
 
-	static $Logs;
+	// static $Logs;
 
 	// private static $API_Path, $CDN_Path;
 
@@ -75,7 +76,7 @@ class Scanner
 	 * База сигнатур
 	 * @var array
 	 */
-	private static $signatureDatabase;
+	private $signatureDatabase;
 
 	public function __construct()
 	{
@@ -98,11 +99,11 @@ class Scanner
 //				self::$WorkWithoutSelfFolder = true;
 //			}
 //		}
-
-		if (is_file($this->TheKadeshiDir . '/thekadeshi.php')) {
-
-			include_once $this->TheKadeshiDir . '/thekadeshi.php';
-		}
+//
+//		 if (is_file($this->TheKadeshiDir . '/thekadeshi.php')) {
+//
+//		 include_once $this->TheKadeshiDir . '/thekadeshi.php';
+//		}
 //		} else {
 //
 //			echo('Engine file: ');
@@ -123,7 +124,7 @@ class Scanner
 		self::$AnamnesisFile = $this->TheKadeshiDir . '/.anamnesis';
 
 
-		$this->Scanner = new Scanner();
+		$this->Scanner = new TheKadeshi();
 		//$this->Healer = new Healer();
 		self::$Status = new Status();
 
@@ -136,9 +137,9 @@ class Scanner
 
 		$remoteSignatures = json_decode($this->TheKadeshiDir . '/signatures.json', true);
 
-		self::setSignatureDatabase($remoteSignatures);
+		$this->setSignatureDatabase($remoteSignatures);
 		$totalCount = 0;
-		foreach (self::getSignatureDatabase() as $subSignature) {
+		foreach ($this->getSignatureDatabase() as $subSignature) {
 			$totalCount += count($subSignature);
 		}
 		echo('Load ' . $totalCount . ' remote signatures' . PHP_EOL);
@@ -148,19 +149,19 @@ class Scanner
 	/**
 	 * @return array
 	 */
-	public static function getSignatureDatabase()
+	public function getSignatureDatabase()
 	{
 
-		return self::$signatureDatabase;
+		return $this->signatureDatabase;
 	}
 
 	/**
 	 * @param array $signatureDatabase
 	 */
-	public static function setSignatureDatabase(array $signatureDatabase)
+	public function setSignatureDatabase(array $signatureDatabase)
 	{
 
-		self::$signatureDatabase = $signatureDatabase;
+		$this->signatureDatabase = $signatureDatabase;
 	}
 
 	/**
@@ -364,8 +365,8 @@ class Scanner
 //@todo надо отрефакторить эту фигню
 set_time_limit(0);
 @ini_set('max_execution_time', 0);
-$signaturesBase = 'remote';
-define('THEKADESHI_DIR', __DIR__ . '/.thekadeshi');
+// $signaturesBase = 'remote';
+// define('THEKADESHI_DIR', __DIR__ . '/.thekadeshi');
 
 //$healer = new Healer();
 
@@ -425,8 +426,8 @@ foreach ($theKadeshi->fileList as $file) {
 	$fileCounter++;
 
 }
-$theKadeshi->Scanner->SaveAnamnesis();
-$theKadeshi->Scanner->SendAnamnesis(false);
+// $theKadeshi->Scanner->SaveAnamnesis();
+// $theKadeshi->Scanner->SendAnamnesis(false);
 
 if (isset($theKadeshi->Scanner->signatureLog)) {
 
