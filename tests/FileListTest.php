@@ -13,7 +13,7 @@ require_once '../thekadeshi.php';
 class FileListTest extends PHPUnit_Framework_TestCase {
 
 	public function testSendFirewallLogs() {
-		$kadeshiClass = new TheKadeshi();
+		$kadeshiClass = new Scanner();
 
 		$kadeshiClass->SendFirewallLogs();
 

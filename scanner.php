@@ -7,12 +7,13 @@
  * Time: 16:17
  * Created by PhpStorm.
  */
-class TheKadeshi {
+class Scanner
+{
 
 	/**
 	 * Адрес службы
 	 */
-	const ServiceUrl = 'http://thekadeshi.com/';
+	const ServiceUrl = 'https://thekadeshi.com/';
 
 	public $fileList;
 
@@ -39,7 +40,7 @@ class TheKadeshi {
 	/**
 	 * @var string Каталог Кадеш
 	 */
-	private static $TheKadeshiDir;
+	private $TheKadeshiDir;
 
 	/**
 	 * @var string Каталог с контрольными суммами
@@ -49,12 +50,12 @@ class TheKadeshi {
 	/**
 	 * @var string Каталог с карантином
 	 */
-	static $QuarantineDir = '';
+	// static $QuarantineDir = '';
 
 
-	private static $OptionsFile = '';
+	// private static $OptionsFile = '';
 
-	private static $SignatureFile = '';
+	// private static $SignatureFile = '';
 
 	private static $AnamnesisFile = '';
 
@@ -62,7 +63,7 @@ class TheKadeshi {
 
 	static $Logs;
 
-	private static $API_Path, $CDN_Path;
+	// private static $API_Path, $CDN_Path;
 
 	const configCheckTimer = 3600;
 
@@ -76,48 +77,50 @@ class TheKadeshi {
 	 */
 	private static $signatureDatabase;
 
-	public function __construct() {
+	public function __construct()
+	{
 
 		$this->executionMicroTimeStart = microtime(true);
 
-		self::$TheKadeshiDir = __DIR__ . '/.thekadeshi';
-		self::$OptionsFile = self::$TheKadeshiDir . '/.options';
-		self::$API_Path = self::ServiceUrl . 'api/';
-		self::$CDN_Path = self::ServiceUrl . 'cdn/';
+		$this->TheKadeshiDir = __DIR__ . '/.thekadeshi';
 
-		self::setCheckSumDir(self::$TheKadeshiDir . '/checksum');
-		if(!is_dir(self::getCheckSumDir())) {
+		// self::$OptionsFile = self::$TheKadeshiDir . '/.options';
+		// self::$API_Path = self::ServiceUrl . 'api/';
+		// self::$CDN_Path = self::ServiceUrl . 'cdn/';
 
-			$folderCreateResult = mkdir(self::getCheckSumDir(), 0755, true);
+//		self::setCheckSumDir(self::$TheKadeshiDir . '/checksum');
+//		if(!is_dir(self::getCheckSumDir())) {
+//
+//			$folderCreateResult = mkdir(self::getCheckSumDir(), 0755, true);
+//
+//			if($folderCreateResult === false) {
+//
+//				self::$WorkWithoutSelfFolder = true;
+//			}
+//		}
 
-			if($folderCreateResult === false) {
+		if (is_file($this->TheKadeshiDir . '/thekadeshi.php')) {
 
-				self::$WorkWithoutSelfFolder = true;
-			}
+			include_once $this->TheKadeshiDir . '/thekadeshi.php';
 		}
+//		} else {
+//
+//			echo('Engine file: ');
+//			$path = self::ServiceUrl . 'cdn/thekadeshi';
+//			$content = file_get_contents($path . '?dev=1');
+//			if($content === false) {
+//				echo('something wrong');
+//			}
+//			file_put_contents(self::$TheKadeshiDir . '/.thekadeshi', $content);
+//			include_once self::$TheKadeshiDir . '/thekadeshi.php';
+//			echo(" received" . PHP_EOL);
+//			//echo(strlen($content));
+//			//die();
+//		}
 
-		if(is_file('/thekadeshi.inc.php')) {
+		// self::$QuarantineDir = self::$TheKadeshiDir . '/.quarantine';
 
-			echo('Engine file: local');
-			include_once __DIR__ . '/thekadeshi.inc.php';
-		} else {
-
-			echo('Engine file: ');
-			$path = self::ServiceUrl . 'cdn/thekadeshi';
-			$content = file_get_contents($path . '?dev=1');
-			if($content === false) {
-				echo('something wrong');
-			}
-			file_put_contents(self::$TheKadeshiDir . '/.thekadeshi', $content);
-			include_once self::$TheKadeshiDir . '/.thekadeshi';
-			echo(" received" . PHP_EOL);
-			//echo(strlen($content));
-			//die();
-		}
-
-		self::$QuarantineDir = self::$TheKadeshiDir . '/.quarantine';
-
-		self::$AnamnesisFile = self::$TheKadeshiDir . '/.anamnesis';
+		self::$AnamnesisFile = $this->TheKadeshiDir . '/.anamnesis';
 
 
 		$this->Scanner = new Scanner();
@@ -128,13 +131,14 @@ class TheKadeshi {
 
 	}
 
-	private function LoadSignatures() {
+	private function LoadSignatures()
+	{
 
-		$remoteSignatures = json_decode(self::ServiceRequest('getSignatures', array('notoken' => true), false), true);
+		$remoteSignatures = json_decode($this->TheKadeshiDir . '/signatures.json', true);
 
 		self::setSignatureDatabase($remoteSignatures);
 		$totalCount = 0;
-		foreach(self::getSignatureDatabase() as $subSignature) {
+		foreach (self::getSignatureDatabase() as $subSignature) {
 			$totalCount += count($subSignature);
 		}
 		echo('Load ' . $totalCount . ' remote signatures' . PHP_EOL);
@@ -144,7 +148,8 @@ class TheKadeshi {
 	/**
 	 * @return array
 	 */
-	public static function getSignatureDatabase() {
+	public static function getSignatureDatabase()
+	{
 
 		return self::$signatureDatabase;
 	}
@@ -152,7 +157,8 @@ class TheKadeshi {
 	/**
 	 * @param array $signatureDatabase
 	 */
-	public static function setSignatureDatabase(array $signatureDatabase) {
+	public static function setSignatureDatabase(array $signatureDatabase)
+	{
 
 		self::$signatureDatabase = $signatureDatabase;
 	}
@@ -160,7 +166,8 @@ class TheKadeshi {
 	/**
 	 * @return string
 	 */
-	public static function getCheckSumDir() {
+	public static function getCheckSumDir()
+	{
 
 		return self::$CheckSumDir;
 	}
@@ -168,7 +175,8 @@ class TheKadeshi {
 	/**
 	 * @param string $CheckSumDir
 	 */
-	public static function setCheckSumDir($CheckSumDir) {
+	public static function setCheckSumDir($CheckSumDir)
+	{
 
 		self::$CheckSumDir = $CheckSumDir;
 	}
@@ -176,7 +184,8 @@ class TheKadeshi {
 	/**
 	 * @return string
 	 */
-	public static function getAnamnesisFile() {
+	public static function getAnamnesisFile()
+	{
 
 		return self::$AnamnesisFile;
 	}
@@ -184,7 +193,8 @@ class TheKadeshi {
 	/**
 	 * @param string $AnamnesisFile
 	 */
-	public static function setAnamnesisFile($AnamnesisFile) {
+	public static function setAnamnesisFile($AnamnesisFile)
+	{
 
 		self::$AnamnesisFile = $AnamnesisFile;
 	}
@@ -192,28 +202,31 @@ class TheKadeshi {
 	/**
 	 * @return string
 	 */
-	public static function getTheKadeshiDir() {
+	public function getTheKadeshiDir()
+	{
 
-		return self::$TheKadeshiDir;
+		return $this->TheKadeshiDir;
 	}
 
 	/**
 	 * Функция получения содержимого каталога
+	 *
 	 * @param $dir
 	 */
-	public function GetFileList($dir) {
+	public function GetFileList($dir)
+	{
 
-		$dirContent = scandir($dir);
+		$dirContent = scandir($dir, SCANDIR_SORT_NONE);
 
-		foreach($dirContent as $directoryElement) {
+		foreach ($dirContent as $directoryElement) {
 
-			if($directoryElement !== '..' && $directoryElement !== '.') {
+			if ($directoryElement !== '..' && $directoryElement !== '.') {
 
 				$someFile = $dir . '/' . $directoryElement;
-				if(is_file($someFile)) {
+				if (is_file($someFile)) {
 
 					$fileData = pathinfo($someFile);
-					if(array_key_exists('extension', $fileData) && in_array($fileData['extension'], self::$ValidExtensions, true) === true) {
+					if (array_key_exists('extension', $fileData) && in_array($fileData['extension'], self::$ValidExtensions, true) === true) {
 
 						$this->fileList[] = $someFile;
 					}
@@ -227,27 +240,30 @@ class TheKadeshi {
 
 	/**
 	 * Функция рекурсивного удаления каталога
+	 *
 	 * @param $path
+	 *
 	 * @return bool
 	 */
-	public function deleteContent($path) {
+	public function deleteContent($path)
+	{
 
 		try {
 
 			$iterator = new DirectoryIterator($path);
-			foreach($iterator as $fileinfo) {
+			foreach ($iterator as $fileinfo) {
 
-				if($fileinfo->isDot() === true)
+				if ($fileinfo->isDot() === true)
 					continue;
-				if($fileinfo->isDir()) {
-					if($this->deleteContent($fileinfo->getPathname()))
+				if ($fileinfo->isDir()) {
+					if ($this->deleteContent($fileinfo->getPathname()))
 						@rmdir($fileinfo->getPathname());
 				}
-				if($fileinfo->isFile()) {
+				if ($fileinfo->isFile()) {
 					@unlink($fileinfo->getPathname());
 				}
 			}
-		} catch(Exception $e) {
+		} catch (Exception $e) {
 			return false;
 		}
 		return true;
@@ -257,17 +273,19 @@ class TheKadeshi {
 	 * Эксперементальная функция получения списка файлов
 	 * На практике оказалась довольно тормозной
 	 * Требует PHP > 5.2
+	 *
 	 * @param $dir
 	 */
-	public function GetIteratorFileList($dir) {
+	public function GetIteratorFileList($dir)
+	{
 
 		$directory = new \RecursiveDirectoryIterator($dir);
 		$iterator = new \RecursiveIteratorIterator($directory);
 
-		foreach($iterator as $info) {
+		foreach ($iterator as $info) {
 
 			$fileData = pathinfo($info);
-			if((array_key_exists('extension', $fileData) === true) && (in_array($fileData['extension'], self::$ValidExtensions, true) === true)) {
+			if ((array_key_exists('extension', $fileData) === true) && (in_array($fileData['extension'], self::$ValidExtensions, true) === true)) {
 
 				$this->fileList[] = $info;
 			}
@@ -276,71 +294,71 @@ class TheKadeshi {
 		unset($directory, $iterator);
 	}
 
-	public static function ServiceRequest($ApiMethod, $arguments = null, $sendToken = true, $source = 'api') {
-
-		if(function_exists('curl_exec') && function_exists('curl_init') && function_exists('curl_close')) {
-
-			$curl = curl_init();
-
-			$curlOptions = array();
-
-			if($source === 'api') {
-				$curlOptions[CURLOPT_URL] = self::$API_Path . $ApiMethod;
-			} elseif($source === 'cdn') {
-				$curlOptions[CURLOPT_URL] = self::$CDN_Path . $ApiMethod;
-			}
-			if(array_key_exists('SERVER_NAME', $_SERVER)) {
-				$arguments['site'] = $_SERVER['SERVER_NAME'];
-			}
-
-			$curlOptions[CURLOPT_RETURNTRANSFER] = true;
-			$curlOptions[CURLOPT_TIMEOUT] = 300;
-			$curlOptions[CURLOPT_FOLLOWLOCATION] = false;
-			$curlOptions[CURLOPT_USERAGENT] = 'TheKadeshi';
-
-			$curlOptions[CURLOPT_POST] = true;
-
-
-			if(isset($arguments)) {
-				if($sendToken === true) {
-					$arguments['token'] = self::$Options['token'];
-				}
-				$curlOptions[CURLOPT_POSTFIELDS] = http_build_query($arguments);
-			}
-			$curlOptions[CURLOPT_HTTPHEADER] = array(
-				'Content-Type: application/x-www-form-urlencoded', 'Sender: TheKadeshi'
-			);
-
-			curl_setopt_array($curl, $curlOptions);
-			$pageContent = curl_exec($curl);
-
-			curl_close($curl);
-
-			return $pageContent;
-		} else {
-
-			$context = stream_context_create(array(
-				'http' => array(
-					'method' => 'POST', 'header' => 'Content-Type: application/x-www-form-urlencoded', 'Sender: TheKadeshi',
-				),
-			));
-
-			if($source === 'api') {
-				$url = self::$API_Path . $ApiMethod;
-			} elseif($source === 'cdn') {
-				$url = self::$CDN_Path . $ApiMethod;
-			}
-
-			if($sendToken === true) {
-				$arguments['token'] = self::$Options['token'];
-			}
-
-			$pageContent = file_get_contents($file = $url . '?' . http_build_query($arguments), $use_include_path = false, $context);
-
-			return $pageContent;
-		}
-
-	}
+//	public static function ServiceRequest($ApiMethod, $arguments = null, $sendToken = true, $source = 'api') {
+//
+//		if(function_exists('curl_exec') && function_exists('curl_init') && function_exists('curl_close')) {
+//
+//			$curl = curl_init();
+//
+//			$curlOptions = array();
+//
+//			if($source === 'api') {
+//				$curlOptions[CURLOPT_URL] = self::$API_Path . $ApiMethod;
+//			} elseif($source === 'cdn') {
+//				$curlOptions[CURLOPT_URL] = self::$CDN_Path . $ApiMethod;
+//			}
+//			if(array_key_exists('SERVER_NAME', $_SERVER)) {
+//				$arguments['site'] = $_SERVER['SERVER_NAME'];
+//			}
+//
+//			$curlOptions[CURLOPT_RETURNTRANSFER] = true;
+//			$curlOptions[CURLOPT_TIMEOUT] = 300;
+//			$curlOptions[CURLOPT_FOLLOWLOCATION] = false;
+//			$curlOptions[CURLOPT_USERAGENT] = 'TheKadeshi';
+//
+//			$curlOptions[CURLOPT_POST] = true;
+//
+//
+//			if(isset($arguments)) {
+//				if($sendToken === true) {
+//					$arguments['token'] = self::$Options['token'];
+//				}
+//				$curlOptions[CURLOPT_POSTFIELDS] = http_build_query($arguments);
+//			}
+//			$curlOptions[CURLOPT_HTTPHEADER] = array(
+//				'Content-Type: application/x-www-form-urlencoded', 'Sender: TheKadeshi'
+//			);
+//
+//			curl_setopt_array($curl, $curlOptions);
+//			$pageContent = curl_exec($curl);
+//
+//			curl_close($curl);
+//
+//			return $pageContent;
+//		} else {
+//
+//			$context = stream_context_create(array(
+//				'http' => array(
+//					'method' => 'POST', 'header' => 'Content-Type: application/x-www-form-urlencoded', 'Sender: TheKadeshi',
+//				),
+//			));
+//
+//			if($source === 'api') {
+//				$url = self::$API_Path . $ApiMethod;
+//			} elseif($source === 'cdn') {
+//				$url = self::$CDN_Path . $ApiMethod;
+//			}
+//
+//			if($sendToken === true) {
+//				$arguments['token'] = self::$Options['token'];
+//			}
+//
+//			$pageContent = file_get_contents($file = $url . '?' . http_build_query($arguments), $use_include_path = false, $context);
+//
+//			return $pageContent;
+//		}
+//
+//	}
 }
 
 //@todo надо отрефакторить эту фигню
@@ -351,13 +369,13 @@ define('THEKADESHI_DIR', __DIR__ . '/.thekadeshi');
 
 //$healer = new Healer();
 
-$theKadeshi = new TheKadeshi();
+$theKadeshi = new Scanner();
 
 $scanResults = array();
 
 //$Console->Log("Current action: " . "Scanning");
 
-if(!isset($fileToScan)) {
+if (!isset($fileToScan)) {
 
 	$theKadeshi->GetFileList(__DIR__);
 
@@ -374,21 +392,21 @@ echo('Files to scan: ' . $totalFiles . PHP_EOL);
 $fileCounter = 1;
 $totalScanTime = 0;
 $fileScanTime = 0;
-foreach($theKadeshi->fileList as $file) {
+foreach ($theKadeshi->fileList as $file) {
 	$fileMicrotimeStart = microtime(true);
 
 	$fileScanResults = $theKadeshi->Scanner->Scan($file, false);
 
-	if($fileScanResults !== null) {
+	if ($fileScanResults !== null) {
 
-		if(isset($fileScanResults['heuristic']) && $fileScanResults['heuristic'] > 0) {
+		if (isset($fileScanResults['heuristic']) && $fileScanResults['heuristic'] > 0) {
 			echo('[' . $fileCounter . ' of ' . $totalFiles . ' ~' . number_format(($fileScanTime * $totalFiles - $fileScanTime * $fileCounter), 2) . 's] ');
 			echo($file . ' ');
 
-			if(isset($fileScanResults['scanner'])) {
+			if (isset($fileScanResults['Scanner'])) {
 
-				echo(' ' . $fileScanResults['scanner']['name'] . ' ' . $fileScanResults['scanner']['action']);
-				$result_line .= $file . ' ' . $fileScanResults['scanner']['name'] . ' ' . $fileScanResults['scanner']['action'] . PHP_EOL;
+				echo(' ' . $fileScanResults['Scanner']['name'] . ' ' . $fileScanResults['Scanner']['action']);
+				$result_line .= $file . ' ' . $fileScanResults['Scanner']['name'] . ' ' . $fileScanResults['Scanner']['action'] . PHP_EOL;
 			} else {
 				echo('(H:' . $fileScanResults['heuristic'] . ') ');
 			}
@@ -410,12 +428,12 @@ foreach($theKadeshi->fileList as $file) {
 $theKadeshi->Scanner->SaveAnamnesis();
 $theKadeshi->Scanner->SendAnamnesis(false);
 
-if(isset($theKadeshi->Scanner->signatureLog)) {
+if (isset($theKadeshi->Scanner->signatureLog)) {
 
 	arsort($theKadeshi->Scanner->signatureLog);
-	file_put_contents($theKadeshi::getTheKadeshiDir() . '/signature.log.json', json_encode($theKadeshi->Scanner->signatureLog));
+	file_put_contents($theKadeshi->getTheKadeshiDir() . '/signature.log.json', json_encode($theKadeshi->Scanner->signatureLog));
 }
-if(file_exists($theKadeshi::getTheKadeshiDir() . '/.thekadeshi')) {
-	unlink($theKadeshi::getTheKadeshiDir() . '/.thekadeshi');
-}
+//if(file_exists($theKadeshi->getTheKadeshiDir() . '/.thekadeshi')) {
+//	unlink($theKadeshi->getTheKadeshiDir() . '/.thekadeshi');
+//}
 echo(PHP_EOL . $result_line . PHP_EOL);
