@@ -8,7 +8,7 @@
  * Created by PhpStorm.
  */
 
-require_once '../thekadeshi.php';
+require_once '../TheKadeshi.php';
 
 class FileListTest extends PHPUnit_Framework_TestCase {
 

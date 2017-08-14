@@ -1,6 +1,10 @@
 <?php
 
-class TheKadeshi
+namespace TheKadeshi;
+
+require_once __DIR__ . '/interfaces/iTheKadeshiEngine.php';
+
+class TheKadeshiEngineEngine implements iTheKadeshiEngine
 {
 
 	/**
@@ -415,46 +419,46 @@ class TheKadeshi
 			$sendResult = Scanner::ServiceRequest('sendAnamnesis', array('anamnesis' => $anamnesisContent), $sendToken);
 
 			$jsonResult = json_decode($sendResult, true);
-			if ($jsonResult['success'] == true) {
+			if ($jsonResult['success'] === true) {
 				unlink(Scanner::getAnamnesisFile());
 			}
 		}
 	}
 }
-
-class Status
-{
-
-	private $StatusFile;
-
-	private $StatusContent;
-
-	public function __construct()
-	{
-		$this->StatusFile = Scanner::getCheckSumDir() . '/' . '.status';
-
-		if (file_exists($this->StatusFile)) {
-			$this->StatusContent = json_decode(file_get_contents($this->StatusFile), true);
-		}
-
-		$this->Action();
-	}
-
-	/**
-	 * Функция записи счетчика вызова скрипта
-	 *
-	 */
-	private function Action()
-	{
-		$currentHit = isset($this->StatusContent['action']['hit']) ? $this->StatusContent['action']['hit'] : 0;
-		$currentHit++;
-		$this->StatusContent['action'] = array('date' => date("Y-m-d H:i:s"), 'hit' => $currentHit);
-		$this->writeStatus();
-	}
-
-	public function writeStatus()
-	{
-		file_put_contents($this->StatusFile, json_encode($this->StatusContent));
-	}
-
-}
+//
+//class Status
+//{
+//
+//	private $StatusFile;
+//
+//	private $StatusContent;
+//
+//	public function __construct()
+//	{
+//		$this->StatusFile = Scanner::getCheckSumDir() . '/' . '.status';
+//
+//		if (file_exists($this->StatusFile)) {
+//			$this->StatusContent = json_decode(file_get_contents($this->StatusFile), true);
+//		}
+//
+//		$this->Action();
+//	}
+//
+//	/**
+//	 * Функция записи счетчика вызова скрипта
+//	 *
+//	 */
+//	private function Action()
+//	{
+//		$currentHit = isset($this->StatusContent['action']['hit']) ? $this->StatusContent['action']['hit'] : 0;
+//		$currentHit++;
+//		$this->StatusContent['action'] = array('date' => date("Y-m-d H:i:s"), 'hit' => $currentHit);
+//		$this->writeStatus();
+//	}
+//
+//	public function writeStatus()
+//	{
+//		file_put_contents($this->StatusFile, json_encode($this->StatusContent));
+//	}
+//
+//}

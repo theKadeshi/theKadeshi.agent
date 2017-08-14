@@ -7,7 +7,7 @@
  * Time: 16:26
  * Created by PhpStorm.
  */
-require_once '../thekadeshi.php';
+require_once '../TheKadeshi.php';
 
 class ScannerTest extends PHPUnit_Framework_TestCase {
 

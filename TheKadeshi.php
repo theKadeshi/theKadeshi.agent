@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/.thekadeshi/TheKadeshiEngineEngine.php';
 
 /**
  * Project: theKadeshi
@@ -7,7 +8,7 @@
  * Time: 19:34
  * Created by PhpStorm.
  */
-class TheKadeshiAgent
+class TheKadeshi
 {
 
 	/**
@@ -247,7 +248,7 @@ class TheKadeshiAgent
 		/*
 		 * Обновление агента
 		 */
-		$fileContent = file_get_contents(__DIR__ . '/thekadeshi.php');
+		$fileContent = file_get_contents(__DIR__ . '/TheKadeshi.php');
 		$fileHash = hash('sha256', $fileContent);
 		if (array_key_exists('agenthash', self::$Options) === false || (self::$Options['agenthash'] !== $fileHash)) {
 			$arguments = array();
@@ -256,7 +257,7 @@ class TheKadeshiAgent
 			}
 			$content = self::ServiceRequest('agent', $arguments, false, 'cdn');
 			if ($content !== false) {
-				@file_put_contents(__DIR__ . '/thekadeshi.php', $content);
+				@file_put_contents(__DIR__ . '/TheKadeshi.php', $content);
 			}
 
 			unset($fileContent, $fileHash, $arguments);

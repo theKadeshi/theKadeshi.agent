@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/.thekadeshi/thekadeshi.php';
+require_once __DIR__ . '/.thekadeshi/TheKadeshiEngineEngine.php';
 
 /**
  * Project: theKadeshi
