@@ -3,12 +3,13 @@ require_once __DIR__ . '/.thekadeshi/TheKadeshiEngine.php';
 
 /**
  * Project: theKadeshi
- * User: ntorgov (https://github.com/ntorgov/)
+ * Url: https://github.com/theKadeshi/theKadeshi.agent
+ * Home: https://thekadeshi.com/en/
  * Date: 03.08.2016
  * Time: 19:34
  * Created by PhpStorm.
  */
-class TheKadeshi
+class TheKadeshi extends TheKadeshi\TheKadeshiEngine
 {
 
 	/**
@@ -201,19 +202,18 @@ class TheKadeshi
 
 			if (!@mkdir(self::$SnifferLogDir, 0755, true) && !is_dir(self::$SnifferLogDir)) {
 				return false;
-			} else {
-
-				if (file_exists(self::$snifferLogFile)) {
-					$currentFileContent = file_get_contents(self::$snifferLogFile);
-					if (!($currentjsonContent = json_decode($currentFileContent, true))) {
-						$currentjsonContent = array();
-					}
-				}
-				$currentJsonContent[gmdate('Y-m-d H:i:s')][] = $data;
-				@file_put_contents(self::$snifferLogFile, json_encode($currentJsonContent));
-
-				return true;
 			}
+
+			if (file_exists(self::$snifferLogFile)) {
+				$currentFileContent = file_get_contents(self::$snifferLogFile);
+				if (!($currentjsonContent = json_decode($currentFileContent, true))) {
+					$currentjsonContent = array();
+				}
+			}
+			$currentJsonContent[gmdate('Y-m-d H:i:s')][] = $data;
+			@file_put_contents(self::$snifferLogFile, json_encode($currentJsonContent));
+
+			return true;
 		}
 	}
 
@@ -402,15 +402,15 @@ class TheKadeshi
 				}
 				self::$Options = $json_decode;
 				return true;
-			} else {
-				return false;
 			}
+
+			return false;
 		} else {
 			if (array_key_exists($OptionName, self::$Options)) {
 				return self::$Options[$OptionName];
-			} else {
-				return false;
 			}
+
+			return false;
 		}
 	}
 
@@ -774,7 +774,7 @@ error_reporting(0);
 
 $theKadeshi = new Scanner();
 
-if (php_sapi_name() !== 'cli') {
+if (PHP_SAPI !== 'cli') {
 	if (array_key_exists('REQUEST_URI', $_SERVER) && strpos($_SERVER['REQUEST_URI'], 'thekadeshi.php')) {
 
 		if (array_key_exists('ping', $_POST)) {
@@ -786,15 +786,14 @@ if (php_sapi_name() !== 'cli') {
 		if (array_key_exists('scan', $_POST)) {
 			exec('php ' . __DIR__ . $_SERVER['PHP_SELF'] . ' --scan');
 			exit();
-		} else {
-
-			/*
-			* Инсталляция, если запущен из браузера без параметров
-			*/
-			$theKadeshi->Install($_SERVER['SERVER_NAME']);
-			echo(base64_decode($theKadeshi::ProtectedPage));
-			exit();
 		}
+
+		/*
+				* Инсталляция, если запущен из браузера без параметров
+				*/
+		$theKadeshi->Install($_SERVER['SERVER_NAME']);
+		echo(base64_decode($theKadeshi::ProtectedPage));
+		exit();
 	}
 
 	if (!strpos($_SERVER['PHP_SELF'], 'TheKadeshiAgent')) {

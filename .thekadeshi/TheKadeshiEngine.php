@@ -1,4 +1,11 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * Url: https://github.com/theKadeshi/theKadeshi.agent
+ * Home: https://thekadeshi.com/en/
+ * Date: 14.08.2017
+ * Time: 12:27
+ */
 
 namespace TheKadeshi;
 
@@ -14,31 +21,31 @@ class TheKadeshiEngine implements iTheKadeshiEngine
 	public $SignatureFile = 'remote';
 
 	private $scanResults = array();
-
-	private $namePatterns = array();
-
-	/**
-	 * Гласные буквы
-	 * @var array
-	 */
-	private static $vowelsLetters = array('a', 'e', 'i', 'o', 'u', 'y');
-
-	/**
-	 * Согласные буквы
-	 * @var array
-	 */
-	private static $consonantsLetters = array('q', 'w', 'r', 't', 'p', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z', 'x', 'c', 'v', 'b', 'n', 'm');
-
-	/**
-	 * Список подозрительных функций
-	 * @var array
-	 */
-	private static $dangerousFunctions = array('eval', 'assert', 'base64_decode', 'str_rot13', 'mail',
-		'move_uploaded_file', 'is_uploaded_file', 'script',
-		'fopen', 'curl_init', 'document.write', '$GLOBAL',
-		'passthru', 'system', 'exec', 'header', 'preg_replace',
-		'fromCharCode', '$_COOKIE', '$_POST', '$_GET', 'copy', 'navigator',
-		'$_REQUEST', 'array_filter', 'str_replace');
+//
+//	private $namePatterns = array();
+//
+//	/**
+//	 * Гласные буквы
+//	 * @var array
+//	 */
+//	private static $vowelsLetters = array('a', 'e', 'i', 'o', 'u', 'y');
+//
+//	/**
+//	 * Согласные буквы
+//	 * @var array
+//	 */
+//	private static $consonantsLetters = array('q', 'w', 'r', 't', 'p', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z', 'x', 'c', 'v', 'b', 'n', 'm');
+//
+//	/**
+//	 * Список подозрительных функций
+//	 * @var array
+//	 */
+//	private static $dangerousFunctions = array('eval', 'assert', 'base64_decode', 'str_rot13', 'mail',
+//		'move_uploaded_file', 'is_uploaded_file', 'script',
+//		'fopen', 'curl_init', 'document.write', '$GLOBAL',
+//		'passthru', 'system', 'exec', 'header', 'preg_replace',
+//		'fromCharCode', '$_COOKIE', '$_POST', '$_GET', 'copy', 'navigator',
+//		'$_REQUEST', 'array_filter', 'str_replace');
 
 	public $signatureLog = array();
 
@@ -311,115 +318,115 @@ class TheKadeshiEngine implements iTheKadeshiEngine
 		return $scanResults;
 	}
 
-	/**
-	 * Функция эвристического анализа содержимого файла
-	 *
-	 * @param $fileName string Имя файла для анализа
-	 *
-	 * @return float Результат сканирования. Чем больше значение, тем более стремным выглядит файл
-	 */
-	public function HeuristicFileContent($fileName)
-	{
-		$wordSplitPattern = array('/\$?\w+/i', '~[\'"]([\S\s]+)?[\'"]~iuU');
-		(float)$suspicion = 0.0;
-
-		$fileContent = mb_convert_encoding(file_get_contents($fileName), 'utf-8');
-
-		foreach (self::$dangerousFunctions as $dangerousFunction) {
-			$functionCount = mb_substr_count($fileContent, $dangerousFunction);
-			$suspicion += (1 * $functionCount);
-			if ($suspicion > 1) {
-				return $suspicion;
-			}
-		}
-
-		if ($suspicion === 0.0) {
-			//Проверка на длинные слова
-			$wordMatches = array();
-			foreach ($wordSplitPattern as $wordPattern) {
-				$pregResult = preg_match_all($wordPattern, $fileContent, $currentWordMatches);
-				if (count($currentWordMatches) !== 0) {
-					$newWordMatches = array_merge($wordMatches, $currentWordMatches[0]);
-					$wordMatches = $newWordMatches;
-					unset($newWordMatches, $currentWordMatches);
-				}
-			}
-			if (count($wordMatches) !== 0) {
-				;
-				foreach (array_unique($wordMatches) as $someWord) {
-					if (strlen($someWord) >= 25 && mb_substr($someWord, 0, 1) !== '$') {
-						if ($someWord !== strtoupper($someWord)) {
-							$suspicion += 0.01 * strlen($someWord);
-						}
-					}
-
-					//  Если слово - переменная
-					if (mb_substr($someWord, 0, 1) === '$') {
-						//  Проверка переменных на стремные именования
-						foreach ($this->namePatterns as $namePattern) {
-							$checkResult = preg_match($namePattern, mb_substr($someWord, 1));
-							if ($checkResult === 1) {
-								$suspicion += 0.02;
-							}
-						}
-
-						//  Проверка переменных на частые использования в виде массивов
-						$arrayPattern = '/\\' . $someWord . '\[[\'"]?[\d\S]+[\'"]?\](\[\d+\])?/i';
-
-						$arrayCheckResult = preg_match_all($arrayPattern, $fileContent, $arrayPatternMatches);
-						if ($arrayCheckResult !== false) {
-
-							$variableUsages = count(array_unique($arrayPatternMatches[0]));
-							if ($variableUsages > 4) {
-								$suspicion = $suspicion + (0.3 + $variableUsages);
-							}
-						}
-					}
-				}
-			}
-		}
-
-		return $suspicion;
-	}
-
-	/**
-	 * Эвристический алгоритм проверки файла
-	 *
-	 * @param $fileName string
-	 *
-	 * @return float
-	 */
-	public function HeuristicFileName($fileName)
-	{
-		$suspicion = 0.0;
-
-		$fileData = pathinfo($fileName);
-
-		//  Проверка имени файла, не выглядит ли оно стремным
-		foreach ($this->namePatterns as $filenamePattern) {
-			$checkResult = preg_match($filenamePattern, $fileData['basename']);
-			if ($checkResult === 1) {
-				$suspicion += 0.5;
-			}
-		}
-
-		return $suspicion;
-	}
-
-	public function Heuristic($filename)
-	{
-		$totalSuspicion = 0;
-		$fileNameSuspicion = 0;
-
-		$fileContentSuspicion = $this->HeuristicFileContent($filename);
-		if ($fileContentSuspicion == 0) {
-			$fileNameSuspicion = $this->HeuristicFileName($filename);
-		}
-
-		$totalSuspicion = $fileNameSuspicion + $fileContentSuspicion;
-
-		return $totalSuspicion;
-	}
+//	/**
+//	 * Функция эвристического анализа содержимого файла
+//	 *
+//	 * @param $fileName string Имя файла для анализа
+//	 *
+//	 * @return float Результат сканирования. Чем больше значение, тем более стремным выглядит файл
+//	 */
+//	public function HeuristicFileContent($fileName)
+//	{
+//		$wordSplitPattern = array('/\$?\w+/i', '~[\'"]([\S\s]+)?[\'"]~iuU');
+//		(float)$suspicion = 0.0;
+//
+//		$fileContent = mb_convert_encoding(file_get_contents($fileName), 'utf-8');
+//
+//		foreach (self::$dangerousFunctions as $dangerousFunction) {
+//			$functionCount = mb_substr_count($fileContent, $dangerousFunction);
+//			$suspicion += (1 * $functionCount);
+//			if ($suspicion > 1) {
+//				return $suspicion;
+//			}
+//		}
+//
+//		if ($suspicion === 0.0) {
+//			//Проверка на длинные слова
+//			$wordMatches = array();
+//			foreach ($wordSplitPattern as $wordPattern) {
+//				$pregResult = preg_match_all($wordPattern, $fileContent, $currentWordMatches);
+//				if (count($currentWordMatches) !== 0) {
+//					$newWordMatches = array_merge($wordMatches, $currentWordMatches[0]);
+//					$wordMatches = $newWordMatches;
+//					unset($newWordMatches, $currentWordMatches);
+//				}
+//			}
+//			if (count($wordMatches) !== 0) {
+//				;
+//				foreach (array_unique($wordMatches) as $someWord) {
+//					if (strlen($someWord) >= 25 && mb_substr($someWord, 0, 1) !== '$') {
+//						if ($someWord !== strtoupper($someWord)) {
+//							$suspicion += 0.01 * strlen($someWord);
+//						}
+//					}
+//
+//					//  Если слово - переменная
+//					if (mb_substr($someWord, 0, 1) === '$') {
+//						//  Проверка переменных на стремные именования
+//						foreach ($this->namePatterns as $namePattern) {
+//							$checkResult = preg_match($namePattern, mb_substr($someWord, 1));
+//							if ($checkResult === 1) {
+//								$suspicion += 0.02;
+//							}
+//						}
+//
+//						//  Проверка переменных на частые использования в виде массивов
+//						$arrayPattern = '/\\' . $someWord . '\[[\'"]?[\d\S]+[\'"]?\](\[\d+\])?/i';
+//
+//						$arrayCheckResult = preg_match_all($arrayPattern, $fileContent, $arrayPatternMatches);
+//						if ($arrayCheckResult !== false) {
+//
+//							$variableUsages = count(array_unique($arrayPatternMatches[0]));
+//							if ($variableUsages > 4) {
+//								$suspicion = $suspicion + (0.3 + $variableUsages);
+//							}
+//						}
+//					}
+//				}
+//			}
+//		}
+//
+//		return $suspicion;
+//	}
+//
+//	/**
+//	 * Эвристический алгоритм проверки файла
+//	 *
+//	 * @param $fileName string
+//	 *
+//	 * @return float
+//	 */
+//	public function HeuristicFileName($fileName)
+//	{
+//		$suspicion = 0.0;
+//
+//		$fileData = pathinfo($fileName);
+//
+//		//  Проверка имени файла, не выглядит ли оно стремным
+//		foreach ($this->namePatterns as $filenamePattern) {
+//			$checkResult = preg_match($filenamePattern, $fileData['basename']);
+//			if ($checkResult === 1) {
+//				$suspicion += 0.5;
+//			}
+//		}
+//
+//		return $suspicion;
+//	}
+//
+//	public function Heuristic($filename)
+//	{
+//		$totalSuspicion = 0;
+//		$fileNameSuspicion = 0;
+//
+//		$fileContentSuspicion = $this->HeuristicFileContent($filename);
+//		if ($fileContentSuspicion == 0) {
+//			$fileNameSuspicion = $this->HeuristicFileName($filename);
+//		}
+//
+//		$totalSuspicion = $fileNameSuspicion + $fileContentSuspicion;
+//
+//		return $totalSuspicion;
+//	}
 
 	/**
 	 * Функция записи анамнеза в файл

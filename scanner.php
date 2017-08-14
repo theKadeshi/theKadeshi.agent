@@ -3,7 +3,8 @@ require_once __DIR__ . '/.thekadeshi/TheKadeshiEngine.php';
 
 /**
  * Project: theKadeshi
- * User: ntorgov ( https://github.com/ntorgov/ )
+ * Url: https://github.com/theKadeshi/theKadeshi.agent
+ * Home: https://thekadeshi.com/en/
  * Date: 07.02.2016
  * Time: 16:17
  * Created by PhpStorm.

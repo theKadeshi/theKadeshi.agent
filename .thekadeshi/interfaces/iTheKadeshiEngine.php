@@ -1,7 +1,8 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Nick
+ * Url: https://github.com/theKadeshi/theKadeshi.agent
+ * Home: https://thekadeshi.com/en/
  * Date: 14.08.2017
  * Time: 12:27
  */
@@ -19,11 +20,11 @@ interface iTheKadeshiEngine
 
 	public function CompareFileCheckSum($fileName);
 
-	public function HeuristicFileContent($fileName);
+	// public function HeuristicFileContent($fileName);
 
-	public function HeuristicFileName($fileName);
+	// public function HeuristicFileName($fileName);
 
-	public function Heuristic($filename);
+	// public function Heuristic($filename);
 
 	public function SaveAnamnesis();
 
