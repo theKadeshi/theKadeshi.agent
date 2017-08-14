@@ -1,6 +1,6 @@
 # Malware scanner theKadeshi #
 
-theKadeshi is simple malware-detector for your PHP website. It based on public theKadeshi.com virus signatures.
+theKadeshi is simple malware-detector for your PHP website. It based on public [theKadeshi.com](https://theKadeshi.com/en/) virus signatures.
 
 ### Usage ###
 
