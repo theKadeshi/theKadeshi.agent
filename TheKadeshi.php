@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/.thekadeshi/TheKadeshiEngineEngine.php';
+require_once __DIR__ . '/.thekadeshi/TheKadeshiEngine.php';
 
 /**
  * Project: theKadeshi
@@ -868,23 +868,23 @@ switch ($currentAction) {
 
 		if (count($_FILES) === 0) {
 			foreach ($_FILES as $fileToScan) {
-				$fileScanResults = $theKadeshi->Scanner->Scan($fileToScan['tmp_name'], false);
+				$fileScanResults = $theKadeshi->Engine->Scan($fileToScan['tmp_name'], false);
 				if (array_key_exists('TheKadeshiAgent', $fileScanResults) === true) {
 					$needToBlock = true;
-					$theKadeshi->Scanner->SaveAnamnesis();
-					$theKadeshi->Scanner->SendAnamnesis();
+					$theKadeshi->Engine->SaveAnamnesis();
+					$theKadeshi->Engine->SendAnamnesis();
 				}
 			}
 		}
 		if (array_key_exists('SCRIPT_FILENAME', $_SERVER) === true) {
 			$fileToCheck = $_SERVER['SCRIPT_FILENAME'];
-			if (method_exists($theKadeshi->Scanner, 'Scan')) {
-				$fileScanResults = $theKadeshi->Scanner->Scan($fileToCheck, true);
+			if (method_exists($theKadeshi->Engine, 'Scan')) {
+				$fileScanResults = $theKadeshi->Engine->Scan($fileToCheck, true);
 
 				if (array_key_exists('TheKadeshiAgent', $fileScanResults) === true) {
 					$needToBlock = true;
-					$theKadeshi->Scanner->SaveAnamnesis();
-					$theKadeshi->Scanner->SendAnamnesis();
+					$theKadeshi->Engine->SaveAnamnesis();
+					$theKadeshi->Engine->SendAnamnesis();
 				}
 			}
 		}
@@ -903,12 +903,12 @@ switch ($currentAction) {
 
 		foreach ($theKadeshi->fileList as $file) {
 
-			$fileScanResults = $theKadeshi->Scanner->Scan($file, true);
+			$fileScanResults = $theKadeshi->Engine->Scan($file, true);
 
 		}
 
-		$theKadeshi->Scanner->SaveAnamnesis();
-		$theKadeshi->Scanner->SendAnamnesis();
+		$theKadeshi->Engine->SaveAnamnesis();
+		$theKadeshi->Engine->SendAnamnesis();
 
 		break;
 }

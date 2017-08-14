@@ -4,7 +4,7 @@ namespace TheKadeshi;
 
 require_once __DIR__ . '/interfaces/iTheKadeshiEngine.php';
 
-class TheKadeshiEngineEngine implements iTheKadeshiEngine
+class TheKadeshiEngine implements iTheKadeshiEngine
 {
 
 	/**
@@ -44,24 +44,26 @@ class TheKadeshiEngineEngine implements iTheKadeshiEngine
 
 	private $AnamnesisContent = array();
 
-	/**
-	 * Scanner constructor.
-	 */
-	public function __construct()
-	{
-		$this->scanResults = array();
+	private $signatureDatabase;
 
-		$this->namePatterns = array(
-			'/^[' . implode(self::$consonantsLetters) . ']{5}/i',
-			'/^[a-z]{3,8}\d{1,8}/i',
-			'/^\d{1,}[a-z]{1,3}\d{1,}/i',
-			'/^[a-z]\d{4,}/i',
-			'/^\d[a-z0-9]{1.}/i',
-			'/^[a-z]\d{3,}[a-z]$/i',
-			'/^\S+\d+\S+\d+\S+?/i'
-		);
-
-	}
+//	/**
+//	 * Scanner constructor.
+//	 */
+//	public function __construct()
+//	{
+//		$this->scanResults = array();
+//
+////		$this->namePatterns = array(
+////			'/^[' . implode(self::$consonantsLetters) . ']{5}/i',
+////			'/^[a-z]{3,8}\d{1,8}/i',
+////			'/^\d{1,}[a-z]{1,3}\d{1,}/i',
+////			'/^[a-z]\d{4,}/i',
+////			'/^\d[a-z0-9]{1.}/i',
+////			'/^[a-z]\d{3,}[a-z]$/i',
+////			'/^\S+\d+\S+\d+\S+?/i'
+////		);
+//
+//	}
 
 	/**
 	 * Функция управления сканированием
@@ -73,7 +75,8 @@ class TheKadeshiEngineEngine implements iTheKadeshiEngine
 	 */
 	public function Scan($fileName, $needChecksum = true)
 	{
-
+		global $signatureDatabase;
+		// print_r($fileName);
 		$suspicion = array();
 
 		//$scanResults = array();
@@ -90,52 +93,56 @@ class TheKadeshiEngineEngine implements iTheKadeshiEngine
 				$suspicion['checksum'] = $fileCheckSum;
 			}
 
-			$heuristicScanResult = $this->Heuristic($fileName);
+			// $heuristicScanResult = $this->Heuristic($fileName);
 
-			if ($heuristicScanResult >= 1) {
+			// if ($heuristicScanResult >= 1) {
 
-				$suspicion['heuristic'] = $heuristicScanResult;
+			$suspicion['heuristic'] = $heuristicScanResult;
 
-				if (count(Scanner::getSignatureDatabase()) !== 0) {
-					$scanResults = $this->ScanContent($fileName);
-					if (count($scanResults) !== 0) {
-						$suspicion['TheKadeshi'] = $scanResults;
+			//print_r($signatureDatabase);
+			//exit();
+			if (count($signatureDatabase) !== 0) {
+				$scanResults = $this->ScanContent($fileName);
+				print($scanResults);
+				exit();
+				if (count($scanResults) !== 0) {
+					$suspicion['TheKadeshi'] = $scanResults;
+					/*
+					$filePermits = decoct(fileperms($fileName) & 0777);
+					*/
+					chmod($fileName, 0666);
+
+					if ($suspicion['TheKadeshi']['action'] === 'cure') {
+						// @todo Описать этот момент тестами
+						$fileContent = file_get_contents($fileName);
+						$fileParts[0] = mb_substr($fileContent, 0, $suspicion['TheKadeshi']['positions']['start']);
+						$fileParts[1] = mb_substr($fileContent, $suspicion['TheKadeshi']['positions']['start'] + $suspicion['TheKadeshi']['positions']['length']);
+						$fixedContent = $fileParts[0] . $fileParts[1];
+						$suspicion['file_fixed'] = base64_encode(gzcompress($fixedContent, 9));
+						file_put_contents($fileName, $fixedContent);
 						/*
-						$filePermits = decoct(fileperms($fileName) & 0777);
+						chmod($fileName, $filePermits);
 						*/
-						chmod($fileName, 0666);
-
-						if ($suspicion['TheKadeshi']['action'] === 'cure') {
-							// @todo Описать этот момент тестами
-							$fileContent = file_get_contents($fileName);
-							$fileParts[0] = mb_substr($fileContent, 0, $suspicion['TheKadeshi']['positions']['start']);
-							$fileParts[1] = mb_substr($fileContent, $suspicion['TheKadeshi']['positions']['start'] + $suspicion['TheKadeshi']['positions']['length']);
-							$fixedContent = $fileParts[0] . $fileParts[1];
-							$suspicion['file_fixed'] = base64_encode(gzcompress($fixedContent, 9));
-							file_put_contents($fileName, $fixedContent);
-							/*
-							chmod($fileName, $filePermits);
-							*/
-						}
-						if ($suspicion['TheKadeshi']['action'] === 'delete') {
-							unlink($fileName);
-						}
-						if ($suspicion['TheKadeshi']['action'] === 'quarantine') {
-							rename($fileName, $fileName . '.kdsh.suspected');
-							/*
-							chmod($fileName, $filePermits);
-							*/
-						}
-
-						$this->AnamnesisContent[] = $scanResults;
 					}
-				}
+					if ($suspicion['TheKadeshi']['action'] === 'delete') {
+						unlink($fileName);
+					}
+					if ($suspicion['TheKadeshi']['action'] === 'quarantine') {
+						rename($fileName, $fileName . '.kdsh.suspected');
+						/*
+						chmod($fileName, $filePermits);
+						*/
+					}
 
-			} else {
-				if ($needChecksum) {
-					$this->SetFileCheckSum($fileName);
+					$this->AnamnesisContent[] = $scanResults;
 				}
 			}
+
+			// } else {
+			if ($needChecksum) {
+				$this->SetFileCheckSum($fileName);
+			}
+			// }
 		}
 
 		return (!empty($suspicion)) ? $suspicion : (($heuristicScanResult > 1) ? $heuristicScanResult : null);
@@ -230,17 +237,20 @@ class TheKadeshiEngineEngine implements iTheKadeshiEngine
 	 */
 	private function ScanContent($fileName)
 	{
+		global $signatureDatabase;
 		$scanResults = null;
 		$content = file_get_contents($fileName);
 
 		if ($content !== false && strlen($content) > 0) {
 
-			$signatureArray = Scanner::getSignatureDatabase();
+			// $signatureArray = $this->signatureDatabase;
+			// print($this->signatureDatabase);
+			// exit();
 			if (function_exists('hash')) {
 				$contentHash = hash('sha256', $content);
 
-				if (array_key_exists('h', $signatureArray) === true) {
-					foreach ((array)$signatureArray['h'] as $virusSignature) {
+				if (array_key_exists('h', $signatureDatabase) === true) {
+					foreach ((array)$signatureDatabase['h'] as $virusSignature) {
 						if ($contentHash === $virusSignature['expression']) {
 							$scanResults = array(
 								'file' => $fileName, 'name' => $virusSignature['title'], 'id' => $virusSignature['id'], 'action' => $virusSignature['action']
@@ -253,8 +263,8 @@ class TheKadeshiEngineEngine implements iTheKadeshiEngine
 			if (count($scanResults) === 0) {
 				$content = mb_convert_encoding($content, 'utf-8');
 
-				if (array_key_exists('r', $signatureArray) === true) {
-					foreach ((array)$signatureArray['r'] as $virusSignature) {
+				if (array_key_exists('r', $signatureDatabase) === true) {
+					foreach ((array)$signatureDatabase['r'] as $virusSignature) {
 
 						$scanStartTime = microtime(true);
 
@@ -283,6 +293,7 @@ class TheKadeshiEngineEngine implements iTheKadeshiEngine
 				}
 			}
 		}
+		print_r($scanResults);
 		return $scanResults;
 	}
 

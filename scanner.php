@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/.thekadeshi/TheKadeshiEngineEngine.php';
+require_once __DIR__ . '/.thekadeshi/TheKadeshiEngine.php';
 
 /**
  * Project: theKadeshi
@@ -8,7 +8,7 @@ require_once __DIR__ . '/.thekadeshi/TheKadeshiEngineEngine.php';
  * Time: 16:17
  * Created by PhpStorm.
  */
-class Scanner
+class Scanner extends TheKadeshi\TheKadeshiEngine
 {
 
 	/**
@@ -19,9 +19,9 @@ class Scanner
 	public $fileList;
 
 	/**
-	 * @var object Scanner Экземпляр класса сканнера
+	 * @var object $Engine Экземпляр класса сканнера
 	 */
-	public $Scanner;
+	public $Engine;
 
 	/**
 	 * @var object Экземпляр класса статуса
@@ -72,11 +72,11 @@ class Scanner
 
 	//public static $WorkWithoutSelfFolder = false;
 
-	/**
-	 * База сигнатур
-	 * @var array
-	 */
-	private $signatureDatabase;
+//	/**
+//	 * База сигнатур
+//	 * @var array
+//	 */
+//	global $signatureDatabase;
 
 	public function __construct()
 	{
@@ -88,7 +88,7 @@ class Scanner
 		// self::$OptionsFile = self::$TheKadeshiDir . '/.options';
 		// self::$API_Path = self::ServiceUrl . 'api/';
 		// self::$CDN_Path = self::ServiceUrl . 'cdn/';
-
+//
 //		self::setCheckSumDir(self::$TheKadeshiDir . '/checksum');
 //		if(!is_dir(self::getCheckSumDir())) {
 //
@@ -118,51 +118,60 @@ class Scanner
 //			//echo(strlen($content));
 //			//die();
 //		}
-
+//
 		// self::$QuarantineDir = self::$TheKadeshiDir . '/.quarantine';
 
 		self::$AnamnesisFile = $this->TheKadeshiDir . '/.anamnesis';
 
 
-		$this->Scanner = new TheKadeshi();
-		//$this->Healer = new Healer();
-		self::$Status = new Status();
+		$this->Engine = new TheKadeshi\TheKadeshiEngine();
+		// $this->Healer = new Healer();
+		// self::$Status = new Status();
 
 		$this->LoadSignatures();
 
 	}
 
+	/**
+	 * Loading signatures
+	 */
 	private function LoadSignatures()
 	{
+		global $signatureDatabase;
+		$signatureFile = $this->TheKadeshiDir . '/signatures.json';
+		$remoteSignatures = array();
+		if(is_file($signatureFile)) {
+			$fileContent = file_get_contents($signatureFile, 'r');
+			$remoteSignatures = json_decode($fileContent, true);
+		}
 
-		$remoteSignatures = json_decode($this->TheKadeshiDir . '/signatures.json', true);
-
-		$this->setSignatureDatabase($remoteSignatures);
 		$totalCount = 0;
-		foreach ($this->getSignatureDatabase() as $subSignature) {
+		foreach ((array)$remoteSignatures as $subSignature) {
 			$totalCount += count($subSignature);
 		}
+
+		//$this->signatureDatabase = $remoteSignatures;
+		$signatureDatabase = $remoteSignatures;
 		echo('Load ' . $totalCount . ' remote signatures' . PHP_EOL);
-
 	}
 
-	/**
-	 * @return array
-	 */
-	public function getSignatureDatabase()
-	{
-
-		return $this->signatureDatabase;
-	}
-
-	/**
-	 * @param array $signatureDatabase
-	 */
-	public function setSignatureDatabase(array $signatureDatabase)
-	{
-
-		$this->signatureDatabase = $signatureDatabase;
-	}
+//	/**
+//	 * @return array
+//	 */
+//	public function getSignatureDatabase()
+//	{
+//
+//		return $this->signatureDatabase;
+//	}
+//
+//	/**
+//	 * @param array $signatureDatabase
+//	 */
+//	public function setSignatureDatabase(array $signatureDatabase)
+//	{
+//
+//		$this->signatureDatabase = $signatureDatabase;
+//	}
 
 	/**
 	 * @return string
@@ -270,31 +279,31 @@ class Scanner
 		return true;
 	}
 
-	/**
-	 * Эксперементальная функция получения списка файлов
-	 * На практике оказалась довольно тормозной
-	 * Требует PHP > 5.2
-	 *
-	 * @param $dir
-	 */
-	public function GetIteratorFileList($dir)
-	{
-
-		$directory = new \RecursiveDirectoryIterator($dir);
-		$iterator = new \RecursiveIteratorIterator($directory);
-
-		foreach ($iterator as $info) {
-
-			$fileData = pathinfo($info);
-			if ((array_key_exists('extension', $fileData) === true) && (in_array($fileData['extension'], self::$ValidExtensions, true) === true)) {
-
-				$this->fileList[] = $info;
-			}
-		}
-
-		unset($directory, $iterator);
-	}
-
+//	/**
+//	 * Эксперементальная функция получения списка файлов
+//	 * На практике оказалась довольно тормозной
+//	 * Требует PHP > 5.2
+//	 *
+//	 * @param $dir
+//	 */
+//	public function GetIteratorFileList($dir)
+//	{
+//
+//		$directory = new \RecursiveDirectoryIterator($dir);
+//		$iterator = new \RecursiveIteratorIterator($directory);
+//
+//		foreach ($iterator as $info) {
+//
+//			$fileData = pathinfo($info);
+//			if ((array_key_exists('extension', $fileData) === true) && (in_array($fileData['extension'], self::$ValidExtensions, true) === true)) {
+//
+//				$this->fileList[] = $info;
+//			}
+//		}
+//
+//		unset($directory, $iterator);
+//	}
+//
 //	public static function ServiceRequest($ApiMethod, $arguments = null, $sendToken = true, $source = 'api') {
 //
 //		if(function_exists('curl_exec') && function_exists('curl_init') && function_exists('curl_close')) {
@@ -396,7 +405,7 @@ $fileScanTime = 0;
 foreach ($theKadeshi->fileList as $file) {
 	$fileMicrotimeStart = microtime(true);
 
-	$fileScanResults = $theKadeshi->Scanner->Scan($file, false);
+	$fileScanResults = $theKadeshi->Engine->Scan($file, false);
 
 	if ($fileScanResults !== null) {
 
@@ -429,10 +438,10 @@ foreach ($theKadeshi->fileList as $file) {
 // $theKadeshi->Scanner->SaveAnamnesis();
 // $theKadeshi->Scanner->SendAnamnesis(false);
 
-if (isset($theKadeshi->Scanner->signatureLog)) {
+if ($theKadeshi->Engine->signatureLog !== null) {
 
-	arsort($theKadeshi->Scanner->signatureLog);
-	file_put_contents($theKadeshi->getTheKadeshiDir() . '/signature.log.json', json_encode($theKadeshi->Scanner->signatureLog));
+	arsort($theKadeshi->Engine->signatureLog);
+	file_put_contents($theKadeshi->getTheKadeshiDir() . '/signature.log.json', json_encode($theKadeshi->Engine->signatureLog));
 }
 //if(file_exists($theKadeshi->getTheKadeshiDir() . '/.thekadeshi')) {
 //	unlink($theKadeshi->getTheKadeshiDir() . '/.thekadeshi');
