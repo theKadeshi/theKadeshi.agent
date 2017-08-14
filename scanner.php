@@ -19,14 +19,14 @@ class Scanner extends TheKadeshi\TheKadeshiEngine
 	public $fileList;
 
 	/**
-	 * @var object $Engine Экземпляр класса сканнера
+	 * @var TheKadeshi\TheKadeshiEngine $Engine Экземпляр класса сканнера
 	 */
 	public $Engine;
 
 	/**
 	 * @var object Экземпляр класса статуса
 	 */
-	public static $Status;
+	//public static $Status;
 
 	/**
 	 *
@@ -140,7 +140,7 @@ class Scanner extends TheKadeshi\TheKadeshiEngine
 		global $signatureDatabase;
 		$signatureFile = $this->TheKadeshiDir . '/signatures.json';
 		$remoteSignatures = array();
-		if(is_file($signatureFile)) {
+		if (is_file($signatureFile)) {
 			$fileContent = file_get_contents($signatureFile, 'r');
 			$remoteSignatures = json_decode($fileContent, true);
 		}
@@ -402,26 +402,29 @@ echo('Files to scan: ' . $totalFiles . PHP_EOL);
 $fileCounter = 1;
 $totalScanTime = 0;
 $fileScanTime = 0;
-foreach ($theKadeshi->fileList as $file) {
+foreach ((array)$theKadeshi->fileList as $file) {
 	$fileMicrotimeStart = microtime(true);
 
 	$fileScanResults = $theKadeshi->Engine->Scan($file, false);
 
 	if ($fileScanResults !== null) {
 
-		if (isset($fileScanResults['heuristic']) && $fileScanResults['heuristic'] > 0) {
-			echo('[' . $fileCounter . ' of ' . $totalFiles . ' ~' . number_format(($fileScanTime * $totalFiles - $fileScanTime * $fileCounter), 2) . 's] ');
-			echo($file . ' ');
+		// print_r($fileScanResults);
+		// exit();
+		// if (isset($fileScanResults['heuristic']) && $fileScanResults['heuristic'] > 0) {
+		echo('[' . $fileCounter . ' of ' . $totalFiles . ' ~' . number_format($fileScanTime * $totalFiles - $fileScanTime * $fileCounter, 2) . 's] ');
+		echo($file . ' ');
 
-			if (isset($fileScanResults['Scanner'])) {
+		if (isset($fileScanResults['TheKadeshi'])) {
 
-				echo(' ' . $fileScanResults['Scanner']['name'] . ' ' . $fileScanResults['Scanner']['action']);
-				$result_line .= $file . ' ' . $fileScanResults['Scanner']['name'] . ' ' . $fileScanResults['Scanner']['action'] . PHP_EOL;
-			} else {
-				echo('(H:' . $fileScanResults['heuristic'] . ') ');
-			}
-			echo(PHP_EOL);
+			echo(' ' . $fileScanResults['TheKadeshi']['name'] . ' ' . $fileScanResults['TheKadeshi']['action']);
+			$result_line .= $file . ' ' . $fileScanResults['TheKadeshi']['name'] . ' ' . $fileScanResults['TheKadeshi']['action'] . PHP_EOL;
 		}
+		//  else {
+		// 	echo('(H:' . $fileScanResults['heuristic'] . ') ');
+		// }
+		echo(PHP_EOL);
+		// }
 		//print_r($fileScanResults);
 		//die();
 		$scanResults[] = $fileScanResults;
@@ -437,12 +440,12 @@ foreach ($theKadeshi->fileList as $file) {
 }
 // $theKadeshi->Scanner->SaveAnamnesis();
 // $theKadeshi->Scanner->SendAnamnesis(false);
-
-if ($theKadeshi->Engine->signatureLog !== null) {
-
-	arsort($theKadeshi->Engine->signatureLog);
-	file_put_contents($theKadeshi->getTheKadeshiDir() . '/signature.log.json', json_encode($theKadeshi->Engine->signatureLog));
-}
+//
+//if ($theKadeshi->Engine->signatureLog !== null) {
+//
+//	arsort($theKadeshi->Engine->signatureLog);
+//	file_put_contents($theKadeshi->getTheKadeshiDir() . '/signature.log.json', json_encode($theKadeshi->Engine->signatureLog));
+//}
 //if(file_exists($theKadeshi->getTheKadeshiDir() . '/.thekadeshi')) {
 //	unlink($theKadeshi->getTheKadeshiDir() . '/.thekadeshi');
 //}

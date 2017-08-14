@@ -97,15 +97,16 @@ class TheKadeshiEngine implements iTheKadeshiEngine
 
 			// if ($heuristicScanResult >= 1) {
 
-			$suspicion['heuristic'] = $heuristicScanResult;
+			// $suspicion['heuristic'] = $heuristicScanResult;
 
 			//print_r($signatureDatabase);
 			//exit();
 			if (count($signatureDatabase) !== 0) {
 				$scanResults = $this->ScanContent($fileName);
-				print($scanResults);
-				exit();
+				// print($scanResults);
+				// exit();
 				if (count($scanResults) !== 0) {
+					// print_r($scanResults);
 					$suspicion['TheKadeshi'] = $scanResults;
 					/*
 					$filePermits = decoct(fileperms($fileName) & 0777);
@@ -145,6 +146,10 @@ class TheKadeshiEngine implements iTheKadeshiEngine
 			// }
 		}
 
+//		if(!empty($suspicion)) {
+//			print_r($suspicion);
+//			exit();
+//		}
 		return (!empty($suspicion)) ? $suspicion : (($heuristicScanResult > 1) ? $heuristicScanResult : null);
 	}
 
@@ -244,7 +249,7 @@ class TheKadeshiEngine implements iTheKadeshiEngine
 		if ($content !== false && strlen($content) > 0) {
 
 			// $signatureArray = $this->signatureDatabase;
-			// print($this->signatureDatabase);
+			// print_r($signatureDatabase['h']);
 			// exit();
 			if (function_exists('hash')) {
 				$contentHash = hash('sha256', $content);
@@ -253,8 +258,12 @@ class TheKadeshiEngine implements iTheKadeshiEngine
 					foreach ((array)$signatureDatabase['h'] as $virusSignature) {
 						if ($contentHash === $virusSignature['expression']) {
 							$scanResults = array(
-								'file' => $fileName, 'name' => $virusSignature['title'], 'id' => $virusSignature['id'], 'action' => $virusSignature['action']
+								'file'   => $fileName,
+								'name'   => $virusSignature['title'],
+								'id'     => $virusSignature['id'],
+								'action' => $virusSignature['action']
 							);
+							return $scanResults;
 						}
 					}
 				}
@@ -272,28 +281,33 @@ class TheKadeshiEngine implements iTheKadeshiEngine
 
 						if (($results !== null) && (count($results) !== 0)) {
 
-
 							$scanResults = array(
-								'file'      => $fileName, 'name' => $virusSignature['title'], 'id' => $virusSignature['id'], 'date' => gmdate('Y-m-d H:i:s'), 'positions' => array(
-									'start' => mb_strpos($content, $results[0]), 'length' => mb_strlen($results[0])
+								'file'      => $fileName,
+								'name'      => $virusSignature['title'],
+								'id'        => $virusSignature['id'],
+								'date'      => gmdate('Y-m-d H:i:s'),
+								'positions' => array(
+									'start'  => mb_strpos($content, $results[0]),
+									'length' => mb_strlen($results[0])
 								), 'action' => $virusSignature['action']
 							);
 							//  Сомнительная фича
-							break;
+
+							return $scanResults;
 						}
 
-						$scanEndTime = microtime(true);
-						$timeDifference = $scanEndTime - $scanStartTime;
-						if (array_key_exists($virusSignature['title'], $this->signatureLog) === true) {
-							$this->signatureLog[$virusSignature['title']] += $timeDifference;
-						} else {
-							$this->signatureLog[$virusSignature['title']] = $timeDifference;
-						}
+//						$scanEndTime = microtime(true);
+//						$timeDifference = $scanEndTime - $scanStartTime;
+//						if (array_key_exists($virusSignature['title'], $this->signatureLog) === true) {
+//							$this->signatureLog[$virusSignature['title']] += $timeDifference;
+//						} else {
+//							$this->signatureLog[$virusSignature['title']] = $timeDifference;
+//						}
 					}
 				}
 			}
 		}
-		print_r($scanResults);
+		// print_r($scanResults);
 		return $scanResults;
 	}
 
